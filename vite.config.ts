@@ -34,7 +34,7 @@ export default defineConfig({
   },
 
   server: {
-    port: 9000,
+    port: 5000,
     watch: {
       ignored: [".git", "node_modules", "**/*.test.*"],
     },
