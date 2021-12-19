@@ -1,6 +1,7 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Route } from "wouter";
 import CssBaseline from "@mui/material/CssBaseline";
-import { GameLayout } from "./layouts/gameLayout";
+import { Home } from "./views/home";
 
 export const App = () => {
   const theme = createTheme({
@@ -12,7 +13,9 @@ export const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <GameLayout />
+      <Route path="/">
+        <Home />
+      </Route>
     </ThemeProvider>
   );
 };
