@@ -3,6 +3,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { PlayerStats } from "../../components/playerStats";
+import { EnterStats } from "../../components/enterStats";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -37,9 +38,17 @@ export const GameTabs = () => {
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={value} onChange={handleChange} aria-label="Game Tabs">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          variant="scrollable"
+          scrollButtons
+          allowScrollButtonsMobile
+          aria-label="Game Tabs"
+        >
           <Tab label="Box Score" {...a11yProps(0)} />
           <Tab label="Play by Play" {...a11yProps(1)} />
+          <Tab label="Enter Stats" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -47,6 +56,9 @@ export const GameTabs = () => {
       </TabPanel>
       <TabPanel value={value} index={1}>
         Play by Play
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <EnterStats />
       </TabPanel>
     </Box>
   );

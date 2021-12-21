@@ -5,6 +5,7 @@
   "scripts": {
     "build": "yarn vite build",
     "dev": "yarn vite & wait",
+    "dev:host": "yarn vite --host & wait",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

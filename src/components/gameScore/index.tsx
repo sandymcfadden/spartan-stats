@@ -12,7 +12,6 @@ export const GameScore = () => {
             textAlign: "center",
           }}
         >
-          <Typography variant="h4">Score</Typography>
           <Grid container spacing={1} justifyContent="space-around">
             <Grid item lg={3}>
               <Typography variant="h5">Spartans</Typography>

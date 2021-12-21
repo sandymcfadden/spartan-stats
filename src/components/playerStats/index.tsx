@@ -154,18 +154,6 @@ const getComparator = (order, orderBy) => {
     : (a, b) => -descendingComparator(a, b, orderBy);
 };
 
-const stableSort = (array, comparator) => {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-};
-
 const EnhancedTableHead = (props) => {
   const { order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
@@ -231,7 +219,7 @@ export const PlayerStats = () => {
           onRequestSort={handleRequestSort}
         />
         <TableBody>
-          {stableSort(rows, getComparator(order, orderBy)).map((row) => (
+          {rows.sort(getComparator(order, orderBy)).map((row) => (
             <TableRow
               key={row.player}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
