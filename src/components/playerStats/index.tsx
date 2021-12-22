@@ -12,7 +12,7 @@ import "./styles.css";
 import { Box } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 
-type EnhancedTableProps {
+type EnhancedTableProps = {
   onRequestSort: (
     event: React.MouseEvent<unknown>,
     property: keyof Data
@@ -28,7 +28,7 @@ type Data = {
   points: number;
   fgm: number;
   fga: number;
-    fgp: number;
+  fgp: number;
   tpm: number;
   tpa: number;
   tpp: number;
@@ -39,7 +39,7 @@ type Data = {
   assists: number;
   steals: number;
   blocks: number;
-  turnovers: number
+  turnovers: number;
 };
 
 function createData(
@@ -87,7 +87,13 @@ const rows = [
   createData("Shay", 26, 8, 10, 80, 2, 4, 50, 2, 2, 100, 4, 4, 2, 0, 0),
 ];
 
-const headCells = [
+type HeaderCell = {
+  id: keyof Data;
+  label: string;
+  description?: string;
+};
+
+const headCells: HeaderCell[] = [
   {
     id: "player",
     label: "Player",
@@ -112,17 +118,17 @@ const headCells = [
     description: "Field Goals Percentage",
   },
   {
-    id: "fpm",
+    id: "tpm",
     label: "3PTM",
     description: "3 Pointers Made",
   },
   {
-    id: "fpa",
+    id: "tpa",
     label: "3PTA",
     description: "3 Pointers Attempted",
   },
   {
-    id: "fpp",
+    id: "tpp",
     label: "3PT%",
     description: "3 Pointer Percentage",
   },
@@ -168,7 +174,7 @@ const headCells = [
   },
 ];
 
-const descendingComparator = <T,>(a: T, b: T, orderBy: keyof T) => {
+function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
@@ -176,7 +182,7 @@ const descendingComparator = <T,>(a: T, b: T, orderBy: keyof T) => {
     return 1;
   }
   return 0;
-};
+}
 
 function getComparator<Key extends keyof never>(
   order: Order,
@@ -192,9 +198,10 @@ function getComparator<Key extends keyof never>(
 
 const EnhancedTableHead = (props: EnhancedTableProps) => {
   const { order, orderBy, onRequestSort } = props;
-  const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
-    onRequestSort(event, property);
-  };
+  const createSortHandler =
+    (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+      onRequestSort(event, property);
+    };
 
   return (
     <TableHead>
@@ -236,7 +243,10 @@ export const PlayerStats = () => {
   const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState("Player");
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
+  const handleRequestSort = (
+    event: React.MouseEvent<unknown>,
+    property: keyof Data
+  ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
