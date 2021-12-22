@@ -5,7 +5,13 @@ import Box from "@mui/material/Box";
 import { PlayerStats } from "../../components/playerStats";
 import { EnterStats } from "../../components/enterStats";
 
-function TabPanel(props) {
+type TabPanelProps = {
+  children?: React.ReactNode;
+  value: number;
+  index: number;
+};
+
+function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -21,7 +27,7 @@ function TabPanel(props) {
   );
 }
 
-function a11yProps(index) {
+function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
@@ -31,7 +37,7 @@ function a11yProps(index) {
 export const GameTabs = () => {
   const [value, setValue] = useState(0);
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 

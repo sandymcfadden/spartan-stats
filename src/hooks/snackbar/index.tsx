@@ -9,21 +9,44 @@ import {
 import { Snackbar, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-export const SnackbarContext = createContext();
+type SnackbarProviderProps = {
+  children: JSX.Element;
+};
 
-const AUTO_DISMISS = 5000;
+type SnackbarContext = {
+  addAlert: (alert: Alert) => void;
+};
 
-export const SnackbarProvider = ({ children }) => {
-  const [alert, setAlert] = useState({});
+type Alert = {
+  open: boolean;
+  message: string;
+  duration?: number;
+  action?: JSX.Element;
+};
+
+export const SnackbarContext = createContext<SnackbarContext>({
+  addAlert: () => {
+    // Empty Function
+  },
+});
+
+const AUTO_CLOSE = 5000;
+const defaultAlert: Alert = {
+  open: false,
+  message: "",
+};
+
+export const SnackbarProvider = ({ children }: SnackbarProviderProps) => {
+  const [alert, setAlert] = useState<Alert>(defaultAlert);
 
   useEffect(() => {
     if (alert) {
-      const timer = setTimeout(() => setAlert({}), AUTO_DISMISS);
+      const timer = setTimeout(() => setAlert(defaultAlert), AUTO_CLOSE);
       return () => clearTimeout(timer);
     }
   }, [alert]);
 
-  const addAlert = useCallback((content) => setAlert(content), []);
+  const addAlert = useCallback((content: Alert) => setAlert(content), []);
 
   const value = useMemo(() => ({ addAlert }), [addAlert]);
 

@@ -14,11 +14,17 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { useSnackbar } from "../../hooks/snackbar";
 
+type PlayerModalProps = {
+  open: boolean;
+  handleClose: () => void;
+  player: string;
+};
+
 const players = ["Noah", "Shay", "Eric", "Riley"];
 
 const OtherTeamPoints = () => {
   const { addAlert } = useSnackbar();
-  const handleClick = (message) => {
+  const handleClick = (message: string) => {
     addAlert({
       open: true,
       message: `Other team ${message}`,
@@ -56,13 +62,13 @@ const OtherTeamPoints = () => {
   );
 };
 
-const PlayerModal = (props) => {
+const PlayerModal = (props: PlayerModalProps) => {
   const { open, handleClose, player } = props;
 
   const { addAlert } = useSnackbar();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const handleClick = (message) => {
+  const handleClick = (message: string) => {
     addAlert({
       open: true,
       message: `${player} ${message}`,
@@ -190,7 +196,7 @@ const PlayerModal = (props) => {
 const EnterPlayStats = () => {
   const [open, setOpen] = useState(false);
   const [player, setPlayer] = useState("");
-  const handleOpen = (player) => {
+  const handleOpen = (player: string) => {
     setOpen(true);
     setPlayer(player);
   };

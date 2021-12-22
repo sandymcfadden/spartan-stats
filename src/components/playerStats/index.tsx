@@ -12,6 +12,36 @@ import "./styles.css";
 import { Box } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 
+type EnhancedTableProps {
+  onRequestSort: (
+    event: React.MouseEvent<unknown>,
+    property: keyof Data
+  ) => void;
+  order: Order;
+  orderBy: string;
+};
+
+type Order = "asc" | "desc";
+
+type Data = {
+  player: string;
+  points: number;
+  fgm: number;
+  fga: number;
+    fgp: number;
+  tpm: number;
+  tpa: number;
+  tpp: number;
+  ftm: number;
+  fta: number;
+  ftp: number;
+  rebounds: number;
+  assists: number;
+  steals: number;
+  blocks: number;
+  turnovers: number
+};
+
 function createData(
   player: string,
   points: number,
@@ -29,7 +59,7 @@ function createData(
   steals: number,
   blocks: number,
   turnovers: number
-) {
+): Data {
   return {
     player,
     points,
@@ -138,7 +168,7 @@ const headCells = [
   },
 ];
 
-const descendingComparator = (a, b, orderBy) => {
+const descendingComparator = <T,>(a: T, b: T, orderBy: keyof T) => {
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
@@ -148,15 +178,21 @@ const descendingComparator = (a, b, orderBy) => {
   return 0;
 };
 
-const getComparator = (order, orderBy) => {
+function getComparator<Key extends keyof never>(
+  order: Order,
+  orderBy: Key
+): (
+  a: { [key in Key]: number | string },
+  b: { [key in Key]: number | string }
+) => number {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
-};
+}
 
-const EnhancedTableHead = (props) => {
+const EnhancedTableHead = (props: EnhancedTableProps) => {
   const { order, orderBy, onRequestSort } = props;
-  const createSortHandler = (property) => (event) => {
+  const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
   };
 
@@ -197,10 +233,10 @@ const EnhancedTableHead = (props) => {
 };
 
 export const PlayerStats = () => {
-  const [order, setOrder] = useState("asc");
+  const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState("Player");
 
-  const handleRequestSort = (event, property) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
