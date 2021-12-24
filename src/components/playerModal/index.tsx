@@ -2,8 +2,6 @@ import {
   Button,
   Stack,
   IconButton,
-  useTheme,
-  useMediaQuery,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -21,18 +19,16 @@ export const PlayerModal = (props: PlayerModalProps) => {
   const { open, handleClose, player } = props;
 
   const { addAlert } = useSnackbar();
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const handleClick = (message: string) => {
     addAlert({
-      open: true,
       message: `${player} ${message}`,
     });
     handleClose();
   };
+
   return (
     <>
-      <Dialog open={open} onClose={handleClose} fullScreen={fullScreen}>
+      <Dialog open={open} onClose={handleClose}>
         <IconButton
           sx={{ position: "absolute", right: 10, top: 10 }}
           onClick={handleClose}
@@ -41,7 +37,12 @@ export const PlayerModal = (props: PlayerModalProps) => {
         </IconButton>
         <DialogTitle>{player}</DialogTitle>
         <DialogContent>
-          <Stack direction="row" spacing={1} sx={{ pt: 1 }}>
+          <Stack
+            direction="row"
+            justifyContent="center"
+            spacing={1}
+            sx={{ pt: 1 }}
+          >
             <Button
               variant="outlined"
               onClick={() => {
@@ -60,7 +61,12 @@ export const PlayerModal = (props: PlayerModalProps) => {
             </Button>
           </Stack>
 
-          <Stack direction="row" spacing={1} sx={{ pt: 1 }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ pt: 1 }}
+            justifyContent="center"
+          >
             <Button
               variant="outlined"
               onClick={() => {
@@ -79,7 +85,12 @@ export const PlayerModal = (props: PlayerModalProps) => {
             </Button>
           </Stack>
 
-          <Stack direction="row" spacing={1} sx={{ pt: 1 }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ pt: 1 }}
+            justifyContent="center"
+          >
             <Button
               variant="outlined"
               onClick={() => {
@@ -98,7 +109,12 @@ export const PlayerModal = (props: PlayerModalProps) => {
             </Button>
           </Stack>
 
-          <Stack direction="row" spacing={1} sx={{ pt: 1 }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ pt: 1 }}
+            justifyContent="center"
+          >
             <Button
               variant="outlined"
               onClick={() => {
@@ -116,7 +132,12 @@ export const PlayerModal = (props: PlayerModalProps) => {
               Rebound
             </Button>
           </Stack>
-          <Stack direction="row" spacing={1} sx={{ pt: 1 }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ pt: 1 }}
+            justifyContent="center"
+          >
             <Button
               variant="outlined"
               onClick={() => {

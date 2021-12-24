@@ -10,7 +10,7 @@ import { Snackbar, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 type SnackbarProviderProps = {
-  children: JSX.Element;
+  children: React.ReactNode;
 };
 
 type SnackbarContext = {
@@ -18,7 +18,7 @@ type SnackbarContext = {
 };
 
 type Alert = {
-  open: boolean;
+  open?: boolean;
   message: string;
   duration?: number;
   action?: JSX.Element;
@@ -46,7 +46,12 @@ export const SnackbarProvider = ({ children }: SnackbarProviderProps) => {
     }
   }, [alert]);
 
-  const addAlert = useCallback((content: Alert) => setAlert(content), []);
+  const addAlert = useCallback((content: Alert) => {
+    if (content.message !== "") {
+      content.open = true;
+      setAlert(content);
+    }
+  }, []);
 
   const value = useMemo(() => ({ addAlert }), [addAlert]);
 

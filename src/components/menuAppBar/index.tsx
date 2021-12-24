@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import AppBar from "@mui/material/AppBar";
-import { Box } from "@mui/material";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
+import {
+  Box,
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  Menu,
+  MenuItem,
+} from "@mui/material";
+import "./styles.css";
 import MenuIcon from "@mui/icons-material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
 import { SpartanLogo } from "../icons/spartan";
 
 export const MenuAppBar = () => {
@@ -67,9 +70,18 @@ export const MenuAppBar = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Seasons</MenuItem>
-                <MenuItem onClick={handleClose}>Teams</MenuItem>
-                <MenuItem onClick={handleClose}>Games</MenuItem>
+                <MenuItem>
+                  <Link href="/">Home</Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link href="/seasons">Seasons</Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link href="/">Teams</Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link href="/">Games</Link>
+                </MenuItem>
               </Menu>
             </div>
           }
