@@ -91,7 +91,11 @@ export const AddSeasonModal = (props: AddSeasonModalProps) => {
             }
           />
           <div>
-            <Button variant="contained" onClick={handleSubmit}>
+            <Button
+              disabled={season === ""}
+              variant="contained"
+              onClick={handleSubmit}
+            >
               Add Season
             </Button>
           </div>

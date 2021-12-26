@@ -1,13 +1,17 @@
 import { Container } from "@mui/material";
 import { MenuAppBar } from "../../components/menuAppBar";
-import { SeasonList } from "../../components/seasonList";
+import { Season } from "../../components/seasons/season";
 
-export const SeasonsLayout = () => {
+type SeasonProps = {
+  seasonId: string;
+};
+
+export const SeasonView = (props: SeasonProps) => {
   return (
     <>
       <MenuAppBar />
       <Container maxWidth="lg" sx={{ mt: 3 }}>
-        <SeasonList />
+        <Season seasonId={props.seasonId} />
       </Container>
     </>
   );

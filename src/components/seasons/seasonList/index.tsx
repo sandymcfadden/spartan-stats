@@ -38,7 +38,7 @@ export const SeasonList = () => {
             </ListItem>
             <Divider />
             <ListItem>
-              <Link href="/">
+              <Link href="/season/2021-2022">
                 <ListItemButton component="a">
                   <ListItemText primary="2021 - 2022 Season" />
                 </ListItemButton>

@@ -3,6 +3,7 @@ import { Route } from "wouter";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Home } from "./views/home";
 import { Seasons } from "./views/seasons";
+import { SeasonView } from "./views/seasons/season";
 import { SnackbarProvider } from "./hooks/snackbar";
 
 export const App = () => {
@@ -21,6 +22,11 @@ export const App = () => {
         </Route>
         <Route path="/seasons">
           <Seasons />
+        </Route>
+        <Route path="/season/:seasonId">
+          {(params: { seasonId: string }) => (
+            <SeasonView seasonId={params.seasonId} />
+          )}
         </Route>
       </SnackbarProvider>
     </ThemeProvider>
