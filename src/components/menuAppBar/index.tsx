@@ -77,9 +77,6 @@ export const MenuAppBar = () => {
                   <Link href="/seasons">Seasons</Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link href="/">Teams</Link>
-                </MenuItem>
-                <MenuItem>
                   <Link href="/">Games</Link>
                 </MenuItem>
               </Menu>
