@@ -15,6 +15,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
 import { AddPlayerModal } from "../../addPlayerModal";
+import { Link } from "wouter";
 
 export type SeasonProps = {
   seasonId: string;
@@ -75,9 +76,12 @@ export const Season = (props: SeasonProps) => {
         <Divider />
         {team ? (
           <>
-            <Typography variant="h5" sx={{ mt: 1 }}>
+            <Typography variant="h5" sx={{ mt: 1, mb: 1 }}>
               Team: {team.name}
             </Typography>
+            <Link href={`/season/${seasonId}/games`}>
+              <Button variant="outlined">View Games</Button>
+            </Link>
             <Typography variant="h6" sx={{ mt: 1 }}>
               Player List:
             </Typography>
