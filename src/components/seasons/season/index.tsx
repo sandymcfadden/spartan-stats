@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Box,
   Divider,
@@ -16,7 +16,7 @@ import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
 import { AddPlayerModal } from "../../addPlayerModal";
 import { Link } from "wouter";
-import { getSeason, Season as SeasonType } from "../../../data/season";
+import { useSeason, Season as SeasonType } from "../../../data/season";
 
 export type SeasonProps = {
   seasonId: string;
@@ -39,14 +39,8 @@ export const Season = (props: SeasonProps) => {
   const [error, setError] = useState("");
   const [team, setTeam] = useState<Team | null>(null);
   const [open, setOpen] = useState(false);
-  const [season, setSeason] = useState<SeasonType>({
-    name: "",
-    dateCreated: "",
-  });
 
-  useEffect(() => {
-    getSeason(seasonId).then((result) => setSeason(result as SeasonType));
-  }, [seasonId]);
+  const { season } = useSeason(seasonId);
 
   const addPlayer = (player: Player) => {
     if (team !== null) {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Box,
   Divider,
@@ -12,11 +12,10 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "wouter";
 import { AddSeasonModal } from "../addSeasonModal";
-import { getAllSeasons, Season } from "../../../data/season";
+import { useSeasons, Season } from "../../../data/season";
 
 export const SeasonList = () => {
   const [open, setOpen] = useState(false);
-  const [seasons, setSeasons] = useState<Season[]>([]);
   const addSeason = () => {
     setOpen(true);
   };
@@ -24,7 +23,7 @@ export const SeasonList = () => {
     setOpen(false);
   };
 
-  useEffect(() => getAllSeasons(setSeasons), []);
+  const { seasons } = useSeasons();
 
   return (
     <>

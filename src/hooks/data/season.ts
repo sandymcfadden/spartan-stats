@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import {
   collection,
@@ -29,6 +30,20 @@ export type Player = {
 
 const COL_NAME = "seasons";
 
+export const useSeasons = () => {
+  const [seasons, setSeasons] = useState<Season[]>([]);
+
+  useEffect(() => {
+    return onSnapshot(collection(db, COL_NAME), (snapshot) =>
+      setSeasons(
+        snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id } as Season))
+      )
+    );
+  }, []);
+
+  return { seasons };
+};
+
 export const addSeason = async (season: Season) => {
   return await addDoc(collection(db, COL_NAME), season);
 };
@@ -38,12 +53,12 @@ export const updateSeason = async (season: Season, id: string) => {
   return await setDoc(docRef, season);
 };
 
-export const getSeason = async (id: string) => {
-  return (await getDoc(doc(db, COL_NAME, id))).data();
-};
-
-export const getAllSeasons = (callback) => {
-  return onSnapshot(collection(db, COL_NAME), (snapshot) =>
-    callback(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-  );
+export const useSeason = (id: string) => {
+  const [season, setSeason] = useState<Season>({ name: "", dateCreated: "" });
+  useEffect(() => {
+    return onSnapshot(doc(db, COL_NAME, id), (doc) =>
+      setSeason(doc.data() as Season)
+    );
+  }, []);
+  return { season };
 };
