@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import ClearIcon from "@mui/icons-material/Clear";
+import { addSeason } from "../../../data/season";
 
 type AddSeasonModalProps = {
   open: boolean;
@@ -32,7 +33,7 @@ export const AddSeasonModal = (props: AddSeasonModalProps) => {
   const handleSubmit = () => {
     if (season !== "") {
       // Add season then close
-      setSeason("");
+      addSeason({ name: season, dateCreated: new Date().toISOString() });
       handleClose();
     } else {
       setError({ isError: true, message: `Must not be blank` });

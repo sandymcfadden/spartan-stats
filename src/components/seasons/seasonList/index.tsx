@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Divider,
@@ -12,15 +12,20 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "wouter";
 import { AddSeasonModal } from "../addSeasonModal";
+import { getAllSeasons, Season } from "../../../data/season";
 
 export const SeasonList = () => {
   const [open, setOpen] = useState(false);
+  const [seasons, setSeasons] = useState<Season[]>([]);
   const addSeason = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => getAllSeasons(setSeasons), []);
+
   return (
     <>
       <AddSeasonModal open={open} handleClose={handleClose} />
@@ -37,13 +42,17 @@ export const SeasonList = () => {
               </ListItemButton>
             </ListItem>
             <Divider />
-            <ListItem>
-              <Link href="/season/2021-2022">
-                <ListItemButton component="a">
-                  <ListItemText primary="2021 - 2022 Season" />
-                </ListItemButton>
-              </Link>
-            </ListItem>
+            {seasons.map((season: Season) => {
+              return (
+                <ListItem key={season.id}>
+                  <Link href={`/season/${season.id}`}>
+                    <ListItemButton component="a">
+                      <ListItemText primary={`${season.name} Season`} />
+                    </ListItemButton>
+                  </Link>
+                </ListItem>
+              );
+            })}
           </List>
         </nav>
       </Box>
