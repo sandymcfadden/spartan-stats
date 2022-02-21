@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import ClearIcon from "@mui/icons-material/Clear";
-import { addSeason } from "../../../data/season";
+import { addSeason } from "../../../hooks/data/season";
 
 type AddSeasonModalProps = {
   open: boolean;

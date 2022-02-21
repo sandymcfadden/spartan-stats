@@ -16,7 +16,7 @@ import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
 import { AddPlayerModal } from "../../addPlayerModal";
 import { Link } from "wouter";
-import { useSeason, Season as SeasonType } from "../../../data/season";
+import { useSeason } from "../../../hooks/data/season";
 
 export type SeasonProps = {
   seasonId: string;

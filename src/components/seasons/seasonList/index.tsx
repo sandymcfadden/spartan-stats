@@ -12,7 +12,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "wouter";
 import { AddSeasonModal } from "../addSeasonModal";
-import { useSeasons, Season } from "../../../data/season";
+import { useSeasons, Season } from "../../../hooks/data/season";
 
 export const SeasonList = () => {
   const [open, setOpen] = useState(false);
