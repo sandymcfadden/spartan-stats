@@ -5,38 +5,28 @@ import * as sg from "@sendgrid/mail";
 
 admin.initializeApp();
 
-const db = admin.firestore();
-
 const SEND_EMAIL = Boolean(process.env.SEND_EMAIL);
 
 if (SEND_EMAIL && process.env.SENDGRID_API_KEY) {
   sg.setApiKey(process.env.SENDGRID_API_KEY);
 }
 
-exports.firstUser = functions.firestore
-    .document("users/{userId}")
-    .onCreate(async (doc, ) => {
-      const col = await db.collection("users").get();
-      if (col.size === 1) {
-        console.log("This is the first user");
-        const newUser = doc.data();
-        admin.auth()
-            .setCustomUserClaims(newUser.uid, {role: "admin"})
-            .then(() => {
-              console.log("done", doc);
-              return {
-                message: "done",
-                data: doc,
-              };
-            })
-            .catch((err) => {
-              console.log("something went wrong", err);
-              return err;
-            });
-      }
-    });
-
 exports.processSignUp = functions.auth.user().onCreate(async (user) => {
+  if (user.email === process.env.ADMIN_EMAIL) {
+    const theUser = await admin.auth().getUserByEmail(user.email);
+    admin.auth()
+        .setCustomUserClaims(theUser.uid, {role: "admin"})
+        .then(() => {
+          console.log("Set admin role");
+          return {
+            message: "done",
+          };
+        })
+        .catch((err) => {
+          console.log("something went wrong", err);
+          return err;
+        });
+  }
   if (!SEND_EMAIL) {
     return;
   }
