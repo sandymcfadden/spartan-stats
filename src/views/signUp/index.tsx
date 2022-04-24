@@ -15,23 +15,43 @@ import { SpartanLogo } from "../../components/icons/spartan";
 import { useAuth } from "../../hooks/AuthProvider";
 import { isEmail, isPasswordValid } from "../../utils";
 
-export const Login = () => {
-  const [validationError, setValidationError] = useState("");
-  const { attemptLogin, error } = useAuth();
+export const SignUp = () => {
+  const { signUp, error } = useAuth();
+  const [validationError, setValidationError] = useState<string[]>([]);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setValidationError([]);
     const data = new FormData(event.currentTarget);
     const email = data.get("email") + "".trim().toLocaleLowerCase();
     const password = data.get("password") + "";
-    if (isEmail(email) && isPasswordValid(password)) {
-      attemptLogin(email, password);
+    const confirmPass = data.get("confirmpassword");
+    const name = data.get("name") + "".trim();
+    const relationship = data.get("relationship") + "".trim();
+    const newErrors = [];
+    if (name === "") {
+      newErrors.push("You must provide a name");
+    }
+    if (!isEmail(email)) {
+      newErrors.push("Check your email address");
+    }
+    if (!isPasswordValid(password)) {
+      newErrors.push("Your password must be at least 8 characters");
+    }
+    if (password !== confirmPass) {
+      newErrors.push("Your passwords must match");
+    }
+    if (relationship === "") {
+      newErrors.push("You must share your relationship to the team");
+    }
+    if (newErrors.length === 0) {
+      signUp(email, password, name);
     } else {
-      setValidationError("Your password must be at least 8 characters long");
+      setValidationError(newErrors);
     }
   };
   return (
     <>
-      <Container maxWidth="lg" sx={{ mt: 3 }}>
+      <Container maxWidth="sm" sx={{ mt: 3 }}>
         <Box
           sx={{
             marginTop: 8,
@@ -42,7 +62,7 @@ export const Login = () => {
         >
           <SpartanLogo width={50} height={50} margin={10} />
           <Typography component="h1" variant="h5">
-            Log in
+            Sign Up
           </Typography>
           <Box
             component="form"
@@ -56,11 +76,24 @@ export const Login = () => {
               </Alert>
             )}
             {validationError.length > 0 && (
-              <Alert severity="error" sx={{ mb: 1, maxWidth: 400 }}>
-                <AlertTitle>Please check your password and email</AlertTitle>
-                {validationError}
+              <Alert severity="error" sx={{ mb: 1 }}>
+                <AlertTitle>Please check your information</AlertTitle>
+                <ul>
+                  {validationError.map((e) => (
+                    <li key={e}>{e}</li>
+                  ))}
+                </ul>
               </Alert>
             )}
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="Your Name"
+              name="name"
+              autoFocus
+            />
             <TextField
               margin="normal"
               required
@@ -68,8 +101,6 @@ export const Login = () => {
               id="email"
               label="Email Address"
               name="email"
-              autoComplete="email"
-              autoFocus
             />
             <TextField
               margin="normal"
@@ -79,7 +110,24 @@ export const Login = () => {
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="confirmpassword"
+              label="Confirm Password"
+              type="password"
+              id="confirmpassword"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="relationship"
+              label="Relationship to Team"
+              type="text"
+              id="relationship"
             />
             <Button
               type="submit"
@@ -87,7 +135,7 @@ export const Login = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Sign Up
             </Button>
             <Grid container>
               <Grid item xs>
@@ -96,8 +144,8 @@ export const Login = () => {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/signup">
-                  <L variant="body2">{"Don't have an account? Sign Up"}</L>
+                <Link href="/login">
+                  <L variant="body2">{"Log in"}</L>
                 </Link>
               </Grid>
             </Grid>

@@ -1,9 +1,10 @@
 import {
-  //createUserWithEmailAndPassword,
+  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
   User,
+  updateProfile,
 } from "firebase/auth";
 import { useState, createContext, useContext, useEffect } from "react";
 import { auth } from "../firebase";
@@ -24,6 +25,11 @@ type UserAuthenticationContext = UserAuthenticationState & {
   canView: () => boolean;
   isAdmin: () => boolean;
   canAddStats: () => boolean;
+  signUp: (
+    username: string,
+    password: string,
+    name: string
+  ) => Promise<boolean>;
 };
 
 const AuthContext = createContext<UserAuthenticationContext>({
@@ -31,6 +37,9 @@ const AuthContext = createContext<UserAuthenticationContext>({
   isAuthorized: false,
   user: null,
   attemptLogin: () => {
+    return new Promise((resolve) => resolve(true));
+  },
+  signUp: () => {
     return new Promise((resolve) => resolve(true));
   },
   doLogout: () => {
@@ -91,6 +100,22 @@ export const AuthProvider: React.FC = ({ children }) => {
     return result !== null;
   };
 
+  const signUp = async (username: string, password: string, name: string) => {
+    let result;
+    try {
+      result = await createUserWithEmailAndPassword(auth, username, password);
+      if (auth.currentUser) {
+        await updateProfile(auth.currentUser, {
+          displayName: name,
+        });
+      }
+    } catch (e) {
+      // Do nothing yet
+    }
+
+    return result !== null;
+  };
+
   const doLogout = () => {
     return signOut(auth);
   };
@@ -125,6 +150,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         canView,
         canAddStats,
         isAdmin,
+        signUp,
       }}
     >
       {children}

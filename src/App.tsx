@@ -10,6 +10,7 @@ import { Login } from "./views/login";
 import { NeedsApproval } from "./views/needsApproval";
 import { Seasons } from "./views/seasons";
 import { SeasonView } from "./views/seasons/season";
+import { SignUp } from "./views/signUp";
 
 export const App = () => {
   const theme = createTheme({
@@ -49,6 +50,9 @@ export const App = () => {
           </Route>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/signup">
+            <SignUp />
           </Route>
         </SnackbarProvider>
       </ThemeProvider>
