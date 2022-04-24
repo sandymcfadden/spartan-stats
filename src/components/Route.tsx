@@ -6,6 +6,7 @@ type Props = {
   match?: [];
   path: string;
   authRequired?: boolean;
+  adminRequired?: boolean;
 };
 
 export const Route: React.VFC<Props> = ({
@@ -13,12 +14,17 @@ export const Route: React.VFC<Props> = ({
   match,
   path,
   authRequired,
+  adminRequired,
 }) => {
   const useRouteMatch = useRoute(path);
   const [matches, params] = match || useRouteMatch;
-  const { isAuthenticated, isAuthorized } = useAuth();
+  const { isAuthenticated, isAuthorized, isAdmin } = useAuth();
 
   if (!matches) return null;
+
+  if (adminRequired && !isAdmin()) {
+    return <Redirect to="/" />;
+  }
 
   if (authRequired && !isAuthenticated) {
     return <Redirect to="/login" />;

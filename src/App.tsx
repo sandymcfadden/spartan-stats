@@ -3,14 +3,17 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Route } from "./components/Route";
 import { AuthProvider } from "./hooks/AuthProvider";
 import { SnackbarProvider } from "./hooks/snackbar";
+import { Admin } from "./views/admin";
+import { UserEdit } from "./views/admin/UserEdit";
+import { ForgotPassword } from "./views/auth/forgotPassword";
+import { Login } from "./views/auth/login";
+import { NeedsApproval } from "./views/auth/needsApproval";
+import { SignUp } from "./views/auth/signUp";
 import { GameView } from "./views/game";
 import { Games } from "./views/gameList";
 import { Home } from "./views/home";
-import { Login } from "./views/login";
-import { NeedsApproval } from "./views/needsApproval";
 import { Seasons } from "./views/seasons";
 import { SeasonView } from "./views/seasons/season";
-import { SignUp } from "./views/signUp";
 
 export const App = () => {
   const theme = createTheme({
@@ -45,6 +48,14 @@ export const App = () => {
               <SeasonView seasonId={params.seasonId} />
             )}
           </Route>
+          <Route path="/admin" adminRequired authRequired>
+            <Admin />
+          </Route>
+          <Route path="/admin/:userId" adminRequired authRequired>
+            {(params: { userId: string }) => (
+              <UserEdit userId={params.userId} />
+            )}
+          </Route>
           <Route path="/needs-approval">
             <NeedsApproval />
           </Route>
@@ -53,6 +64,9 @@ export const App = () => {
           </Route>
           <Route path="/signup">
             <SignUp />
+          </Route>
+          <Route path="/forgot">
+            <ForgotPassword />
           </Route>
         </SnackbarProvider>
       </ThemeProvider>

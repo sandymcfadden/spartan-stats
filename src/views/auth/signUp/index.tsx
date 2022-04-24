@@ -11,9 +11,10 @@ import {
 import { Box } from "@mui/system";
 import { useState } from "react";
 import { Link } from "wouter";
-import { SpartanLogo } from "../../components/icons/spartan";
-import { useAuth } from "../../hooks/AuthProvider";
-import { isEmail, isPasswordValid } from "../../utils";
+import { SpartanLogo } from "../../../components/icons/spartan";
+import { useAuth } from "../../../hooks/AuthProvider";
+import { addUser } from "../../../hooks/data/user";
+import { isEmail, isPasswordValid } from "../../../utils";
 
 export const SignUp = () => {
   const { signUp, error } = useAuth();
@@ -44,7 +45,19 @@ export const SignUp = () => {
       newErrors.push("You must share your relationship to the team");
     }
     if (newErrors.length === 0) {
-      signUp(email, password, name);
+      addUser({
+        email,
+        name,
+        relationship,
+        dateCreated: new Date().toISOString(),
+        role: "",
+      })
+        .then(() => {
+          signUp(email, password, name);
+        })
+        .catch(() => {
+          setValidationError(["Could not create new account"]);
+        });
     } else {
       setValidationError(newErrors);
     }
@@ -139,13 +152,13 @@ export const SignUp = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#">
+                <Link href="/forgot">
                   <L variant="body2">Forgot password?</L>
                 </Link>
               </Grid>
               <Grid item>
                 <Link href="/login">
-                  <L variant="body2">{"Log in"}</L>
+                  <L variant="body2">Log in</L>
                 </Link>
               </Grid>
             </Grid>

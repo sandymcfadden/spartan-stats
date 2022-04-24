@@ -58,8 +58,25 @@ exports.processSignUp = functions.auth.user().onCreate(async (user) => {
 });
 
 
-// exports.manageUsers = functions.firestore
-//     .document("users/{userId}")
-//     .onUpdate((change, context) => {
-//       // implement in the future
-//     });
+exports.manageUsers = functions.firestore
+    .document("users/{userId}")
+    .onUpdate(async (change) => {
+      const newUser = change.after.data();
+      const previous = change.before.data();
+
+      if (newUser.role !== previous.role) {
+        const theUser = await admin.auth().getUserByEmail(previous.email);
+        admin.auth()
+            .setCustomUserClaims(theUser.uid, {role: newUser.role})
+            .then(() => {
+              console.log("Updated User Role");
+              return {
+                message: "done",
+              };
+            })
+            .catch((err) => {
+              console.log("something went wrong", err);
+              return err;
+            });
+      }
+    });

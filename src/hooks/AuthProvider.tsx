@@ -5,11 +5,12 @@ import {
   signOut,
   User,
   updateProfile,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { useState, createContext, useContext, useEffect } from "react";
 import { auth } from "../firebase";
 
-type Role = "admin" | "stats" | "viewer" | undefined;
+export type Role = "admin" | "stats" | "viewer" | "";
 
 type UserAuthenticationState = {
   isAuthenticated: boolean;
@@ -30,6 +31,7 @@ type UserAuthenticationContext = UserAuthenticationState & {
     password: string,
     name: string
   ) => Promise<boolean>;
+  forgotPass: (email: string) => void;
 };
 
 const AuthContext = createContext<UserAuthenticationContext>({
@@ -54,8 +56,11 @@ const AuthContext = createContext<UserAuthenticationContext>({
   canAddStats: () => {
     return false;
   },
+  forgotPass: () => {
+    // default empty function
+  },
   error: "",
-  role: undefined,
+  role: "",
 });
 
 export const AuthProvider: React.FC = ({ children }) => {
@@ -63,7 +68,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     isAuthenticated: false,
     user: null,
     error: "",
-    role: undefined,
+    role: "",
     isAuthorized: false,
   });
 
@@ -73,7 +78,6 @@ export const AuthProvider: React.FC = ({ children }) => {
         await auth.currentUser?.getIdTokenResult()
       )?.claims.role?.toString() as Role;
       const loggedIn = user !== null;
-
       setAuthState({
         ...authState,
         user,
@@ -110,7 +114,10 @@ export const AuthProvider: React.FC = ({ children }) => {
         });
       }
     } catch (e) {
-      // Do nothing yet
+      setAuthState({
+        ...authState,
+        error: "Unable to create account. Please try again.",
+      });
     }
 
     return result !== null;
@@ -118,6 +125,10 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   const doLogout = () => {
     return signOut(auth);
+  };
+
+  const forgotPass = (email: string) => {
+    sendPasswordResetEmail(auth, email);
   };
 
   const canView = (role: Role = authState.role) => {
@@ -151,6 +162,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         canAddStats,
         isAdmin,
         signUp,
+        forgotPass,
       }}
     >
       {children}

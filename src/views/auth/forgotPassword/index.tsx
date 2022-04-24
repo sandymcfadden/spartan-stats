@@ -11,22 +11,23 @@ import {
 import { Box } from "@mui/system";
 import { useState } from "react";
 import { Link } from "wouter";
-import { SpartanLogo } from "../../components/icons/spartan";
-import { useAuth } from "../../hooks/AuthProvider";
-import { isEmail, isPasswordValid } from "../../utils";
+import { SpartanLogo } from "../../../components/icons/spartan";
+import { useAuth } from "../../../hooks/AuthProvider";
+import { isEmail } from "../../../utils";
 
-export const Login = () => {
+export const ForgotPassword = () => {
   const [validationError, setValidationError] = useState("");
-  const { attemptLogin, error } = useAuth();
+  const [forgotSent, setForgotSent] = useState(false);
+  const { forgotPass, error } = useAuth();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get("email") + "".trim().toLocaleLowerCase();
-    const password = data.get("password") + "";
-    if (isEmail(email) && isPasswordValid(password)) {
-      attemptLogin(email, password);
+    if (isEmail(email)) {
+      forgotPass(email);
+      setForgotSent(true);
     } else {
-      setValidationError("Your password must be at least 8 characters long");
+      setValidationError("Please check your email");
     }
   };
   return (
@@ -61,6 +62,14 @@ export const Login = () => {
                 {validationError}
               </Alert>
             )}
+            {forgotSent && (
+              <Alert severity="info" sx={{ mb: 1, maxWidth: 400 }}>
+                <AlertTitle>Check your email</AlertTitle>
+                {
+                  "If there was a valid account with that email you will recieve a forgot password email soon."
+                }
+              </Alert>
+            )}
             <TextField
               margin="normal"
               required
@@ -71,28 +80,18 @@ export const Login = () => {
               autoComplete="email"
               autoFocus
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Reset Password
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#">
-                  <L variant="body2">Forgot password?</L>
+                <Link href="/login">
+                  <L variant="body2">Log in</L>
                 </Link>
               </Grid>
               <Grid item>

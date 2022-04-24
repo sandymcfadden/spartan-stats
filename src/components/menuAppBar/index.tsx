@@ -83,6 +83,9 @@ export const MenuAppBar = () => {
                   <Link href="/">Games</Link>
                 </MenuItem>
                 <MenuItem>
+                  <Link href="/admin">Users</Link>
+                </MenuItem>
+                <MenuItem>
                   <Button
                     onClick={() => {
                       doLogout();
