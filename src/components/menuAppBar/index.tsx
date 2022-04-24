@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Link } from "wouter";
+import MenuIcon from "@mui/icons-material/Menu";
 import {
   Box,
   AppBar,
@@ -8,13 +7,17 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Button,
 } from "@mui/material";
+import { useState } from "react";
+import { Link } from "wouter";
 import "./styles.css";
-import MenuIcon from "@mui/icons-material/Menu";
+import { useAuth } from "../../hooks/AuthProvider";
 import { SpartanLogo } from "../icons/spartan";
 
 export const MenuAppBar = () => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
+  const { doLogout } = useAuth();
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -78,6 +81,15 @@ export const MenuAppBar = () => {
                 </MenuItem>
                 <MenuItem>
                   <Link href="/">Games</Link>
+                </MenuItem>
+                <MenuItem>
+                  <Button
+                    onClick={() => {
+                      doLogout();
+                    }}
+                  >
+                    Logout
+                  </Button>
                 </MenuItem>
               </Menu>
             </div>

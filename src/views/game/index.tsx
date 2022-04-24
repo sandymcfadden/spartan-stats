@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
-import { MenuAppBar } from "../../components/menuAppBar";
 import { Game, GameProps } from "../../components/game/";
+import { MenuAppBar } from "../../components/menuAppBar";
 
 export const GameView = ({ seasonId, gameId }: GameProps) => {
   return (

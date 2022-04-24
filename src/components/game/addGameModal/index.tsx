@@ -1,4 +1,6 @@
-import { useState } from "react";
+import ClearIcon from "@mui/icons-material/Clear";
+import CloseIcon from "@mui/icons-material/Close";
+import DateTimePicker from "@mui/lab/DateTimePicker";
 import {
   Box,
   Button,
@@ -8,9 +10,7 @@ import {
   IconButton,
   TextField,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import ClearIcon from "@mui/icons-material/Clear";
-import DateTimePicker from "@mui/lab/DateTimePicker";
+import { useState } from "react";
 
 type AddGameModalProps = {
   open: boolean;

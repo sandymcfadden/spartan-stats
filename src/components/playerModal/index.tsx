@@ -1,3 +1,4 @@
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Button,
   Stack,
@@ -6,7 +7,6 @@ import {
   DialogTitle,
   DialogContent,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 import { useSnackbar } from "../../hooks/snackbar";
 
 type PlayerModalProps = {

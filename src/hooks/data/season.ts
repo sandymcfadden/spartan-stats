@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
-import { db } from "../../firebase";
 import {
   collection,
   addDoc,
-  getDoc,
   doc,
   onSnapshot,
   setDoc,
 } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { db } from "../../firebase";
 
 export type Season = {
   id?: string;

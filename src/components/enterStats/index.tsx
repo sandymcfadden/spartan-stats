@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { Button, Stack, Grid, Typography } from "@mui/material";
+import { useState } from "react";
 import { OpponentPoints } from "../opponentPoints";
 import { PlayerModal } from "../playerModal";
 

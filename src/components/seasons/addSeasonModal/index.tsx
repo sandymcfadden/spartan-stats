@@ -1,4 +1,5 @@
-import { useState } from "react";
+import ClearIcon from "@mui/icons-material/Clear";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Dialog,
   DialogTitle,
@@ -8,8 +9,7 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import ClearIcon from "@mui/icons-material/Clear";
+import { useState } from "react";
 import { addSeason } from "../../../hooks/data/season";
 
 type AddSeasonModalProps = {

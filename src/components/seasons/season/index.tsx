@@ -1,4 +1,5 @@
-import { useState } from "react";
+import AddIcon from "@mui/icons-material/Add";
+import ClearIcon from "@mui/icons-material/Clear";
 import {
   Box,
   Divider,
@@ -12,11 +13,10 @@ import {
   IconButton,
   Button,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import ClearIcon from "@mui/icons-material/Clear";
-import { AddPlayerModal } from "../../addPlayerModal";
+import { useState } from "react";
 import { Link } from "wouter";
 import { useSeason } from "../../../hooks/data/season";
+import { AddPlayerModal } from "../../addPlayerModal";
 
 export type SeasonProps = {
   seasonId: string;

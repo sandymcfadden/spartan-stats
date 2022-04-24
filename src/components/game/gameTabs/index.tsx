@@ -1,10 +1,9 @@
-import { useState } from "react";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import { PlayerStats } from "../../playerStats";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import { useState } from "react";
 import { EnterStats } from "../../enterStats";
-import { GameProps } from "../";
+import { PlayerStats } from "../../playerStats";
 
 type TabPanelProps = {
   children?: React.ReactNode;

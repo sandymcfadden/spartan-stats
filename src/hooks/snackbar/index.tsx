@@ -1,3 +1,5 @@
+import CloseIcon from "@mui/icons-material/Close";
+import { Snackbar, IconButton } from "@mui/material";
 import {
   useState,
   useContext,
@@ -6,8 +8,6 @@ import {
   useCallback,
   createContext,
 } from "react";
-import { Snackbar, IconButton } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 
 type SnackbarProviderProps = {
   children: React.ReactNode;
