@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, enableIndexedDbPersistence } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -18,4 +18,11 @@ const firebaseConfig = {
 // Initialize Firebase and Firestore
 export const FirebaseApp = initializeApp(firebaseConfig);
 export const db = getFirestore();
+enableIndexedDbPersistence(db).catch((err) => {
+  if (err.code == "failed-precondition") {
+    console.log("Offline only works in one tab at a time");
+  } else if (err.code == "unimplemented") {
+    console.log("Your borwser doesn't support offline");
+  }
+});
 export const auth = getAuth(FirebaseApp);
