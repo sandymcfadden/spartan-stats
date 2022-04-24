@@ -33,7 +33,7 @@ exports.processSignUp = functions.auth.user().onCreate(async (user) => {
   if (user.email) {
     const welcome = {
       to: user.email,
-      from: "me@sandymcfadden.com",
+      from: process.env.SENDER_EMAIL,
       templateId: process.env.WELCOME_EMAIL_TEMPLATE_ID,
       dynamic_template_data: {
         subject: "Welcome to Spartan Stats!",
@@ -45,7 +45,7 @@ exports.processSignUp = functions.auth.user().onCreate(async (user) => {
 
     const notify = {
       to: process.env.ADMIN_EMAIL,
-      from: "me@sandymcfadden.com",
+      from: process.env.SENDER_EMAIL,
       templateId: process.env.NEW_USER_NOTIFICATION_TEMPLATE_ID,
       dynamic_template_data: {
         subject: "A new user has signed up to Spartan Stats!",
