@@ -18,7 +18,7 @@ import { SpartanLogo } from "../icons/spartan";
 
 export const MenuAppBar = () => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
-  const { doLogout, isAdmin } = useAuth();
+  const { doLogout, isAdmin, user } = useAuth();
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -74,6 +74,10 @@ export const MenuAppBar = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
+                <div style={{ padding: "3px 16px", marginBottom: "6px" }}>
+                  {user?.email}
+                </div>
+                <Divider />
                 <MenuItem>
                   <Link href="/">Home</Link>
                 </MenuItem>
