@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { useState } from "react";
+import { useAuth } from "../../../hooks/AuthProvider";
 import { EnterStats } from "../../enterStats";
 import { PlayerStats } from "../../playerStats";
 
@@ -36,6 +37,7 @@ function a11yProps(index: number) {
 
 export const GameTabs = () => {
   const [value, setValue] = useState(0);
+  const { canAddStats } = useAuth();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -54,7 +56,7 @@ export const GameTabs = () => {
         >
           <Tab label="Box Score" {...a11yProps(0)} />
           <Tab label="Play by Play" {...a11yProps(1)} />
-          <Tab label="Enter Stats" {...a11yProps(2)} />
+          {canAddStats() && <Tab label="Enter Stats" {...a11yProps(2)} />}
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -63,9 +65,11 @@ export const GameTabs = () => {
       <TabPanel value={value} index={1}>
         Play by Play
       </TabPanel>
-      <TabPanel value={value} index={2}>
-        <EnterStats />
-      </TabPanel>
+      {canAddStats() && (
+        <TabPanel value={value} index={2}>
+          <EnterStats />
+        </TabPanel>
+      )}
     </Box>
   );
 };

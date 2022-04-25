@@ -8,6 +8,7 @@ import {
   Menu,
   MenuItem,
   Button,
+  Divider,
 } from "@mui/material";
 import { useState } from "react";
 import { Link } from "wouter";
@@ -17,7 +18,7 @@ import { SpartanLogo } from "../icons/spartan";
 
 export const MenuAppBar = () => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
-  const { doLogout } = useAuth();
+  const { doLogout, isAdmin } = useAuth();
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -82,18 +83,21 @@ export const MenuAppBar = () => {
                 <MenuItem>
                   <Link href="/">Games</Link>
                 </MenuItem>
-                <MenuItem>
-                  <Link href="/admin">Users</Link>
-                </MenuItem>
-                <MenuItem>
-                  <Button
-                    onClick={() => {
-                      doLogout();
-                    }}
-                  >
-                    Logout
-                  </Button>
-                </MenuItem>
+                {isAdmin() && (
+                  <MenuItem>
+                    <Link href="/admin">Users</Link>
+                  </MenuItem>
+                )}
+                <Divider />
+                <Button
+                  id="logout"
+                  size="small"
+                  onClick={() => {
+                    doLogout();
+                  }}
+                >
+                  Logout
+                </Button>
               </Menu>
             </div>
           }

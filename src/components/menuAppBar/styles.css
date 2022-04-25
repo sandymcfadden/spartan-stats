@@ -2,3 +2,16 @@
   color: #fff;
   text-decoration: none;
 }
+
+#logout {
+  margin: 0;
+  width: 100%;
+  color: #fff;
+  text-transform: none;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0;
+  padding-left: 16px;
+  text-align: left;
+}
