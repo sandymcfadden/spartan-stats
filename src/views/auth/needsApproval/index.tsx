@@ -5,8 +5,8 @@ import { SpartanLogo } from "../../../components/icons/spartan";
 import { useAuth } from "../../../hooks/AuthProvider";
 
 export const NeedsApproval = () => {
-  const { doLogout } = useAuth();
-  doLogout();
+  const { logout } = useAuth();
+  logout();
   return (
     <>
       <Container maxWidth="sm" sx={{ mt: 3 }}>

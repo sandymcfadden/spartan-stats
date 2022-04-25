@@ -17,14 +17,14 @@ import { isEmail, isPasswordValid } from "../../../utils";
 
 export const Login = () => {
   const [validationError, setValidationError] = useState("");
-  const { attemptLogin, error } = useAuth();
+  const { login, error } = useAuth();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get("email") + "".trim().toLocaleLowerCase();
     const password = data.get("password") + "";
     if (isEmail(email) && isPasswordValid(password)) {
-      attemptLogin(email, password);
+      login(email, password);
     } else {
       setValidationError("Your password must be at least 8 characters long");
     }

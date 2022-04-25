@@ -18,7 +18,7 @@ import { SpartanLogo } from "../icons/spartan";
 
 export const MenuAppBar = () => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
-  const { doLogout, isAdmin, user } = useAuth();
+  const { logout, isAdmin, user } = useAuth();
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -97,7 +97,7 @@ export const MenuAppBar = () => {
                   id="logout"
                   size="small"
                   onClick={() => {
-                    doLogout();
+                    logout();
                   }}
                 >
                   Logout

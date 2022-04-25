@@ -21,8 +21,8 @@ type UserAuthenticationState = {
 };
 
 type UserAuthenticationContext = UserAuthenticationState & {
-  attemptLogin: (username: string, password: string) => Promise<boolean>;
-  doLogout: () => void;
+  login: (username: string, password: string) => Promise<boolean>;
+  logout: () => void;
   canView: () => boolean;
   isAdmin: () => boolean;
   canAddStats: () => boolean;
@@ -38,13 +38,13 @@ const AuthContext = createContext<UserAuthenticationContext>({
   isAuthenticated: false,
   isAuthorized: false,
   user: null,
-  attemptLogin: () => {
+  login: () => {
     return new Promise((resolve) => resolve(true));
   },
   signUp: () => {
     return new Promise((resolve) => resolve(true));
   },
-  doLogout: () => {
+  logout: () => {
     // default empty function
   },
   isAdmin: () => {
@@ -89,7 +89,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     return unsub;
   }, []);
 
-  const attemptLogin = async (username: string, password: string) => {
+  const login = async (username: string, password: string) => {
     let result;
     setAuthState({ ...authState, error: "" });
     try {
@@ -123,7 +123,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     return result !== null;
   };
 
-  const doLogout = () => {
+  const logout = () => {
     return signOut(auth);
   };
 
@@ -156,8 +156,8 @@ export const AuthProvider: React.FC = ({ children }) => {
     <AuthContext.Provider
       value={{
         ...authState,
-        attemptLogin,
-        doLogout,
+        login,
+        logout,
         canView,
         canAddStats,
         isAdmin,

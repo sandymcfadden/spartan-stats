@@ -10,7 +10,7 @@ export const GameScore = ({
     seasonId: seasonId,
     teamScore: 56,
     opponentScore: 32,
-    opponentName: "Dartmouth Lakers",
+    opponentName: "Lakers",
   };
   return (
     <Grid container spacing={3} justifyContent="center">
