@@ -30,7 +30,7 @@ export const SnackbarContext = createContext<SnackbarContext>({
   },
 });
 
-const AUTO_CLOSE = 5000;
+const AUTO_CLOSE = 6000;
 const defaultAlert: Alert = {
   open: false,
   message: "",
@@ -65,7 +65,7 @@ export const SnackbarProvider = ({ children }: SnackbarProviderProps) => {
       <Snackbar
         key={alert.message}
         open={alert.open}
-        autoHideDuration={alert.duration ? alert.duration : 6000}
+        autoHideDuration={alert.duration || AUTO_CLOSE}
         onClose={handleClose}
         message={alert.message}
         action={
