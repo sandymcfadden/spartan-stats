@@ -10,7 +10,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useState } from "react";
-import { Player } from "../seasons/season";
+import { Player } from "../../hooks/data/season";
 
 type AddPlayerModalProps = {
   open: boolean;

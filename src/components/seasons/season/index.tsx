@@ -15,41 +15,23 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { Link } from "wouter";
-import { useSeason } from "../../../hooks/data/season";
+import { useAuth } from "../../../hooks/AuthProvider";
+import { useSeason, Player } from "../../../hooks/data/season";
 import { AddPlayerModal } from "../../addPlayerModal";
 
 export type SeasonProps = {
   seasonId: string;
 };
 
-type Team = {
-  name: string;
-  players: Player[];
-};
-
-export type Player = {
-  firstName: string;
-  lastName: string;
-  number: number;
-};
-
 export const Season = (props: SeasonProps) => {
   const { seasonId } = props;
   const [teamName, setTeamName] = useState("");
+  const [shortName, setShortName] = useState("");
   const [error, setError] = useState("");
-  const [team, setTeam] = useState<Team | null>(null);
   const [open, setOpen] = useState(false);
 
-  const { season } = useSeason(seasonId);
-
-  const addPlayer = (player: Player) => {
-    if (team !== null) {
-      setTeam({
-        name: team.name,
-        players: [...team.players, player],
-      });
-    }
-  };
+  const { season, updateTeam, addPlayer } = useSeason(seasonId);
+  const { isAdmin } = useAuth();
 
   const openPlayerModal = () => {
     setOpen(true);
@@ -63,7 +45,19 @@ export const Season = (props: SeasonProps) => {
     if (teamName === "") {
       setError("Team must have a name");
     } else {
-      setTeam({ name: teamName, players: [] });
+      updateTeam({
+        name: teamName,
+        short: shortName,
+        players: [],
+      });
+    }
+  };
+
+  const sortPlayers = (a: Player, b: Player) => {
+    if (a.number === b.number) {
+      return 0;
+    } else {
+      return a.number < b.number ? -1 : 1;
     }
   };
 
@@ -77,10 +71,10 @@ export const Season = (props: SeasonProps) => {
       <Box alignSelf="center" sx={{ maxWidth: "400px", margin: "0 auto" }}>
         <Typography variant="h4">Season {season.name}</Typography>
         <Divider />
-        {team ? (
+        {season.team ? (
           <>
             <Typography variant="h5" sx={{ mt: 1, mb: 1 }}>
-              Team: {team.name}
+              Team: {season.team.name}
             </Typography>
             <Link href={`/season/${seasonId}/games`}>
               <Button variant="outlined">View Games</Button>
@@ -89,7 +83,7 @@ export const Season = (props: SeasonProps) => {
               Player List:
             </Typography>
             <List>
-              {team.players.map((player) => {
+              {season.team.players.sort(sortPlayers).map((player) => {
                 return (
                   <ListItem key={player.number}>
                     <ListItemText
@@ -98,15 +92,19 @@ export const Season = (props: SeasonProps) => {
                   </ListItem>
                 );
               })}
-              <Divider />
-              <ListItem>
-                <ListItemButton onClick={openPlayerModal}>
-                  <ListItemIcon>
-                    <AddIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Add Player" />
-                </ListItemButton>
-              </ListItem>
+              {isAdmin() && (
+                <>
+                  <Divider />
+                  <ListItem>
+                    <ListItemButton onClick={openPlayerModal}>
+                      <ListItemIcon>
+                        <AddIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Add Player" />
+                    </ListItemButton>
+                  </ListItem>
+                </>
+              )}
             </List>
           </>
         ) : (
@@ -148,6 +146,33 @@ export const Season = (props: SeasonProps) => {
                   : {}
               }
               helperText={error !== "" ? error : `Add team name`}
+            />
+            <TextField
+              error={error !== ""}
+              id="short-name"
+              label="Short Name"
+              variant="outlined"
+              value={shortName}
+              onChange={({ target: { value } }) => {
+                setError("");
+                setShortName(value);
+              }}
+              size="small"
+              InputProps={
+                teamName !== ""
+                  ? {
+                      endAdornment: (
+                        <IconButton
+                          tabIndex={-1}
+                          onClick={() => setShortName("")}
+                        >
+                          <ClearIcon fontSize="small" color="primary" />
+                        </IconButton>
+                      ),
+                    }
+                  : {}
+              }
+              helperText={error !== "" ? error : `Add short name`}
             />
             <div>
               <Button

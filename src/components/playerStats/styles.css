@@ -8,3 +8,8 @@
     rgba(255, 255, 255, 0.05)
   );
 }
+
+#player-stats th, #player-stats td {
+  padding-left: 5px;
+  padding-right: 5px;
+}

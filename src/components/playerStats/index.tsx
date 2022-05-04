@@ -258,6 +258,7 @@ export const PlayerStats = () => {
         sx={{ minWidth: 650, border: "1px" }}
         size="small"
         aria-label="Players stats"
+        id="player-stats"
       >
         <EnhancedTableHead
           order={order}

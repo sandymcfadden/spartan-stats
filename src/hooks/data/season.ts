@@ -16,8 +16,8 @@ export type Season = {
 };
 
 export type Team = {
-  name: string;
-  dateCreated: string;
+  name?: string;
+  short?: string;
   players: Player[];
 };
 
@@ -47,10 +47,33 @@ export const addSeason = async (season: Season) => {
   return await addDoc(collection(db, COL_NAME), season);
 };
 
-export const updateSeason = async (season: Season, id: string) => {
-  const docRef = doc(db, COL_NAME, id);
-  return await setDoc(docRef, season);
-};
+// export const updateSeason = async (season: Season, id: string) => {
+//   const docRef = doc(db, COL_NAME, id);
+//   return await setDoc(docRef, season);
+// };
+
+// export const addPlayer = async (player: Player, season: Season) => {
+//   updateSeason(
+//     {
+//       ...season,
+//       team: {
+//         ...season.team,
+//         players: [...(season.team?.players || []), player],
+//       },
+//     },
+//     season?.id
+//   );
+// };
+
+// export const updateTeam = async (team: Team, season: Season) => {
+//   updateSeason(
+//     {
+//       ...season,
+//       team,
+//     },
+//     season?.id
+//   );
+// };
 
 export const useSeason = (id: string) => {
   const [season, setSeason] = useState<Season>({ name: "", dateCreated: "" });
@@ -59,5 +82,28 @@ export const useSeason = (id: string) => {
       setSeason(doc.data() as Season)
     );
   }, []);
-  return { season };
+
+  const updateSeason = async (season: Season) => {
+    const docRef = doc(db, COL_NAME, id);
+    return await setDoc(docRef, season);
+  };
+
+  const addPlayer = async (player: Player) => {
+    updateSeason({
+      ...season,
+      team: {
+        ...season.team,
+        players: [...(season.team?.players || []), player],
+      },
+    });
+  };
+
+  const updateTeam = async (team: Team) => {
+    updateSeason({
+      ...season,
+      team,
+    });
+  };
+
+  return { season, updateSeason, addPlayer, updateTeam };
 };

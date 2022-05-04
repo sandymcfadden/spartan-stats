@@ -11,10 +11,13 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { Link } from "wouter";
+import { useSeason } from "../../../hooks/data/season";
 import { AddGameModal } from "../addGameModal";
 
 export const GameList = (props: { seasonId: string }) => {
   const { seasonId } = props;
+  const { season } = useSeason(seasonId);
+
   const [open, setOpen] = useState(false);
   const addGame = () => {
     setOpen(true);
@@ -26,7 +29,7 @@ export const GameList = (props: { seasonId: string }) => {
     <>
       <AddGameModal open={open} handleClose={handleClose} seasonId={seasonId} />
       <Box alignSelf="center" sx={{ maxWidth: "400px", margin: "0 auto" }}>
-        <Typography variant="h3">Games for season {seasonId}</Typography>
+        <Typography variant="h3">Games for season {season.name}</Typography>
         <nav>
           <List>
             <ListItem>

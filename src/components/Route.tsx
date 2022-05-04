@@ -18,9 +18,13 @@ export const Route: React.VFC<Props> = ({
 }) => {
   const useRouteMatch = useRoute(path);
   const [matches, params] = match || useRouteMatch;
-  const { isAuthenticated, isAuthorized, isAdmin } = useAuth();
+  const { isAuthenticated, isAuthorized, isLoggingIn, isAdmin } = useAuth();
 
   if (!matches) return null;
+
+  if (isLoggingIn) {
+    return <div>Loading...</div>;
+  }
 
   if (adminRequired && !isAdmin()) {
     return <Redirect to="/" />;

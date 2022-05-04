@@ -14,6 +14,7 @@ export type Role = "admin" | "stats" | "viewer" | "";
 
 type UserAuthenticationState = {
   isAuthenticated: boolean;
+  isLoggingIn: boolean;
   user: User | null;
   error: string;
   role: Role;
@@ -37,6 +38,7 @@ type UserAuthenticationContext = UserAuthenticationState & {
 const AuthContext = createContext<UserAuthenticationContext>({
   isAuthenticated: false,
   isAuthorized: false,
+  isLoggingIn: true,
   user: null,
   login: () => {
     return new Promise((resolve) => resolve(true));
@@ -66,6 +68,7 @@ const AuthContext = createContext<UserAuthenticationContext>({
 export const AuthProvider: React.FC = ({ children }) => {
   const [authState, setAuthState] = useState<UserAuthenticationState>({
     isAuthenticated: false,
+    isLoggingIn: true,
     user: null,
     error: "",
     role: "",
@@ -82,6 +85,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         ...authState,
         user,
         isAuthenticated: loggedIn,
+        isLoggingIn: false,
         isAuthorized: loggedIn && canView(role),
         role,
       });

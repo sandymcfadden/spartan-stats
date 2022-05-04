@@ -15,6 +15,7 @@ import { useState } from "react";
 type AddGameModalProps = {
   open: boolean;
   handleClose: () => void;
+  seasonId: string;
 };
 
 type Error = {

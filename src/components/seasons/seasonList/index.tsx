@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { Link } from "wouter";
+import { useAuth } from "../../../hooks/AuthProvider";
 import { useSeasons, Season } from "../../../hooks/data/season";
 import { AddSeasonModal } from "../addSeasonModal";
 
@@ -24,6 +25,15 @@ export const SeasonList = () => {
   };
 
   const { seasons } = useSeasons();
+  const { isAdmin } = useAuth();
+
+  const sortSeason = (a: Season, b: Season) => {
+    if (a.dateCreated === b.dateCreated) {
+      return 0;
+    } else {
+      return a.dateCreated < b.dateCreated ? -1 : 1;
+    }
+  };
 
   return (
     <>
@@ -32,16 +42,20 @@ export const SeasonList = () => {
         <Typography variant="h3">Manage Seasons</Typography>
         <nav>
           <List>
-            <ListItem>
-              <ListItemButton component="a" onClick={addSeason}>
-                <ListItemIcon>
-                  <AddIcon />
-                </ListItemIcon>
-                <ListItemText primary="Add New Season" />
-              </ListItemButton>
-            </ListItem>
-            <Divider />
-            {seasons.map((season: Season) => {
+            {isAdmin() && (
+              <>
+                <ListItem>
+                  <ListItemButton component="a" onClick={addSeason}>
+                    <ListItemIcon>
+                      <AddIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Add New Season" />
+                  </ListItemButton>
+                </ListItem>
+                <Divider />
+              </>
+            )}
+            {seasons.sort(sortSeason).map((season: Season) => {
               return (
                 <ListItem key={season.id}>
                   <Link href={`/season/${season.id}`}>

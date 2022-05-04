@@ -51,6 +51,7 @@ export const SignUp = () => {
         relationship,
         dateCreated: new Date().toISOString(),
         role: "",
+        id: "",
       })
         .then(() => {
           signUp(email, password, name);
