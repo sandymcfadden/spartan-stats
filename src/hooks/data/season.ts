@@ -47,34 +47,6 @@ export const addSeason = async (season: Season) => {
   return await addDoc(collection(db, COL_NAME), season);
 };
 
-// export const updateSeason = async (season: Season, id: string) => {
-//   const docRef = doc(db, COL_NAME, id);
-//   return await setDoc(docRef, season);
-// };
-
-// export const addPlayer = async (player: Player, season: Season) => {
-//   updateSeason(
-//     {
-//       ...season,
-//       team: {
-//         ...season.team,
-//         players: [...(season.team?.players || []), player],
-//       },
-//     },
-//     season?.id
-//   );
-// };
-
-// export const updateTeam = async (team: Team, season: Season) => {
-//   updateSeason(
-//     {
-//       ...season,
-//       team,
-//     },
-//     season?.id
-//   );
-// };
-
 export const useSeason = (id: string) => {
   const [season, setSeason] = useState<Season>({ name: "", dateCreated: "" });
   useEffect(() => {
