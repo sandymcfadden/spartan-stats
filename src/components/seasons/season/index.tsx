@@ -35,6 +35,7 @@ export const Season = (props: SeasonProps) => {
 
   const { season, updateTeam, addPlayer, updateSeason } = useSeason(seasonId);
   const [editSeasonName, setEditSeasonName] = useState(false);
+  const [editTeamName, setEditTeamName] = useState(false);
   const { isAdmin } = useAuth();
 
   const openPlayerModal = () => {
@@ -106,7 +107,7 @@ export const Season = (props: SeasonProps) => {
           </>
         ) : (
           <Typography variant="h4">
-            Season {season.name}{" "}
+            Season {season.name}
             {isAdmin() && (
               <Button
                 onClick={() => {
@@ -121,9 +122,55 @@ export const Season = (props: SeasonProps) => {
         <Divider />
         {season.team ? (
           <>
-            <Typography variant="h5" sx={{ mt: 1, mb: 1 }}>
-              Team: {season.team.name}
-            </Typography>
+            {editTeamName ? (
+              <>
+                <TextField
+                  id="team-name"
+                  size="small"
+                  defaultValue={season.team.name}
+                  label="Team Name"
+                  InputLabelProps={{ shrink: true }}
+                />
+                <Button
+                  onClick={() => {
+                    (
+                      document.getElementById("team-name") as HTMLInputElement
+                    ).value = season.team?.name || "";
+                    setEditTeamName(false);
+                  }}
+                >
+                  <CancelIcon fontSize="small" />
+                </Button>
+                <Button
+                  onClick={() => {
+                    const value = (
+                      document.getElementById("team-name") as HTMLInputElement
+                    )?.value;
+                    updateTeam({
+                      short: season.team?.short || "",
+                      players: season.team?.players || [],
+                      name: value,
+                    });
+                    setEditTeamName(false);
+                  }}
+                >
+                  <SaveIcon fontSize="small" />
+                </Button>
+              </>
+            ) : (
+              <Typography variant="h5" sx={{ mt: 1, mb: 1 }}>
+                Team: {season.team.name}
+                {isAdmin() && (
+                  <Button
+                    onClick={() => {
+                      setEditTeamName(true);
+                    }}
+                  >
+                    <EditIcon />
+                  </Button>
+                )}
+              </Typography>
+            )}
             <Link href={`/season/${seasonId}/games`}>
               <Button variant="outlined">View Games</Button>
             </Link>
