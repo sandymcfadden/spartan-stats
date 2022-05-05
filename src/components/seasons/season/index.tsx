@@ -1,5 +1,8 @@
 import AddIcon from "@mui/icons-material/Add";
+import CancelIcon from "@mui/icons-material/Cancel";
 import ClearIcon from "@mui/icons-material/Clear";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
 import {
   Box,
   Divider,
@@ -30,7 +33,8 @@ export const Season = (props: SeasonProps) => {
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
 
-  const { season, updateTeam, addPlayer } = useSeason(seasonId);
+  const { season, updateTeam, addPlayer, updateSeason } = useSeason(seasonId);
+  const [editSeasonName, setEditSeasonName] = useState(false);
   const { isAdmin } = useAuth();
 
   const openPlayerModal = () => {
@@ -69,7 +73,51 @@ export const Season = (props: SeasonProps) => {
         addPlayer={addPlayer}
       />
       <Box alignSelf="center" sx={{ maxWidth: "400px", margin: "0 auto" }}>
-        <Typography variant="h4">Season {season.name}</Typography>
+        {editSeasonName ? (
+          <>
+            <TextField
+              id="season-name"
+              size="small"
+              defaultValue={season.name}
+              label="Season"
+              InputLabelProps={{ shrink: true }}
+            />
+            <Button
+              onClick={() => {
+                (
+                  document.getElementById("season-name") as HTMLInputElement
+                ).value = season.name;
+                setEditSeasonName(false);
+              }}
+            >
+              <CancelIcon fontSize="small" />
+            </Button>
+            <Button
+              onClick={() => {
+                const value = (
+                  document.getElementById("season-name") as HTMLInputElement
+                )?.value;
+                updateSeason({ ...season, name: value });
+                setEditSeasonName(false);
+              }}
+            >
+              <SaveIcon fontSize="small" />
+            </Button>
+          </>
+        ) : (
+          <Typography variant="h4">
+            Season {season.name}{" "}
+            {isAdmin() && (
+              <Button
+                onClick={() => {
+                  setEditSeasonName(true);
+                }}
+              >
+                <EditIcon />
+              </Button>
+            )}
+          </Typography>
+        )}
         <Divider />
         {season.team ? (
           <>
