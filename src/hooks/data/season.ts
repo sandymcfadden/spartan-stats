@@ -70,6 +70,31 @@ export const useSeason = (id: string) => {
     });
   };
 
+  const editPlayer = async (
+    playerNumber: Player["number"],
+    newPlayer: Player
+  ) => {
+    const newPlayerList =
+      season.team?.players.filter(
+        (player: Player) => player.number !== playerNumber
+      ) || [];
+    newPlayerList.push(newPlayer);
+    updateSeason({
+      ...season,
+      team: {
+        ...season.team,
+        players: newPlayerList,
+      },
+    });
+  };
+
+  const getPlayerByNumber = (num: Player["number"]) => {
+    const player =
+      season.team?.players.find((player) => player.number === num) ||
+      ({ firstName: "", lastName: "", number: 0 } as Player);
+    return player;
+  };
+
   const updateTeam = async (team: Team) => {
     updateSeason({
       ...season,
@@ -77,5 +102,12 @@ export const useSeason = (id: string) => {
     });
   };
 
-  return { season, updateSeason, addPlayer, updateTeam };
+  return {
+    season,
+    updateSeason,
+    addPlayer,
+    updateTeam,
+    editPlayer,
+    getPlayerByNumber,
+  };
 };

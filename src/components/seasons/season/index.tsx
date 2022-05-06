@@ -21,6 +21,7 @@ import { Link } from "wouter";
 import { useAuth } from "../../../hooks/AuthProvider";
 import { useSeason, Player } from "../../../hooks/data/season";
 import { AddPlayerModal } from "../../addPlayerModal";
+import { EditPlayerModal } from "../../editPlayerModal";
 
 export type SeasonProps = {
   seasonId: string;
@@ -33,9 +34,19 @@ export const Season = (props: SeasonProps) => {
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
 
-  const { season, updateTeam, addPlayer, updateSeason } = useSeason(seasonId);
+  const {
+    season,
+    updateTeam,
+    addPlayer,
+    updateSeason,
+    editPlayer,
+    getPlayerByNumber,
+  } = useSeason(seasonId);
   const [editSeasonName, setEditSeasonName] = useState(false);
   const [editTeamName, setEditTeamName] = useState(false);
+  const [editPlayerNum, setEditPlayerNum] = useState<Player["number"] | null>(
+    null
+  );
   const { isAdmin } = useAuth();
 
   const openPlayerModal = () => {
@@ -83,7 +94,7 @@ export const Season = (props: SeasonProps) => {
               label="Season"
               InputLabelProps={{ shrink: true }}
             />
-            <Button
+            <IconButton
               onClick={() => {
                 (
                   document.getElementById("season-name") as HTMLInputElement
@@ -92,8 +103,8 @@ export const Season = (props: SeasonProps) => {
               }}
             >
               <CancelIcon fontSize="small" />
-            </Button>
-            <Button
+            </IconButton>
+            <IconButton
               onClick={() => {
                 const value = (
                   document.getElementById("season-name") as HTMLInputElement
@@ -103,19 +114,19 @@ export const Season = (props: SeasonProps) => {
               }}
             >
               <SaveIcon fontSize="small" />
-            </Button>
+            </IconButton>
           </>
         ) : (
           <Typography variant="h4">
             Season {season.name}
             {isAdmin() && (
-              <Button
+              <IconButton
                 onClick={() => {
                   setEditSeasonName(true);
                 }}
               >
-                <EditIcon />
-              </Button>
+                <EditIcon fontSize="small" />
+              </IconButton>
             )}
           </Typography>
         )}
@@ -131,7 +142,7 @@ export const Season = (props: SeasonProps) => {
                   label="Team Name"
                   InputLabelProps={{ shrink: true }}
                 />
-                <Button
+                <IconButton
                   onClick={() => {
                     (
                       document.getElementById("team-name") as HTMLInputElement
@@ -140,8 +151,8 @@ export const Season = (props: SeasonProps) => {
                   }}
                 >
                   <CancelIcon fontSize="small" />
-                </Button>
-                <Button
+                </IconButton>
+                <IconButton
                   onClick={() => {
                     const value = (
                       document.getElementById("team-name") as HTMLInputElement
@@ -155,24 +166,26 @@ export const Season = (props: SeasonProps) => {
                   }}
                 >
                   <SaveIcon fontSize="small" />
-                </Button>
+                </IconButton>
               </>
             ) : (
               <Typography variant="h5" sx={{ mt: 1, mb: 1 }}>
                 Team: {season.team.name}
                 {isAdmin() && (
-                  <Button
+                  <IconButton
                     onClick={() => {
                       setEditTeamName(true);
                     }}
                   >
-                    <EditIcon />
-                  </Button>
+                    <EditIcon fontSize="small" />
+                  </IconButton>
                 )}
               </Typography>
             )}
             <Link href={`/season/${seasonId}/games`}>
-              <Button variant="outlined">View Games</Button>
+              <Button variant="outlined" sx={{ width: "100%" }}>
+                View Games
+              </Button>
             </Link>
             <Typography variant="h6" sx={{ mt: 1 }}>
               Player List:
@@ -184,6 +197,16 @@ export const Season = (props: SeasonProps) => {
                     <ListItemText
                       primary={`#${player.number} - ${player.firstName} ${player.lastName}`}
                     />
+                    {isAdmin() && (
+                      <IconButton
+                        size="small"
+                        onClick={() => {
+                          setEditPlayerNum(player.number);
+                        }}
+                      >
+                        <EditIcon fontSize="small" />
+                      </IconButton>
+                    )}
                   </ListItem>
                 );
               })}
@@ -281,6 +304,14 @@ export const Season = (props: SeasonProps) => {
           </Box>
         )}
       </Box>
+      {isAdmin() && editPlayerNum && (
+        <EditPlayerModal
+          open={editPlayerNum !== null}
+          editPlayer={editPlayer}
+          player={getPlayerByNumber(editPlayerNum)}
+          handleClose={() => setEditPlayerNum(null)}
+        />
+      )}
     </>
   );
 };
