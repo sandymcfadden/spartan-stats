@@ -1,5 +1,5 @@
 import { Grid, Paper, Typography } from "@mui/material";
-import { GameProps } from "../";
+import { GameProps } from ".";
 
 export const GameScore = ({
   seasonId = "2021 - 2022",

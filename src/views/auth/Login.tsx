@@ -11,9 +11,9 @@ import {
 import { Box } from "@mui/system";
 import { useState } from "react";
 import { Link } from "wouter";
-import { SpartanLogo } from "../../../components/icons/spartan";
-import { useAuth } from "../../../hooks/AuthProvider";
-import { isEmail, isPasswordValid } from "../../../utils";
+import { SpartanLogo } from "../../components/icons/spartan";
+import { useAuth } from "../../hooks/AuthProvider";
+import { isEmail, isPasswordValid } from "../../utils";
 
 export const Login = () => {
   const [validationError, setValidationError] = useState("");

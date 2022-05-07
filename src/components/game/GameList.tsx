@@ -11,8 +11,8 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { Link } from "wouter";
-import { useSeason } from "../../../hooks/data/season";
-import { AddGameModal } from "../addGameModal";
+import { useSeason } from "../../hooks/data/season";
+import { AddGameModal } from "./AddGameModal";
 
 export const GameList = (props: { seasonId: string }) => {
   const { seasonId } = props;

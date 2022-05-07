@@ -1,7 +1,7 @@
 import DateAdapter from "@mui/lab/AdapterDayjs";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { Container } from "@mui/material";
-import { GameList } from "../../components/game/gameList";
+import { GameList } from "../../components/game/GameList";
 import { MenuAppBar } from "../../components/menuAppBar";
 
 export const Games = (props: { seasonId: string }) => {

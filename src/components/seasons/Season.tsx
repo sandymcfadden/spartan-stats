@@ -18,10 +18,10 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { Link } from "wouter";
-import { useAuth } from "../../../hooks/AuthProvider";
-import { useSeason, Player } from "../../../hooks/data/season";
-import { AddPlayerModal } from "../../addPlayerModal";
-import { EditPlayerModal } from "../../editPlayerModal";
+import { useAuth } from "../../hooks/AuthProvider";
+import { useSeason, Player } from "../../hooks/data/season";
+import { AddPlayerModal } from "../player/AddPlayerModal";
+import { EditPlayerModal } from "../player/EditPlayerModal";
 
 export type SeasonProps = {
   seasonId: string;

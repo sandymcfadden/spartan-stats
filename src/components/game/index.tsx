@@ -1,5 +1,5 @@
-import { GameScore } from "./gameScore";
-import { GameTabs } from "./gameTabs";
+import { GameScore } from "./GameScore";
+import { GameTabs } from "./GameTabs";
 
 export type GameProps = {
   seasonId?: string;

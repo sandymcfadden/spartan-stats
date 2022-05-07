@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 import { MenuAppBar } from "../../components/menuAppBar";
-import { SeasonList } from "../../components/seasons/seasonList";
+import { SeasonList } from "../../components/seasons/SeasonList";
 
 export const Seasons = () => {
   return (

@@ -10,7 +10,7 @@ import {
   Button,
 } from "@mui/material";
 import { useState } from "react";
-import { addSeason } from "../../../hooks/data/season";
+import { addSeason } from "../../hooks/data/season";
 
 type AddSeasonModalProps = {
   open: boolean;

@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
-import { GameScore } from "../../components/game/gameScore";
-import { GameTabs } from "../../components/game/gameTabs";
+import { GameScore } from "../../components/game/GameScore";
+import { GameTabs } from "../../components/game/GameTabs";
 import { MenuAppBar } from "../../components/menuAppBar";
 
 export const Home = () => {

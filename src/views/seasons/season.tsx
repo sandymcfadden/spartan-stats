@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 import { MenuAppBar } from "../../components/menuAppBar";
-import { Season, SeasonProps } from "../../components/seasons/season";
+import { Season, SeasonProps } from "../../components/seasons/Season";
 
 export const SeasonView = (props: SeasonProps) => {
   return (

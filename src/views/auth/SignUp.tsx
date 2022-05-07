@@ -11,10 +11,10 @@ import {
 import { Box } from "@mui/system";
 import { useState } from "react";
 import { Link } from "wouter";
-import { SpartanLogo } from "../../../components/icons/spartan";
-import { useAuth } from "../../../hooks/AuthProvider";
-import { addUser } from "../../../hooks/data/user";
-import { isEmail, isPasswordValid } from "../../../utils";
+import { SpartanLogo } from "../../components/icons/spartan";
+import { useAuth } from "../../hooks/AuthProvider";
+import { addUser } from "../../hooks/data/user";
+import { isEmail, isPasswordValid } from "../../utils";
 
 export const SignUp = () => {
   const { signUp, error } = useAuth();

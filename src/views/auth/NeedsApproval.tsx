@@ -1,8 +1,8 @@
 import { Link as L, Container, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { Link } from "wouter";
-import { SpartanLogo } from "../../../components/icons/spartan";
-import { useAuth } from "../../../hooks/AuthProvider";
+import { SpartanLogo } from "../../components/icons/spartan";
+import { useAuth } from "../../hooks/AuthProvider";
 
 export const NeedsApproval = () => {
   const { logout } = useAuth();

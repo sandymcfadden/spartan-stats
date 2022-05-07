@@ -11,9 +11,9 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { Link } from "wouter";
-import { useAuth } from "../../../hooks/AuthProvider";
-import { useSeasons, Season } from "../../../hooks/data/season";
-import { AddSeasonModal } from "../addSeasonModal";
+import { useAuth } from "../../hooks/AuthProvider";
+import { useSeasons, Season } from "../../hooks/data/season";
+import { AddSeasonModal } from "./AddSeasonModal";
 
 export const SeasonList = () => {
   const [open, setOpen] = useState(false);
