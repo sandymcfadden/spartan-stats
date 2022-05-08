@@ -20,7 +20,7 @@ enableIndexedDbPersistence(db).catch((err) => {
   if (err.code == "failed-precondition") {
     console.log("Offline only works in one tab at a time");
   } else if (err.code == "unimplemented") {
-    console.log("Your borwser doesn't support offline");
+    console.log("Your browser doesn't support offline");
   }
 });
 export const auth = getAuth(FirebaseApp);

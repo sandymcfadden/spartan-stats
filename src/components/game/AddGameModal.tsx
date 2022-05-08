@@ -11,11 +11,13 @@ import {
   TextField,
 } from "@mui/material";
 import { useState } from "react";
+import { Game } from "../../hooks/data/game";
 
 type AddGameModalProps = {
   open: boolean;
   handleClose: () => void;
   seasonId: string;
+  addGame: (game: Game) => void;
 };
 
 type Error = {
@@ -23,20 +25,18 @@ type Error = {
   gameDate: string;
 };
 
-type Game = {
-  opponentName: string;
-  gameDate: Date | null;
-};
-
 export const AddGameModal = (props: AddGameModalProps) => {
-  const { open, handleClose } = props;
+  const { open, handleClose, addGame, seasonId } = props;
   const defaultError = {
     opponentName: "",
     gameDate: "",
   };
   const defaultGame = {
     opponentName: "",
-    gameDate: new Date(),
+    gameDate: new Date().toISOString(),
+    seasonId: seasonId,
+    dateCreated: new Date().toISOString(),
+    location: "",
   };
   const [error, setError] = useState<Error>(defaultError);
   const [game, setGame] = useState<Game>(defaultGame);
@@ -60,7 +60,7 @@ export const AddGameModal = (props: AddGameModalProps) => {
 
   const handleSubmit = () => {
     if (validateFields(game)) {
-      // Add player then close
+      addGame(game);
       setGame(defaultGame);
       handleClose();
     }
@@ -97,7 +97,9 @@ export const AddGameModal = (props: AddGameModalProps) => {
             value={game.gameDate}
             onChange={(newValue) => {
               handleChange({
-                gameDate: newValue ? new Date(newValue) : new Date(),
+                gameDate: newValue
+                  ? new Date(newValue).toISOString()
+                  : new Date().toISOString(),
               });
             }}
             renderInput={(params) => (
