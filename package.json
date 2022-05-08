@@ -27,12 +27,14 @@
     "firebase": "^9.6.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "uuid": "^8.3.2",
     "wouter": "^2.8.0-alpha.2"
   },
   "devDependencies": {
     "@types/node": "^16.11.13",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.7.0",
     "@typescript-eslint/parser": "^5.7.0",
     "@vitejs/plugin-react": "^1.1.3",

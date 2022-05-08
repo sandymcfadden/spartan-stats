@@ -66,6 +66,13 @@ export const SeasonList = () => {
                 </ListItem>
               );
             })}
+            {seasons.length === 0 && (
+              <ListItem>
+                <ListItemButton component="div">
+                  <ListItemText primary="No seasons added yet" />
+                </ListItemButton>
+              </ListItem>
+            )}
           </List>
         </nav>
       </Box>

@@ -10,6 +10,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { Player } from "../../hooks/data/season";
 
 type AddPlayerModalProps = {
@@ -46,7 +47,7 @@ export const AddPlayerModal = (props: AddPlayerModalProps) => {
     firstName: "",
     lastName: "",
     number: 0,
-    id: crypto.randomUUID(),
+    id: uuidv4(),
   };
   const [error, setError] = useState<Error>(defaultError);
   const [player, setPlayer] = useState<Player>(defaultPlayer);
