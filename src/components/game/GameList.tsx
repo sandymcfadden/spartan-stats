@@ -52,7 +52,18 @@ export const GameList = (props: { seasonId: string }) => {
                 <ListItem key={game.id}>
                   <Link href={`/season/${seasonId}/game/${game.id}`}>
                     <ListItemButton component="a">
-                      <ListItemText primary={game.opponentName} />
+                      <ListItemText
+                        primary={`${game.opponentName} - ${new Date(
+                          game.gameDate
+                        ).toLocaleDateString("en-US", {
+                          weekday: "short",
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                          hour: "numeric",
+                          minute: "numeric",
+                        })}`}
+                      />
                     </ListItemButton>
                   </Link>
                 </ListItem>
