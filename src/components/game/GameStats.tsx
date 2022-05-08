@@ -31,13 +31,13 @@ type Data = {
   points: number;
   fgm: number;
   fga: number;
-  fgp: number;
+  fgp: number | "--";
   tpm: number;
   tpa: number;
-  tpp: number;
+  tpp: number | "--";
   ftm: number;
   fta: number;
-  ftp: number;
+  ftp: number | "--";
   rebounds: number;
   assists: number;
   steals: number;
@@ -50,13 +50,13 @@ function createData(
   points: number,
   fgm: number,
   fga: number,
-  fgp: number,
+  fgp: number | "--",
   tpm: number,
   tpa: number,
-  tpp: number,
+  tpp: number | "--",
   ftm: number,
   fta: number,
-  ftp: number,
+  ftp: number | "--",
   rebounds: number,
   assists: number,
   steals: number,
@@ -244,6 +244,19 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
 
   const players = season.team?.players;
 
+  const getAvgValue = (
+    attempts: number | undefined,
+    makes: number | undefined
+  ) => {
+    if (!attempts || attempts === 0 || isNaN(attempts)) {
+      return "--";
+    }
+    if (makes) {
+      return (makes / attempts) * 100;
+    }
+    return "--";
+  };
+
   const rows =
     players?.map((player) => {
       const stats = game.stats?.find((p) => p.playerNum == player.number);
@@ -252,13 +265,15 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
         stats?.points || 0,
         stats?.fgm || 0,
         stats?.fga || 0,
-        !stats?.fga ? 100 : (stats?.fgm / stats?.fga) * 100,
+        getAvgValue(stats?.fga, stats?.fgm),
         stats?.tpm || 0,
         stats?.tpa || 0,
-        !stats?.tpa ? 100 : (stats?.tpm / stats?.tpa) * 100,
+        !stats?.tpa || stats?.tpa === 0
+          ? "--"
+          : (stats?.tpm / stats?.tpa) * 100,
         stats?.ftm || 0,
         stats?.fta || 0,
-        !stats?.fta ? 100 : (stats?.ftm / stats?.fta) * 100,
+        !stats?.fta || stats?.fta ? "--" : (stats?.ftm / stats?.fta) * 100,
         stats?.rebounds || 0,
         stats?.assists || 0,
         stats?.steals || 0,

@@ -18,8 +18,8 @@ export type Game = {
   gameDate: string;
   dateCreated: string;
   quarter?: number;
-  ourPoints?: Points;
-  theirPoints?: Points;
+  ourPoints: Points;
+  theirPoints: Points;
   notes?: string;
   gameEndDate?: string;
   stats?: Stats[];
@@ -106,11 +106,19 @@ export const useGame = (id: string) => {
     gameDate: new Date().toISOString(),
     opponentName: "",
     location: "",
+    ourPoints: {
+      quarters: [],
+      total: 0,
+    },
+    theirPoints: {
+      quarters: [],
+      total: 0,
+    },
   });
 
   useEffect(() => {
     return onSnapshot(doc(db, COL_NAME, id), (doc) =>
-      setGame(doc.data() as Game)
+      setGame({ ...doc.data(), id: doc.id } as Game)
     );
   }, []);
 
@@ -143,12 +151,25 @@ export const useGame = (id: string) => {
       blocks: 0,
       turnovers: 0,
     };
+    if (!game.ourPoints) {
+      game.ourPoints = {
+        quarters: [],
+        total: 0,
+      };
+    }
+    if (!game.theirPoints) {
+      game.theirPoints = {
+        quarters: [],
+        total: 0,
+      };
+    }
     if (modifier === "+") {
       switch (stat) {
         case "fgm":
           currentPlayerStats.fgm++;
           currentPlayerStats.fga++;
           currentPlayerStats.points += 2;
+          game.ourPoints.total += 2;
           break;
         case "fga":
           currentPlayerStats.fga++;
@@ -157,6 +178,7 @@ export const useGame = (id: string) => {
           currentPlayerStats.tpm++;
           currentPlayerStats.tpa++;
           currentPlayerStats.points += 3;
+          game.ourPoints.total += 3;
           break;
         case "tpa":
           currentPlayerStats.tpa++;
@@ -165,6 +187,7 @@ export const useGame = (id: string) => {
           currentPlayerStats.ftm++;
           currentPlayerStats.fta++;
           currentPlayerStats.points += 1;
+          game.ourPoints.total += 1;
           break;
         case "fta":
           currentPlayerStats.fta++;
@@ -188,6 +211,7 @@ export const useGame = (id: string) => {
           currentPlayerStats.fgm--;
           currentPlayerStats.fga--;
           currentPlayerStats.points -= 2;
+          game.ourPoints.total -= 2;
           break;
         case "fga":
           currentPlayerStats.fga--;
@@ -196,6 +220,7 @@ export const useGame = (id: string) => {
           currentPlayerStats.tpm--;
           currentPlayerStats.tpa--;
           currentPlayerStats.points -= 3;
+          game.ourPoints.total -= 3;
           break;
         case "tpa":
           currentPlayerStats.tpa--;
@@ -204,6 +229,7 @@ export const useGame = (id: string) => {
           currentPlayerStats.ftm--;
           currentPlayerStats.fta--;
           currentPlayerStats.points -= 1;
+          game.ourPoints.total -= 1;
           break;
         case "fta":
           currentPlayerStats.fta--;
