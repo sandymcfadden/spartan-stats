@@ -16,7 +16,7 @@ import { Player } from "../../hooks/data/season";
 type EditPlayerModalProps = {
   open: boolean;
   handleClose: () => void;
-  editPlayer: (playerNumber: Player["number"], newPlayer: Player) => void;
+  editPlayer: (id: Player["id"], newPlayer: Player) => void;
   player: Player;
 };
 
@@ -71,7 +71,7 @@ export const EditPlayerModal = (props: EditPlayerModalProps) => {
     if (validateFields(newPlayer)) {
       // Add Player then close
       setNewPlayer(player);
-      editPlayer(player.number, newPlayer);
+      editPlayer(player.id, newPlayer);
       handleClose();
     }
   };

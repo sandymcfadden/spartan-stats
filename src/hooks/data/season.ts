@@ -22,6 +22,7 @@ export type Team = {
 };
 
 export type Player = {
+  id: string;
   firstName: string;
   lastName: string;
   number: number;
@@ -70,14 +71,9 @@ export const useSeason = (id: string) => {
     });
   };
 
-  const editPlayer = async (
-    playerNumber: Player["number"],
-    newPlayer: Player
-  ) => {
+  const editPlayer = async (id: Player["id"], newPlayer: Player) => {
     const newPlayerList =
-      season.team?.players.filter(
-        (player: Player) => player.number !== playerNumber
-      ) || [];
+      season.team?.players.filter((player: Player) => player.id !== id) || [];
     newPlayerList.push(newPlayer);
     updateSeason({
       ...season,
@@ -88,10 +84,10 @@ export const useSeason = (id: string) => {
     });
   };
 
-  const getPlayerByNumber = (num: Player["number"]) => {
+  const getPlayerById = (id: Player["id"]) => {
     const player =
-      season.team?.players.find((player) => player.number === num) ||
-      ({ firstName: "", lastName: "", number: 0 } as Player);
+      season.team?.players.find((player) => player.id === id) ||
+      ({ firstName: "", lastName: "", number: 0, id: "" } as Player);
     return player;
   };
 
@@ -108,6 +104,6 @@ export const useSeason = (id: string) => {
     addPlayer,
     updateTeam,
     editPlayer,
-    getPlayerByNumber,
+    getPlayerById,
   };
 };

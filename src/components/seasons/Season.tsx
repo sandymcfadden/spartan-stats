@@ -40,13 +40,11 @@ export const Season = (props: SeasonProps) => {
     addPlayer,
     updateSeason,
     editPlayer,
-    getPlayerByNumber,
+    getPlayerById,
   } = useSeason(seasonId);
   const [editSeasonName, setEditSeasonName] = useState(false);
   const [editTeamName, setEditTeamName] = useState(false);
-  const [editPlayerNum, setEditPlayerNum] = useState<Player["number"] | null>(
-    null
-  );
+  const [editPlayerId, setEditPlayerId] = useState<Player["id"] | null>(null);
   const { isAdmin } = useAuth();
 
   const openPlayerModal = () => {
@@ -191,7 +189,7 @@ export const Season = (props: SeasonProps) => {
               Player List:
             </Typography>
             <List>
-              {season.team.players.sort(sortPlayers).map((player) => {
+              {season.team.players?.sort(sortPlayers).map((player) => {
                 return (
                   <ListItem key={player.number}>
                     <ListItemText
@@ -201,7 +199,7 @@ export const Season = (props: SeasonProps) => {
                       <IconButton
                         size="small"
                         onClick={() => {
-                          setEditPlayerNum(player.number);
+                          setEditPlayerId(player.id);
                         }}
                       >
                         <EditIcon fontSize="small" />
@@ -304,12 +302,12 @@ export const Season = (props: SeasonProps) => {
           </Box>
         )}
       </Box>
-      {isAdmin() && editPlayerNum && (
+      {isAdmin() && editPlayerId && (
         <EditPlayerModal
-          open={editPlayerNum !== null}
+          open={editPlayerId !== null}
           editPlayer={editPlayer}
-          player={getPlayerByNumber(editPlayerNum)}
-          handleClose={() => setEditPlayerNum(null)}
+          player={getPlayerById(editPlayerId)}
+          handleClose={() => setEditPlayerId(null)}
         />
       )}
     </>

@@ -42,7 +42,12 @@ export const AddPlayerModal = (props: AddPlayerModalProps) => {
     lastName: "",
     number: "",
   };
-  const defaultPlayer = { firstName: "", lastName: "", number: 0 };
+  const defaultPlayer = {
+    firstName: "",
+    lastName: "",
+    number: 0,
+    id: crypto.randomUUID(),
+  };
   const [error, setError] = useState<Error>(defaultError);
   const [player, setPlayer] = useState<Player>(defaultPlayer);
 
