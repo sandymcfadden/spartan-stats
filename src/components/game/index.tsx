@@ -2,15 +2,15 @@ import { GameScore } from "./GameScore";
 import { GameTabs } from "./GameTabs";
 
 export type GameProps = {
-  seasonId?: string;
-  gameId?: string;
+  gameId: string;
+  seasonId: string;
 };
 
-export const Game = ({ seasonId, gameId }: GameProps) => {
+export const Game = ({ gameId, seasonId }: GameProps) => {
   return (
     <>
-      <GameScore seasonId={seasonId} gameId={gameId} />
-      <GameTabs />
+      <GameScore gameId={gameId} seasonId={seasonId} />
+      <GameTabs gameId={gameId} seasonId={seasonId} />
     </>
   );
 };

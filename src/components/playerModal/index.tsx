@@ -7,21 +7,25 @@ import {
   DialogTitle,
   DialogContent,
 } from "@mui/material";
+import { StatType } from "../../hooks/data/game";
+import { Player } from "../../hooks/data/season";
 import { useSnackbar } from "../../hooks/snackbar";
 
 type PlayerModalProps = {
   open: boolean;
   handleClose: () => void;
-  player: string;
+  player: Player;
+  update: (playerNum: number, stat: StatType) => Promise<void>;
 };
 
 export const PlayerModal = (props: PlayerModalProps) => {
-  const { open, handleClose, player } = props;
+  const { open, handleClose, player, update } = props;
 
   const { addAlert } = useSnackbar();
-  const handleClick = (message: string) => {
+  const handleClick = (stat: StatType, message: string) => {
+    update(player.number, stat);
     addAlert({
-      message: `${player} ${message}`,
+      message: `${player.firstName} ${message}`,
     });
     handleClose();
   };
@@ -35,7 +39,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
         >
           <CloseIcon />
         </IconButton>
-        <DialogTitle>{player}</DialogTitle>
+        <DialogTitle>{player.firstName}</DialogTitle>
         <DialogContent>
           <Stack
             direction="row"
@@ -46,7 +50,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
             <Button
               variant="outlined"
               onClick={() => {
-                handleClick("hit a 2 pointer");
+                handleClick("fgm", "hit a 2 pointer");
               }}
             >
               Hit 2pt
@@ -54,7 +58,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
             <Button
               variant="outlined"
               onClick={() => {
-                handleClick("missed a 2 pointer");
+                handleClick("fga", "missed a 2 pointer");
               }}
             >
               Miss 2pt
@@ -70,7 +74,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
             <Button
               variant="outlined"
               onClick={() => {
-                handleClick("hit a 3 pointer");
+                handleClick("tpm", "hit a 3 pointer");
               }}
             >
               Hit 3pt
@@ -78,7 +82,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
             <Button
               variant="outlined"
               onClick={() => {
-                handleClick("missed a 3 pointer");
+                handleClick("tpa", "missed a 3 pointer");
               }}
             >
               Miss 3pt
@@ -94,7 +98,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
             <Button
               variant="outlined"
               onClick={() => {
-                handleClick("hit a foul shot");
+                handleClick("ftm", "hit a foul shot");
               }}
             >
               Hit Foul
@@ -102,7 +106,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
             <Button
               variant="outlined"
               onClick={() => {
-                handleClick("missed a foul shot");
+                handleClick("fta", "missed a foul shot");
               }}
             >
               Miss Foul
@@ -118,7 +122,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
             <Button
               variant="outlined"
               onClick={() => {
-                handleClick("with an assist");
+                handleClick("assists", "with an assist");
               }}
             >
               Assist
@@ -126,7 +130,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
             <Button
               variant="outlined"
               onClick={() => {
-                handleClick("grabbed a rebound");
+                handleClick("rebounds", "grabbed a rebound");
               }}
             >
               Rebound
@@ -141,7 +145,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
             <Button
               variant="outlined"
               onClick={() => {
-                handleClick("with a steal");
+                handleClick("steals", "with a steal");
               }}
             >
               Steal
@@ -149,7 +153,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
             <Button
               variant="outlined"
               onClick={() => {
-                handleClick("said get that garbage outta here");
+                handleClick("blocks", "said get that garbage outta here");
               }}
             >
               Block
@@ -157,7 +161,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
             <Button
               variant="outlined"
               onClick={() => {
-                handleClick("turned it over");
+                handleClick("turnovers", "turned it over");
               }}
             >
               Turnover

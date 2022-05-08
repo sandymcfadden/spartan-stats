@@ -3,8 +3,9 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { useState } from "react";
 import { useAuth } from "../../hooks/AuthProvider";
-import { EnterStats } from "../enterStats";
-import { PlayerStats } from "../playerStats";
+import { EnterGameStats } from "./EnterGameStats";
+import { GameStats } from "./GameStats";
+import { GameProps } from ".";
 
 type TabPanelProps = {
   children?: React.ReactNode;
@@ -35,7 +36,7 @@ function a11yProps(index: number) {
   };
 }
 
-export const GameTabs = () => {
+export const GameTabs = ({ gameId, seasonId }: GameProps) => {
   const [value, setValue] = useState(0);
   const { canAddStats } = useAuth();
 
@@ -60,14 +61,14 @@ export const GameTabs = () => {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <PlayerStats />
+        <GameStats gameId={gameId} seasonId={seasonId} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         Play by Play
       </TabPanel>
       {canAddStats() && (
         <TabPanel value={value} index={2}>
-          <EnterStats />
+          <EnterGameStats gameId={gameId} seasonId={seasonId} />
         </TabPanel>
       )}
     </Box>

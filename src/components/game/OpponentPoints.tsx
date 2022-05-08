@@ -1,8 +1,11 @@
 import { Button, Typography, Stack } from "@mui/material";
+import { useGame } from "../../hooks/data/game";
 import { useSnackbar } from "../../hooks/snackbar";
 
-export const OpponentPoints = () => {
+export const OpponentPoints = ({ gameId }: { gameId: string }) => {
   const { addAlert } = useSnackbar();
+  const { game } = useGame(gameId);
+
   const handleClick = (message: string) => {
     addAlert({
       open: true,
@@ -12,7 +15,7 @@ export const OpponentPoints = () => {
   return (
     <>
       <Typography component="h3" align="right" sx={{ mb: 1 }}>
-        Other Team
+        {game.opponentName}
       </Typography>
       <Stack spacing={1}>
         <Button

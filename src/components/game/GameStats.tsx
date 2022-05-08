@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
-import "./styles.css";
+import "./gameStats.css";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
@@ -11,6 +11,9 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import Tooltip from "@mui/material/Tooltip";
 import { visuallyHidden } from "@mui/utils";
 import { useState } from "react";
+import { useGame } from "../../hooks/data/game";
+import { useSeason } from "../../hooks/data/season";
+import { GameProps } from ".";
 
 type EnhancedTableProps = {
   onRequestSort: (
@@ -79,13 +82,6 @@ function createData(
     turnovers,
   };
 }
-
-const rows = [
-  createData("Noah", 20, 8, 10, 80, 2, 4, 50, 2, 2, 100, 4, 4, 2, 0, 0),
-  createData("Riley", 22, 8, 10, 80, 2, 4, 50, 2, 2, 100, 4, 4, 2, 0, 0),
-  createData("Eric", 24, 8, 10, 80, 2, 4, 50, 2, 2, 100, 4, 4, 2, 0, 0),
-  createData("Shay", 26, 8, 10, 80, 2, 4, 50, 2, 2, 100, 4, 4, 2, 0, 0),
-];
 
 type HeaderCell = {
   id: keyof Data;
@@ -239,9 +235,37 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
   );
 };
 
-export const PlayerStats = () => {
+export const GameStats = ({ gameId, seasonId }: GameProps) => {
   const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState("Player");
+
+  const { game } = useGame(gameId);
+  const { season } = useSeason(seasonId);
+
+  const players = season.team?.players;
+
+  const rows =
+    players?.map((player) => {
+      const stats = game.stats?.find((p) => p.playerNum == player.number);
+      return createData(
+        `#${player.number} - ${player.firstName}`,
+        stats?.points || 0,
+        stats?.fgm || 0,
+        stats?.fga || 0,
+        !stats?.fga ? 100 : (stats?.fgm / stats?.fga) * 100,
+        stats?.tpm || 0,
+        stats?.tpa || 0,
+        !stats?.tpa ? 100 : (stats?.tpm / stats?.tpa) * 100,
+        stats?.ftm || 0,
+        stats?.fta || 0,
+        !stats?.fta ? 100 : (stats?.ftm / stats?.fta) * 100,
+        stats?.rebounds || 0,
+        stats?.assists || 0,
+        stats?.steals || 0,
+        stats?.blocks || 0,
+        stats?.turnovers || 0
+      );
+    }) || [];
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
