@@ -251,6 +251,9 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
     if (!attempts || attempts === 0 || isNaN(attempts)) {
       return "--";
     }
+    if (!makes || isNaN(makes)) {
+      return Math.round((0 / attempts) * 100);
+    }
     if (makes) {
       return Math.round((makes / attempts) * 100);
     }
@@ -289,7 +292,7 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
     setOrderBy(property);
   };
 
-  return season && season.name !== "" ? (
+  return (
     <TableContainer component={Paper} sx={{ mt: 3 }}>
       <Table
         sx={{ minWidth: 650, border: "1px" }}
@@ -331,5 +334,5 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
         </TableBody>
       </Table>
     </TableContainer>
-  ) : null;
+  );
 };

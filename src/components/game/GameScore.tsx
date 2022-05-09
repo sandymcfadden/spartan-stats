@@ -7,9 +7,19 @@ export const GameScore = ({ gameId, seasonId }: GameProps) => {
   const { game } = useGame(gameId);
   const { season } = useSeason(seasonId);
 
-  return season && season.name !== "" ? (
+  return (
     <Grid container spacing={3} justifyContent="center">
       <Grid item xs={12} sm={8} md={6}>
+        <Typography variant="h6" sx={{ textAlign: "center", mb: 1 }}>
+          {new Date(game.gameDate).toLocaleDateString("en-US", {
+            weekday: "short",
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+          })}
+        </Typography>
         <Paper
           sx={{
             p: 2,
@@ -37,5 +47,5 @@ export const GameScore = ({ gameId, seasonId }: GameProps) => {
         </Paper>
       </Grid>
     </Grid>
-  ) : null;
+  );
 };
