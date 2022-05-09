@@ -31,7 +31,7 @@ export type Points = {
 };
 
 export type Stats = {
-  playerNum: number;
+  playerId: string;
   points: number;
   fgm: number;
   fga: number;
@@ -128,16 +128,16 @@ export const useGame = (id: string) => {
   };
 
   const updatePlayerStats = (
-    playerNum: number,
+    playerId: string,
     stat: StatType,
     modifier: Modifier = "+"
   ) => {
     const currentStats =
-      game.stats?.filter((s) => s.playerNum !== playerNum) || [];
+      game.stats?.filter((s) => s.playerId !== playerId) || [];
     const currentPlayerStats = game.stats?.find(
-      (s) => s.playerNum === playerNum
+      (s) => s.playerId === playerId
     ) || {
-      playerNum,
+      playerId,
       points: 0,
       fgm: 0,
       fga: 0,
@@ -192,6 +192,9 @@ export const useGame = (id: string) => {
         case "fta":
           currentPlayerStats.fta++;
           break;
+        case "assists":
+          currentPlayerStats.assists++;
+          break;
         case "rebounds":
           currentPlayerStats.rebounds++;
           break;
@@ -233,6 +236,9 @@ export const useGame = (id: string) => {
           break;
         case "fta":
           currentPlayerStats.fta--;
+          break;
+        case "assists":
+          currentPlayerStats.assists--;
           break;
         case "rebounds":
           currentPlayerStats.rebounds--;

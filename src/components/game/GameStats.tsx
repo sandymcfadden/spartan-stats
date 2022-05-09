@@ -259,7 +259,7 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
 
   const rows =
     players?.map((player) => {
-      const stats = game.stats?.find((p) => p.playerNum == player.number);
+      const stats = game.stats?.find((p) => p.playerId == player.id);
       return createData(
         `#${player.number} - ${player.firstName}`,
         stats?.points || 0,
@@ -291,7 +291,7 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
     setOrderBy(property);
   };
 
-  return (
+  return season && season.name !== "" ? (
     <TableContainer component={Paper} sx={{ mt: 3 }}>
       <Table
         sx={{ minWidth: 650, border: "1px" }}
@@ -333,5 +333,5 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
         </TableBody>
       </Table>
     </TableContainer>
-  );
+  ) : null;
 };

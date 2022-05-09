@@ -11,6 +11,7 @@ import { NeedsApproval } from "./views/auth/NeedsApproval";
 import { SignUp } from "./views/auth/SignUp";
 import { GameView } from "./views/game";
 import { Games } from "./views/gameList";
+import { Home } from "./views/home";
 import { Seasons } from "./views/seasons";
 import { SeasonView } from "./views/seasons/season";
 
@@ -27,7 +28,7 @@ export const App = () => {
         <CssBaseline />
         <SnackbarProvider>
           <Route path="/" authRequired>
-            <Seasons />
+            <Home />
           </Route>
           <Route path="/seasons" authRequired>
             <Seasons />

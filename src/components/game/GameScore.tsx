@@ -7,7 +7,7 @@ export const GameScore = ({ gameId, seasonId }: GameProps) => {
   const { game } = useGame(gameId);
   const { season } = useSeason(seasonId);
 
-  return (
+  return season && season.name !== "" ? (
     <Grid container spacing={3} justifyContent="center">
       <Grid item xs={12} sm={8} md={6}>
         <Paper
@@ -37,5 +37,5 @@ export const GameScore = ({ gameId, seasonId }: GameProps) => {
         </Paper>
       </Grid>
     </Grid>
-  );
+  ) : null;
 };

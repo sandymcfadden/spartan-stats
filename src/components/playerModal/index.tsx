@@ -15,7 +15,7 @@ type PlayerModalProps = {
   open: boolean;
   handleClose: () => void;
   player: Player;
-  update: (playerNum: number, stat: StatType) => Promise<void>;
+  update: (playerId: string, stat: StatType) => Promise<void>;
 };
 
 export const PlayerModal = (props: PlayerModalProps) => {
@@ -23,7 +23,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
 
   const { addAlert } = useSnackbar();
   const handleClick = (stat: StatType, message: string) => {
-    update(player.number, stat);
+    update(player.id, stat);
     addAlert({
       message: `${player.firstName} ${message}`,
     });
