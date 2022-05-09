@@ -252,7 +252,7 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
       return "--";
     }
     if (makes) {
-      return (makes / attempts) * 100;
+      return Math.round((makes / attempts) * 100);
     }
     return "--";
   };
@@ -268,12 +268,10 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
         getAvgValue(stats?.fga, stats?.fgm),
         stats?.tpm || 0,
         stats?.tpa || 0,
-        !stats?.tpa || stats?.tpa === 0
-          ? "--"
-          : (stats?.tpm / stats?.tpa) * 100,
+        getAvgValue(stats?.tpa, stats?.tpm),
         stats?.ftm || 0,
         stats?.fta || 0,
-        !stats?.fta || stats?.fta ? "--" : (stats?.ftm / stats?.fta) * 100,
+        getAvgValue(stats?.fta, stats?.ftm),
         stats?.rebounds || 0,
         stats?.assists || 0,
         stats?.steals || 0,
