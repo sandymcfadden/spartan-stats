@@ -28,6 +28,7 @@ type Order = "asc" | "desc";
 
 type Data = {
   player: string;
+  num: number;
   points: number;
   fgm: number;
   fga: number;
@@ -47,6 +48,7 @@ type Data = {
 
 function createData(
   player: string,
+  num: number,
   points: number,
   fgm: number,
   fga: number,
@@ -65,6 +67,7 @@ function createData(
 ): Data {
   return {
     player,
+    num,
     points,
     fgm,
     fga,
@@ -93,6 +96,10 @@ const headCells: HeaderCell[] = [
   {
     id: "player",
     label: "Player",
+  },
+  {
+    id: "num",
+    label: "#",
   },
   {
     id: "points",
@@ -252,7 +259,7 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
       return "--";
     }
     if (!makes || isNaN(makes)) {
-      return Math.round((0 / attempts) * 100);
+      return 0;
     }
     if (makes) {
       return Math.round((makes / attempts) * 100);
@@ -264,7 +271,8 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
     players?.map((player) => {
       const stats = game.stats?.find((p) => p.playerId == player.id);
       return createData(
-        `#${player.number} - ${player.firstName}`,
+        player.firstName,
+        player.number,
         stats?.points || 0,
         stats?.fgm || 0,
         stats?.fga || 0,
@@ -305,7 +313,13 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
           orderBy={orderBy}
           onRequestSort={handleRequestSort}
         />
-        <TableBody>
+        <TableBody
+          sx={{
+            "& tr:nth-child(odd), & tr:nth-child(odd) th": {
+              backgroundColor: "#000",
+            },
+          }}
+        >
           {rows.sort(getComparator(order, orderBy)).map((row) => (
             <TableRow
               key={row.player}
@@ -314,6 +328,7 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
               <TableCell component="th" scope="row" className="sticky">
                 {row.player}
               </TableCell>
+              <TableCell align="right">{row.num}</TableCell>
               <TableCell align="right">{row.points}</TableCell>
               <TableCell align="right">{row.fgm}</TableCell>
               <TableCell align="right">{row.fga}</TableCell>

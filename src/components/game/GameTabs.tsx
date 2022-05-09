@@ -64,7 +64,7 @@ export const GameTabs = ({ gameId, seasonId }: GameProps) => {
         <GameStats gameId={gameId} seasonId={seasonId} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Play by Play
+        <p>Play by Play - Not implemented yet</p>
       </TabPanel>
       {canAddStats() && (
         <TabPanel value={value} index={2}>

@@ -258,9 +258,31 @@ export const useGame = (id: string) => {
     return updateGame({ ...game, stats: currentStats });
   };
 
+  const updateOpponentScore = (points: number, modifier: Modifier = "+") => {
+    if (!game.ourPoints) {
+      game.ourPoints = {
+        quarters: [],
+        total: 0,
+      };
+    }
+    if (!game.theirPoints) {
+      game.theirPoints = {
+        quarters: [],
+        total: 0,
+      };
+    }
+    if (modifier === "+") {
+      game.theirPoints.total += points;
+    } else {
+      game.theirPoints.total -= points;
+    }
+    return updateGame({ ...game });
+  };
+
   return {
     game,
     updateGame,
     updatePlayerStats,
+    updateOpponentScore,
   };
 };

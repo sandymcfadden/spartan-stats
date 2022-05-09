@@ -4,9 +4,10 @@ import { useSnackbar } from "../../hooks/snackbar";
 
 export const OpponentPoints = ({ gameId }: { gameId: string }) => {
   const { addAlert } = useSnackbar();
-  const { game } = useGame(gameId);
+  const { game, updateOpponentScore } = useGame(gameId);
 
-  const handleClick = (message: string) => {
+  const handleClick = (points: number, message: string) => {
+    updateOpponentScore(points);
     addAlert({
       open: true,
       message: `Other team ${message}`,
@@ -21,21 +22,21 @@ export const OpponentPoints = ({ gameId }: { gameId: string }) => {
         <Button
           variant="outlined"
           size="small"
-          onClick={() => handleClick("hit a 2 pointer")}
+          onClick={() => handleClick(2, "hit a 2 pointer")}
         >
           2pt
         </Button>
         <Button
           variant="outlined"
           size="small"
-          onClick={() => handleClick("hit a 3 pointer")}
+          onClick={() => handleClick(3, "hit a 3 pointer")}
         >
           3pt
         </Button>
         <Button
           variant="outlined"
           size="small"
-          onClick={() => handleClick("hit a foul shot")}
+          onClick={() => handleClick(1, "hit a foul shot")}
         >
           1pt
         </Button>
