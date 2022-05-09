@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, TableFooter } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import "./gameStats.css";
@@ -347,6 +347,70 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
             </TableRow>
           ))}
         </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TableCell colSpan={2} align="right">
+              Team Totals:
+            </TableCell>
+            <TableCell align="right">
+              {game.stats?.reduce((sum, stats) => sum + stats.points, 0)}
+            </TableCell>
+            <TableCell align="right">
+              {game.stats?.reduce((sum, stats) => sum + stats.fgm, 0)}
+            </TableCell>
+            <TableCell align="right">
+              {game.stats?.reduce((sum, stats) => sum + stats.fga, 0)}
+            </TableCell>
+            <TableCell align="right">
+              {getAvgValue(
+                game.stats?.reduce((sum, stats) => sum + stats.fga, 0),
+                game.stats?.reduce((sum, stats) => sum + stats.fgm, 0)
+              )}
+              %
+            </TableCell>
+            <TableCell align="right">
+              {game.stats?.reduce((sum, stats) => sum + stats.tpm, 0)}
+            </TableCell>
+            <TableCell align="right">
+              {game.stats?.reduce((sum, stats) => sum + stats.tpa, 0)}
+            </TableCell>
+            <TableCell align="right">
+              {getAvgValue(
+                game.stats?.reduce((sum, stats) => sum + stats.tpa, 0),
+                game.stats?.reduce((sum, stats) => sum + stats.tpm, 0)
+              )}
+              %
+            </TableCell>
+            <TableCell align="right">
+              {game.stats?.reduce((sum, stats) => sum + stats.ftm, 0)}
+            </TableCell>
+            <TableCell align="right">
+              {game.stats?.reduce((sum, stats) => sum + stats.fta, 0)}
+            </TableCell>
+            <TableCell align="right">
+              {getAvgValue(
+                game.stats?.reduce((sum, stats) => sum + stats.fta, 0),
+                game.stats?.reduce((sum, stats) => sum + stats.ftm, 0)
+              )}
+              %
+            </TableCell>
+            <TableCell align="right">
+              {game.stats?.reduce((sum, stats) => sum + stats.rebounds, 0)}
+            </TableCell>
+            <TableCell align="right">
+              {game.stats?.reduce((sum, stats) => sum + stats.assists, 0)}
+            </TableCell>
+            <TableCell align="right">
+              {game.stats?.reduce((sum, stats) => sum + stats.steals, 0)}
+            </TableCell>
+            <TableCell align="right">
+              {game.stats?.reduce((sum, stats) => sum + stats.blocks, 0)}
+            </TableCell>
+            <TableCell align="right">
+              {game.stats?.reduce((sum, stats) => sum + stats.turnovers, 0)}
+            </TableCell>
+          </TableRow>
+        </TableFooter>
       </Table>
     </TableContainer>
   );
