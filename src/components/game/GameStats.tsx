@@ -30,14 +30,11 @@ type Data = {
   player: string;
   num: number;
   points: number;
-  fgm: number;
-  fga: number;
+  fg: string;
   fgp: number | "--";
-  tpm: number;
-  tpa: number;
+  tp: string;
   tpp: number | "--";
-  ftm: number;
-  fta: number;
+  ft: string;
   ftp: number | "--";
   rebounds: number;
   assists: number;
@@ -50,14 +47,11 @@ function createData(
   player: string,
   num: number,
   points: number,
-  fgm: number,
-  fga: number,
+  fg: string,
   fgp: number | "--",
-  tpm: number,
-  tpa: number,
+  tp: string,
   tpp: number | "--",
-  ftm: number,
-  fta: number,
+  ft: string,
   ftp: number | "--",
   rebounds: number,
   assists: number,
@@ -69,14 +63,11 @@ function createData(
     player,
     num,
     points,
-    fgm,
-    fga,
+    fg,
     fgp,
-    tpm,
-    tpa,
+    tp,
     tpp,
-    ftm,
-    fta,
+    ft,
     ftp,
     rebounds,
     assists,
@@ -103,17 +94,12 @@ const headCells: HeaderCell[] = [
   },
   {
     id: "points",
-    label: "Points",
+    label: "PTS",
   },
   {
-    id: "fgm",
-    label: "FGM",
-    description: "Field Goals Made",
-  },
-  {
-    id: "fga",
-    label: "FGA",
-    description: "Field Goals Attempted",
+    id: "fg",
+    label: "FG",
+    description: "Field Goals",
   },
   {
     id: "fgp",
@@ -121,14 +107,9 @@ const headCells: HeaderCell[] = [
     description: "Field Goals Percentage",
   },
   {
-    id: "tpm",
-    label: "3PTM",
-    description: "3 Pointers Made",
-  },
-  {
-    id: "tpa",
-    label: "3PTA",
-    description: "3 Pointers Attempted",
+    id: "tp",
+    label: "3PT",
+    description: "3 Pointers",
   },
   {
     id: "tpp",
@@ -136,14 +117,9 @@ const headCells: HeaderCell[] = [
     description: "3 Pointer Percentage",
   },
   {
-    id: "ftm",
-    label: "FTM",
-    description: "Free Throws Made",
-  },
-  {
-    id: "fta",
-    label: "FTA",
-    description: "Free Throws Attempted",
+    id: "ft",
+    label: "FT",
+    description: "Free Throws",
   },
   {
     id: "ftp",
@@ -178,10 +154,13 @@ const headCells: HeaderCell[] = [
 ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-  if (b[orderBy] < a[orderBy]) {
+  const first = a[orderBy] === ("--" as unknown as T[keyof T]) ? 0 : a[orderBy];
+  const second =
+    b[orderBy] === ("--" as unknown as T[keyof T]) ? 0 : b[orderBy];
+  if (second < first) {
     return -1;
   }
-  if (b[orderBy] > a[orderBy]) {
+  if (second > first) {
     return 1;
   }
   return 0;
@@ -274,14 +253,11 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
         player.firstName,
         player.number,
         stats?.points || 0,
-        stats?.fgm || 0,
-        stats?.fga || 0,
+        `${stats?.fgm || "-"}/${stats?.fga || "-"}`,
         getAvgValue(stats?.fga, stats?.fgm),
-        stats?.tpm || 0,
-        stats?.tpa || 0,
+        `${stats?.tpm || "-"}/${stats?.tpa || "-"}`,
         getAvgValue(stats?.tpa, stats?.tpm),
-        stats?.ftm || 0,
-        stats?.fta || 0,
+        `${stats?.ftm || "-"}/${stats?.fta || "-"}`,
         getAvgValue(stats?.fta, stats?.ftm),
         stats?.rebounds || 0,
         stats?.assists || 0,
@@ -292,7 +268,7 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
     }) || [];
 
   const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
+    _event: React.MouseEvent<unknown>,
     property: keyof Data
   ) => {
     const isAsc = orderBy === property && order === "asc";
@@ -330,14 +306,11 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
               </TableCell>
               <TableCell align="right">{row.num}</TableCell>
               <TableCell align="right">{row.points}</TableCell>
-              <TableCell align="right">{row.fgm}</TableCell>
-              <TableCell align="right">{row.fga}</TableCell>
+              <TableCell align="right">{row.fg}</TableCell>
               <TableCell align="right">{row.fgp}%</TableCell>
-              <TableCell align="right">{row.tpm}</TableCell>
-              <TableCell align="right">{row.tpa}</TableCell>
+              <TableCell align="right">{row.tp}</TableCell>
               <TableCell align="right">{row.tpp}%</TableCell>
-              <TableCell align="right">{row.ftm}</TableCell>
-              <TableCell align="right">{row.fta}</TableCell>
+              <TableCell align="right">{row.ft}</TableCell>
               <TableCell align="right">{row.ftp}%</TableCell>
               <TableCell align="right">{row.rebounds}</TableCell>
               <TableCell align="right">{row.assists}</TableCell>
@@ -356,9 +329,7 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
               {game.stats?.reduce((sum, stats) => sum + stats.points, 0)}
             </TableCell>
             <TableCell align="right">
-              {game.stats?.reduce((sum, stats) => sum + stats.fgm, 0)}
-            </TableCell>
-            <TableCell align="right">
+              {game.stats?.reduce((sum, stats) => sum + stats.fgm, 0)}/
               {game.stats?.reduce((sum, stats) => sum + stats.fga, 0)}
             </TableCell>
             <TableCell align="right">
@@ -369,9 +340,7 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
               %
             </TableCell>
             <TableCell align="right">
-              {game.stats?.reduce((sum, stats) => sum + stats.tpm, 0)}
-            </TableCell>
-            <TableCell align="right">
+              {game.stats?.reduce((sum, stats) => sum + stats.tpm, 0)}/
               {game.stats?.reduce((sum, stats) => sum + stats.tpa, 0)}
             </TableCell>
             <TableCell align="right">
@@ -382,9 +351,7 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
               %
             </TableCell>
             <TableCell align="right">
-              {game.stats?.reduce((sum, stats) => sum + stats.ftm, 0)}
-            </TableCell>
-            <TableCell align="right">
+              {game.stats?.reduce((sum, stats) => sum + stats.ftm, 0)}/
               {game.stats?.reduce((sum, stats) => sum + stats.fta, 0)}
             </TableCell>
             <TableCell align="right">
