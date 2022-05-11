@@ -315,9 +315,8 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell colSpan={2} align="right">
-              Team Totals:
-            </TableCell>
+            <TableCell className="sticky">Totals:</TableCell>
+            <TableCell align="right"></TableCell>
             <TableCell align="right">
               {game.stats?.reduce((sum, stats) => sum + stats.points, 0)}
             </TableCell>

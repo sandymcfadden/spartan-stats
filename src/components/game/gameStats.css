@@ -16,6 +16,7 @@
 
 #player-stats td, #player-stats th {
   border-bottom: 0;
+  z-index: 1;
 }
 
 #player-stats tr:nth-child(even) td, #player-stats tr:nth-child(even) th {
@@ -23,6 +24,6 @@
 }
 
 #player-stats thead th, #player-stats thead .sticky {
-  background-color: transparent;  
+  background-color: rgb(18, 18, 18);
   background-image: linear-gradient(rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.09));
 }
