@@ -6,6 +6,8 @@ import { GameProps } from ".";
 export const GameScore = ({ gameId, seasonId }: GameProps) => {
   const { game } = useGame(gameId);
   const { season } = useSeason(seasonId);
+  const theirFullName = game.opponentName.split(" ");
+  const theirName = theirFullName[theirFullName.length - 1];
 
   return (
     <Grid container spacing={3} justifyContent="center">
@@ -36,9 +38,7 @@ export const GameScore = ({ gameId, seasonId }: GameProps) => {
               </Typography>
             </Grid>
             <Grid item lg={3}>
-              <Typography variant="h5">
-                {game.opponentName.split(" ")[0]}
-              </Typography>
+              <Typography variant="h5">{theirName}</Typography>
               <Typography variant="h4">
                 {game?.theirPoints?.total || 0}
               </Typography>
