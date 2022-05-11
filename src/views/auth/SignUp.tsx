@@ -19,10 +19,11 @@ import { isEmail, isPasswordValid } from "../../utils";
 export const SignUp = () => {
   const { signUp, error } = useAuth();
   const [validationError, setValidationError] = useState<string[]>([]);
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = () => {
     setValidationError([]);
-    const data = new FormData(event.currentTarget);
+    const data = new FormData(
+      document.getElementById("sign-up-form") as HTMLFormElement
+    );
     const email = data.get("email") + "".trim().toLocaleLowerCase();
     const password = data.get("password") + "";
     const confirmPass = data.get("confirmpassword");
@@ -80,9 +81,13 @@ export const SignUp = () => {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+              e.preventDefault();
+              console.log("Hit here");
+            }}
             noValidate
             sx={{ mt: 1 }}
+            id="sign-up-form"
           >
             {error.length > 0 && (
               <Alert severity="error" sx={{ mb: 1 }}>
@@ -144,10 +149,10 @@ export const SignUp = () => {
               id="relationship"
             />
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={handleSubmit}
             >
               Sign Up
             </Button>
