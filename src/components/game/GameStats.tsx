@@ -281,10 +281,6 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
       <Table
         sx={{
           minWidth: 650,
-          border: "1px",
-          "& tr:nth-child(even) td, & tr:nth-child(even) th": {
-            backgroundColor: "#000",
-          },
         }}
         size="small"
         aria-label="Players stats"
@@ -297,11 +293,8 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
         />
         <TableBody>
           {rows.sort(getComparator(order, orderBy)).map((row) => (
-            <TableRow
-              key={row.player}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell component="th" scope="row" className="sticky">
+            <TableRow key={row.player}>
+              <TableCell scope="row" className="sticky">
                 {row.player}
               </TableCell>
               <TableCell align="right">{row.num}</TableCell>

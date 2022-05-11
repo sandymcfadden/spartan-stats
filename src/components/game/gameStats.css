@@ -10,6 +10,19 @@
 }
 
 #player-stats th, #player-stats td {
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#player-stats td, #player-stats th {
+  border-bottom: 0;
+}
+
+#player-stats tr:nth-child(even) td, #player-stats tr:nth-child(even) th {
+  background-color: #000;
+}
+
+#player-stats thead th, #player-stats thead .sticky {
+  background-color: transparent;  
+  background-image: linear-gradient(rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.09));
 }
