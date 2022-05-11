@@ -1,5 +1,6 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
+import { VitePWA } from "vite-plugin-pwa";
 
 const customHeadersPlugin = () => ({
   name: "custom-headers-plugin",
@@ -41,5 +42,5 @@ export default defineConfig({
     },
   },
 
-  plugins: [react(), customHeadersPlugin()],
+  plugins: [react(), VitePWA(), customHeadersPlugin()],
 });

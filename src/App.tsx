@@ -1,5 +1,7 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useEffect } from "react";
+import { useRegisterSW } from "virtual:pwa-register/react";
 import { Route } from "./components/Route";
 import { AuthProvider } from "./hooks/AuthProvider";
 import { SnackbarProvider } from "./hooks/snackbar";
@@ -21,6 +23,27 @@ export const App = () => {
       mode: "dark",
     },
   });
+
+  const TIMEOUT = 60 * 1000 * 5;
+
+  const {
+    needRefresh: [needRefresh, setNeedRefresh],
+    updateServiceWorker,
+  } = useRegisterSW({
+    onRegistered(r) {
+      r &&
+        setInterval(() => {
+          r.update();
+        }, TIMEOUT);
+    },
+  });
+
+  useEffect(() => {
+    if (needRefresh) {
+      updateServiceWorker(true);
+      setNeedRefresh(false);
+    }
+  }, [needRefresh]);
 
   return (
     <AuthProvider>

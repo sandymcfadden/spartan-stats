@@ -39,7 +39,7 @@ export const SeasonList = () => {
     <>
       <AddSeasonModal open={open} handleClose={handleClose} />
       <Box alignSelf="center" sx={{ maxWidth: "400px", margin: "0 auto" }}>
-        <Typography variant="h3">Manage Seasons</Typography>
+        <Typography variant="h3">Seasons</Typography>
         <nav>
           <List>
             {isAdmin() && (
