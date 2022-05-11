@@ -11,6 +11,10 @@
     "source": "functions"
   },
   "hosting": {
+    "predeploy": [
+      "rm -rf dist/",
+      "yarn run build"
+    ],
     "public": "dist",
     "ignore": [
       "firebase.json",
