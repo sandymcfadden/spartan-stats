@@ -303,7 +303,13 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
   return (
     <TableContainer component={Paper} sx={{ mt: 3 }}>
       <Table
-        sx={{ minWidth: 650, border: "1px" }}
+        sx={{
+          minWidth: 650,
+          border: "1px",
+          "& tr:nth-child(even) td, & tr:nth-child(even) th": {
+            backgroundColor: "#000",
+          },
+        }}
         size="small"
         aria-label="Players stats"
         id="player-stats"
@@ -313,13 +319,7 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
           orderBy={orderBy}
           onRequestSort={handleRequestSort}
         />
-        <TableBody
-          sx={{
-            "& tr:nth-child(odd), & tr:nth-child(odd) th": {
-              backgroundColor: "#000",
-            },
-          }}
-        >
+        <TableBody>
           {rows.sort(getComparator(order, orderBy)).map((row) => (
             <TableRow
               key={row.player}

@@ -84,9 +84,6 @@ export const MenuAppBar = () => {
                 <MenuItem>
                   <Link href="/seasons">Seasons</Link>
                 </MenuItem>
-                <MenuItem>
-                  <Link href="/">Games</Link>
-                </MenuItem>
                 {isAdmin() && (
                   <MenuItem>
                     <Link href="/admin">Users</Link>

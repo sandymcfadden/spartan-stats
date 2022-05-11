@@ -10,7 +10,7 @@ export const OpponentPoints = ({ gameId }: { gameId: string }) => {
     updateOpponentScore(points);
     addAlert({
       open: true,
-      message: `Other team ${message}`,
+      message: `${game.opponentName} ${message}`,
     });
   };
   return (
