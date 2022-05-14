@@ -228,7 +228,9 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
   const { game } = useGame(gameId);
   const { season } = useSeason(seasonId);
 
-  const players = season.team?.players;
+  const players = season.team?.players.filter((player) =>
+    game.players.includes(player.id)
+  );
 
   const getAvgValue = (
     attempts: number | undefined,

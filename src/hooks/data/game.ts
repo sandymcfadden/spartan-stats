@@ -23,6 +23,7 @@ export type Game = {
   notes?: string;
   gameEndDate?: string;
   stats?: Stats[];
+  players: string[];
 };
 
 export type Points = {
@@ -114,6 +115,7 @@ export const useGame = (id: string) => {
       quarters: [],
       total: 0,
     },
+    players: [],
   });
 
   useEffect(() => {
@@ -151,18 +153,7 @@ export const useGame = (id: string) => {
       blocks: 0,
       turnovers: 0,
     };
-    if (!game.ourPoints) {
-      game.ourPoints = {
-        quarters: [],
-        total: 0,
-      };
-    }
-    if (!game.theirPoints) {
-      game.theirPoints = {
-        quarters: [],
-        total: 0,
-      };
-    }
+
     if (modifier === "+") {
       switch (stat) {
         case "fgm":
@@ -259,18 +250,6 @@ export const useGame = (id: string) => {
   };
 
   const updateOpponentScore = (points: number, modifier: Modifier = "+") => {
-    if (!game.ourPoints) {
-      game.ourPoints = {
-        quarters: [],
-        total: 0,
-      };
-    }
-    if (!game.theirPoints) {
-      game.theirPoints = {
-        quarters: [],
-        total: 0,
-      };
-    }
     if (modifier === "+") {
       game.theirPoints.total += points;
     } else {

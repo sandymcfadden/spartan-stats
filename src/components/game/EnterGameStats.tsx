@@ -10,7 +10,7 @@ export const EnterGameStats = ({ gameId, seasonId }: GameProps) => {
   const [open, setOpen] = useState(false);
   const [player, setPlayer] = useState<Player | null>(null);
   const { season } = useSeason(seasonId);
-  const { updatePlayerStats } = useGame(gameId);
+  const { updatePlayerStats, game } = useGame(gameId);
 
   const handleOpen = (player: Player) => {
     setOpen(true);
@@ -20,6 +20,10 @@ export const EnterGameStats = ({ gameId, seasonId }: GameProps) => {
     setOpen(false);
     setPlayer(null);
   };
+
+  const players = season.team?.players.filter(
+    (player) => game.players.includes(player.id) || []
+  );
 
   return (
     <>
@@ -38,7 +42,7 @@ export const EnterGameStats = ({ gameId, seasonId }: GameProps) => {
             {season.team?.name}
           </Typography>
           <Stack spacing={1}>
-            {season.team?.players.map((player) => {
+            {players?.map((player) => {
               return (
                 <Button
                   key={player.number}

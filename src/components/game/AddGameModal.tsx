@@ -4,14 +4,21 @@ import DateTimePicker from "@mui/lab/DateTimePicker";
 import {
   Box,
   Button,
+  Checkbox,
   Dialog,
   DialogContent,
   DialogTitle,
+  Divider,
+  FormControlLabel,
   IconButton,
+  List,
+  ListItem,
   TextField,
+  Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Game } from "../../hooks/data/game";
+import { useSeason } from "../../hooks/data/season";
 
 type AddGameModalProps = {
   open: boolean;
@@ -27,6 +34,7 @@ type Error = {
 
 export const AddGameModal = (props: AddGameModalProps) => {
   const { open, handleClose, addGame, seasonId } = props;
+  const { season } = useSeason(seasonId);
   const defaultError = {
     opponentName: "",
     gameDate: "",
@@ -37,9 +45,20 @@ export const AddGameModal = (props: AddGameModalProps) => {
     seasonId: seasonId,
     dateCreated: new Date().toISOString(),
     location: "",
+    ourPoints: { quarters: [], total: 0 },
+    theirPoints: { quarters: [], total: 0 },
+    stats: [],
+    players: [] as string[],
   };
   const [error, setError] = useState<Error>(defaultError);
   const [game, setGame] = useState<Game>(defaultGame);
+
+  useEffect(() => {
+    setGame({
+      ...game,
+      players: season.team?.players?.map((player) => player.id) || [],
+    });
+  }, [season]);
 
   const validateFields = (game: Game) => {
     const newError = defaultError;
@@ -84,7 +103,7 @@ export const AddGameModal = (props: AddGameModalProps) => {
         <Box
           component="form"
           sx={{
-            "& > :not(style)": { m: 1, width: "25ch" },
+            "& > :not(style)": { m: 1 },
           }}
           autoComplete="off"
           onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
@@ -141,6 +160,62 @@ export const AddGameModal = (props: AddGameModalProps) => {
               error.opponentName !== "" ? error.opponentName : `Opponent name`
             }
           />
+          <TextField
+            id="location"
+            label="Location"
+            variant="outlined"
+            value={game.location}
+            onChange={({ target: { value } }) => {
+              handleChange({ location: value });
+            }}
+            size="small"
+            InputProps={
+              game.location !== ""
+                ? {
+                    endAdornment: (
+                      <IconButton
+                        tabIndex={-1}
+                        onClick={() => setGame({ ...game, location: "" })}
+                      >
+                        <ClearIcon fontSize="small" color="primary" />
+                      </IconButton>
+                    ),
+                  }
+                : {}
+            }
+          />
+          <Divider />
+          <Typography variant="h5" sx={{ mt: 1, mb: 1 }}>
+            Players playing
+          </Typography>
+          <List>
+            {season.team?.players?.map((player) => {
+              return (
+                <ListItem key={player.id}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name={player.id}
+                        checked={game.players.includes(player.id)}
+                        onChange={(
+                          event: React.ChangeEvent<HTMLInputElement>
+                        ) => {
+                          const newPlayers = event.target.checked
+                            ? [...game.players, event.target.name]
+                            : game.players.filter(
+                                (playerId: string) =>
+                                  playerId !== event.target.name
+                              );
+                          handleChange({ players: newPlayers });
+                        }}
+                      />
+                    }
+                    label={`#${player.number} - ${player.firstName} ${player.lastName}`}
+                  />
+                </ListItem>
+              );
+            })}
+          </List>
           <div>
             <Button variant="contained" onClick={handleSubmit}>
               Add Game

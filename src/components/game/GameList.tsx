@@ -27,12 +27,14 @@ export const GameList = (props: { seasonId: string }) => {
   };
   return (
     <>
-      <AddGameModal
-        open={open}
-        handleClose={handleClose}
-        seasonId={seasonId}
-        addGame={addGame}
-      />
+      {open && (
+        <AddGameModal
+          open={open}
+          handleClose={handleClose}
+          seasonId={seasonId}
+          addGame={addGame}
+        />
+      )}
       <Box alignSelf="center" sx={{ maxWidth: "400px", margin: "0 auto" }}>
         <Typography variant="h3">Games for season {season.name}</Typography>
         <nav>
