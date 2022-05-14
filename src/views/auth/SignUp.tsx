@@ -18,8 +18,10 @@ import { isEmail, isPasswordValid } from "../../utils";
 
 export const SignUp = () => {
   const { signUp, error } = useAuth();
+  const [hasSubmitted, setHasSubmitted] = useState(false);
   const [validationError, setValidationError] = useState<string[]>([]);
   const handleSubmit = () => {
+    setHasSubmitted(true);
     setValidationError([]);
     const data = new FormData(
       document.getElementById("sign-up-form") as HTMLFormElement
@@ -52,16 +54,17 @@ export const SignUp = () => {
         relationship,
         dateCreated: new Date().toISOString(),
         role: "",
-        id: "",
       })
         .then(() => {
           signUp(email, password, name);
         })
         .catch(() => {
           setValidationError(["Could not create new account"]);
+          setHasSubmitted(false);
         });
     } else {
       setValidationError(newErrors);
+      setHasSubmitted(false);
     }
   };
   return (
@@ -150,6 +153,7 @@ export const SignUp = () => {
             />
             <Button
               fullWidth
+              disabled={hasSubmitted}
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               onClick={handleSubmit}

@@ -1,16 +1,9 @@
-import {
-  collection,
-  addDoc,
-  doc,
-  onSnapshot,
-  setDoc,
-} from "firebase/firestore";
+import { collection, doc, onSnapshot, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../../firebase";
 import { Role } from "../AuthProvider";
 
 export type User = {
-  id: string;
   email: string;
   name: string;
   relationship: string;
@@ -25,9 +18,7 @@ export const useUsers = () => {
 
   useEffect(() => {
     return onSnapshot(collection(db, COL_NAME), (snapshot) =>
-      setUsers(
-        snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id } as User))
-      )
+      setUsers(snapshot.docs.map((doc) => doc.data() as User))
     );
   }, []);
 
@@ -35,25 +26,24 @@ export const useUsers = () => {
 };
 
 export const addUser = async (user: User) => {
-  return await addDoc(collection(db, COL_NAME), user);
+  return await setDoc(doc(db, COL_NAME, user.email), user);
 };
 
-export const updateUser = async (user: User, id: string) => {
-  const docRef = doc(db, COL_NAME, id);
+export const updateUser = async (user: User, email: string) => {
+  const docRef = doc(db, COL_NAME, email);
   return await setDoc(docRef, user);
 };
 
-export const useUser = (id: string) => {
+export const useUser = (email: string) => {
   const [user, setUser] = useState<User>({
-    id: "",
     name: "",
     email: "",
     relationship: "",
     dateCreated: "",
   });
   useEffect(() => {
-    return onSnapshot(doc(db, COL_NAME, id), (doc) =>
-      setUser({ ...doc.data(), id: doc.id } as User)
+    return onSnapshot(doc(db, COL_NAME, email), (doc) =>
+      setUser(doc.data() as User)
     );
   }, []);
   return { user };

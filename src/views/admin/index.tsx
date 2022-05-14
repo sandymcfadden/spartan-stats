@@ -49,7 +49,7 @@ export const Admin = () => {
                   {users.map((user) => {
                     return (
                       <TableRow
-                        key={user.id}
+                        key={user.email}
                         sx={{
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
@@ -62,7 +62,7 @@ export const Admin = () => {
                         <TableCell>{user.relationship}</TableCell>
                         <TableCell>{user.role}</TableCell>
                         <TableCell>
-                          <Link href={`/admin/${user.id}`}>
+                          <Link href={`/admin/${user.email}`}>
                             <L variant="body2">Edit</L>
                           </Link>
                         </TableCell>

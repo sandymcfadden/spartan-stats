@@ -24,7 +24,7 @@ export const UserEdit = ({ userId }: { userId: string }) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    updateUser({ ...user, ...editUser }, user.id);
+    updateUser({ ...user, ...editUser }, user.email);
   };
   return editUser && editUser.role !== undefined ? (
     <>

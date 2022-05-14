@@ -26,6 +26,7 @@ export type Player = {
   firstName: string;
   lastName: string;
   number: number;
+  gamesPlayed: number;
 };
 
 const COL_NAME = "seasons";
@@ -87,7 +88,13 @@ export const useSeason = (id: string) => {
   const getPlayerById = (id: Player["id"]) => {
     const player =
       season.team?.players.find((player) => player.id === id) ||
-      ({ firstName: "", lastName: "", number: 0, id: "" } as Player);
+      ({
+        firstName: "",
+        lastName: "",
+        number: 0,
+        gamesPlayed: 0,
+        id: "",
+      } as Player);
     return player;
   };
 

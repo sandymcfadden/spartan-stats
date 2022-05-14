@@ -47,6 +47,7 @@ export const AddPlayerModal = (props: AddPlayerModalProps) => {
     firstName: "",
     lastName: "",
     number: 0,
+    gamesPlayed: 0,
     id: uuidv4(),
   };
   const [error, setError] = useState<Error>(defaultError);
