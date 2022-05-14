@@ -8,6 +8,7 @@ import {
   DialogContent,
 } from "@mui/material";
 import { StatType } from "../../hooks/data/game";
+import { addPlay } from "../../hooks/data/plays";
 import { Player } from "../../hooks/data/season";
 import { useSnackbar } from "../../hooks/snackbar";
 
@@ -15,17 +16,40 @@ type PlayerModalProps = {
   open: boolean;
   handleClose: () => void;
   player: Player;
+  gameId: string;
   update: (playerId: string, stat: StatType) => Promise<void>;
 };
 
 export const PlayerModal = (props: PlayerModalProps) => {
-  const { open, handleClose, player, update } = props;
+  const { open, handleClose, player, update, gameId } = props;
 
   const { addAlert } = useSnackbar();
   const handleClick = (stat: StatType, message: string) => {
+    const fullMessage = `${player.firstName} ${message}`;
+    let points = 0;
+    switch (stat) {
+      case "fgm":
+        points = 2;
+        break;
+      case "ftm":
+        points = 1;
+        break;
+      case "tpm":
+        points = 3;
+        break;
+      default:
+        points = 0;
+    }
+    addPlay({
+      gameId: gameId,
+      message: fullMessage,
+      dateCreated: new Date().toISOString(),
+      type: "action",
+      value: points,
+    });
     update(player.id, stat);
     addAlert({
-      message: `${player.firstName} ${message}`,
+      message: fullMessage,
     });
     handleClose();
   };

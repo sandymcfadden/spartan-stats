@@ -1,5 +1,6 @@
 import { Button, Typography, Stack } from "@mui/material";
 import { useGame } from "../../hooks/data/game";
+import { addPlay } from "../../hooks/data/plays";
 import { useSnackbar } from "../../hooks/snackbar";
 
 export const OpponentPoints = ({ gameId }: { gameId: string }) => {
@@ -8,9 +9,17 @@ export const OpponentPoints = ({ gameId }: { gameId: string }) => {
 
   const handleClick = (points: number, message: string) => {
     updateOpponentScore(points);
+    const fullMessage = `${game.opponentName} ${message}`;
+    addPlay({
+      gameId: gameId,
+      message: fullMessage,
+      dateCreated: new Date().toISOString(),
+      type: "action",
+      value: points,
+    });
     addAlert({
       open: true,
-      message: `${game.opponentName} ${message}`,
+      message: fullMessage,
     });
   };
   return (

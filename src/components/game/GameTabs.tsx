@@ -4,6 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import { useState } from "react";
 import { useAuth } from "../../hooks/AuthProvider";
 import { EnterGameStats } from "./EnterGameStats";
+import { GamePlays } from "./GamePlays";
 import { GameStats } from "./GameStats";
 import { GameProps } from ".";
 
@@ -64,7 +65,7 @@ export const GameTabs = ({ gameId, seasonId }: GameProps) => {
         <GameStats gameId={gameId} seasonId={seasonId} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <p>Play by Play - Not implemented yet</p>
+        <GamePlays gameId={gameId} />
       </TabPanel>
       {canAddStats() && (
         <TabPanel value={value} index={2}>

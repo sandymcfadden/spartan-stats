@@ -35,6 +35,7 @@ export const EnterGameStats = ({ gameId, seasonId }: GameProps) => {
               handleClose={handleClose}
               player={player}
               update={updatePlayerStats}
+              gameId={gameId}
             />
           )}
 
