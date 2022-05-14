@@ -74,10 +74,8 @@ export const App = () => {
           <Route path="/admin" adminRequired authRequired>
             <Admin />
           </Route>
-          <Route path="/admin/:userId" adminRequired authRequired>
-            {(params: { userId: string }) => (
-              <UserEdit userId={params.userId} />
-            )}
+          <Route path="/admin/:email" adminRequired authRequired>
+            {(params: { email: string }) => <UserEdit email={params.email} />}
           </Route>
           <Route path="/needs-approval">
             <NeedsApproval />

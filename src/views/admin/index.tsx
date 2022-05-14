@@ -62,7 +62,9 @@ export const Admin = () => {
                         <TableCell>{user.relationship}</TableCell>
                         <TableCell>{user.role}</TableCell>
                         <TableCell>
-                          <Link href={`/admin/${user.email}`}>
+                          <Link
+                            href={`/admin/${encodeURIComponent(user.email)}`}
+                          >
                             <L variant="body2">Edit</L>
                           </Link>
                         </TableCell>

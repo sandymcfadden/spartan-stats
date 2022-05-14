@@ -14,8 +14,8 @@ import { Role } from "src/hooks/AuthProvider";
 import { MenuAppBar } from "../../components/menuAppBar";
 import { User, useUser, updateUser } from "../../hooks/data/user";
 
-export const UserEdit = ({ userId }: { userId: string }) => {
-  const { user } = useUser(userId);
+export const UserEdit = ({ email }: { email: string }) => {
+  const { user } = useUser(decodeURIComponent(email));
   const [editUser, setEditUser] = useState<User | null>(null);
 
   useEffect(() => {
