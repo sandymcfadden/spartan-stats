@@ -1,4 +1,5 @@
 import { Container } from "@mui/material";
+import { ErrorBoundary } from "../../components/ErrorBoundary";
 import { Game } from "../../components/game";
 import { MenuAppBar } from "../../components/menuAppBar";
 import { Season } from "../../components/seasons/Season";
@@ -23,9 +24,11 @@ export const Home = () => {
     <>
       <MenuAppBar />
       <Container maxWidth="lg" sx={{ mt: 3 }}>
-        {gameId && <Game seasonId={seasonId} gameId={gameId} />}
-        {!gameId && seasonId && <Season seasonId={seasonId} />}
-        {!gameId && !seasonId && <SeasonList />}
+        <ErrorBoundary>
+          {gameId && <Game seasonId={seasonId} gameId={gameId} />}
+          {!gameId && seasonId && <Season seasonId={seasonId} />}
+          {!gameId && !seasonId && <SeasonList />}
+        </ErrorBoundary>
       </Container>
     </>
   );

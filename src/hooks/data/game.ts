@@ -129,6 +129,10 @@ export const useGame = (id: string) => {
     return await setDoc(docRef, game);
   };
 
+  const endGame = async () => {
+    return updateGame({ ...game, gameEndDate: new Date().toISOString() });
+  };
+
   const updatePlayerStats = (
     playerId: string,
     stat: StatType,
@@ -258,8 +262,14 @@ export const useGame = (id: string) => {
     return updateGame({ ...game });
   };
 
+  const isGameEnded = () => {
+    return game.gameEndDate && game.gameEndDate < new Date().toISOString();
+  };
+
   return {
     game,
+    endGame,
+    isGameEnded,
     updateGame,
     updatePlayerStats,
     updateOpponentScore,

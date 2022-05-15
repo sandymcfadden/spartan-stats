@@ -3,6 +3,7 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { useState } from "react";
 import { useAuth } from "../../hooks/AuthProvider";
+import { useGame } from "../../hooks/data/game";
 import { EnterGameStats } from "./EnterGameStats";
 import { GamePlays } from "./GamePlays";
 import { GameStats } from "./GameStats";
@@ -45,6 +46,12 @@ export const GameTabs = ({ gameId, seasonId }: GameProps) => {
     setValue(newValue);
   };
 
+  const { isGameEnded } = useGame(gameId);
+
+  if (value === 2 && isGameEnded()) {
+    setValue(0);
+  }
+
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -58,7 +65,9 @@ export const GameTabs = ({ gameId, seasonId }: GameProps) => {
         >
           <Tab label="Box Score" {...a11yProps(0)} />
           <Tab label="Play by Play" {...a11yProps(1)} />
-          {canAddStats() && <Tab label="Enter Stats" {...a11yProps(2)} />}
+          {canAddStats() && !isGameEnded() && (
+            <Tab label="Enter Stats" {...a11yProps(2)} />
+          )}
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -67,7 +76,7 @@ export const GameTabs = ({ gameId, seasonId }: GameProps) => {
       <TabPanel value={value} index={1}>
         <GamePlays gameId={gameId} />
       </TabPanel>
-      {canAddStats() && (
+      {canAddStats() && !isGameEnded() && (
         <TabPanel value={value} index={2}>
           <EnterGameStats gameId={gameId} seasonId={seasonId} />
         </TabPanel>
