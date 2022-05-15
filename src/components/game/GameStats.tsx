@@ -317,7 +317,7 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter>
+        <TableFooter sx={{ borderTop: "1px solid", borderColor: "divider" }}>
           <TableRow>
             <TableCell className="sticky">Totals:</TableCell>
             <TableCell align="right"></TableCell>
