@@ -8,6 +8,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Button,
 } from "@mui/material";
 import { useState } from "react";
 import { Link } from "wouter";
@@ -36,6 +37,9 @@ export const GameList = (props: { seasonId: string }) => {
         />
       )}
       <Box alignSelf="center" sx={{ maxWidth: "400px", margin: "0 auto" }}>
+        <Link href={`/season/${seasonId}`}>
+          <Button>Back to Season</Button>
+        </Link>
         <Typography variant="h3">Games for season {season.name}</Typography>
         <nav>
           <List>

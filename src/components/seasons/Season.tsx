@@ -83,6 +83,9 @@ export const Season = (props: SeasonProps) => {
         addPlayer={addPlayer}
       />
       <Box alignSelf="center" sx={{ maxWidth: "400px", margin: "0 auto" }}>
+        <Link href="/seasons">
+          <Button>Back to Seasons</Button>
+        </Link>
         {editSeasonName ? (
           <>
             <TextField
