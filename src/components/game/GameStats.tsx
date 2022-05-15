@@ -251,12 +251,14 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
   const rows =
     players?.map((player) => {
       const stats = game.stats?.find((p) => p.playerId == player.id);
+      const totalFGM = (stats?.fgm || 0) + (stats?.tpm || 0);
+      const totalFGA = (stats?.fga || 0) + (stats?.tpa || 0);
       return createData(
         player.firstName,
         player.number,
         stats?.points || 0,
-        `${stats?.fgm || "-"}/${stats?.fga || "-"}`,
-        getAvgValue(stats?.fga, stats?.fgm),
+        `${totalFGM}/${totalFGA}`,
+        getAvgValue(totalFGA, totalFGM),
         `${stats?.tpm || "-"}/${stats?.tpa || "-"}`,
         getAvgValue(stats?.tpa, stats?.tpm),
         `${stats?.ftm || "-"}/${stats?.fta || "-"}`,
@@ -323,13 +325,18 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
               {game.stats?.reduce((sum, stats) => sum + stats.points, 0)}
             </TableCell>
             <TableCell align="right">
-              {game.stats?.reduce((sum, stats) => sum + stats.fgm, 0)}/
-              {game.stats?.reduce((sum, stats) => sum + stats.fga, 0)}
+              {(game.stats?.reduce((sum, stats) => sum + stats.fgm, 0) || 0) +
+                (game.stats?.reduce((sum, stats) => sum + stats.tpm, 0) || 0)}
+              /
+              {(game.stats?.reduce((sum, stats) => sum + stats.fga, 0) || 0) +
+                (game.stats?.reduce((sum, stats) => sum + stats.tpa, 0) || 0)}
             </TableCell>
             <TableCell align="right">
               {getAvgValue(
-                game.stats?.reduce((sum, stats) => sum + stats.fga, 0),
-                game.stats?.reduce((sum, stats) => sum + stats.fgm, 0)
+                (game.stats?.reduce((sum, stats) => sum + stats.fga, 0) || 0) +
+                  (game.stats?.reduce((sum, stats) => sum + stats.tpa, 0) || 0),
+                (game.stats?.reduce((sum, stats) => sum + stats.fgm, 0) || 0) +
+                  (game.stats?.reduce((sum, stats) => sum + stats.tpm, 0) || 0)
               )}
               %
             </TableCell>

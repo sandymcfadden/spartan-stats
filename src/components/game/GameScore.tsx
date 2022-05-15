@@ -1,4 +1,5 @@
-import { Grid, Paper, Typography } from "@mui/material";
+import { Grid, Paper, Typography, Button } from "@mui/material";
+import { Link } from "wouter";
 import { useGame } from "../../hooks/data/game";
 import { useSeason } from "../../hooks/data/season";
 import { GameProps } from ".";
@@ -12,6 +13,9 @@ export const GameScore = ({ gameId, seasonId }: GameProps) => {
   return (
     <Grid container spacing={3} justifyContent="center">
       <Grid item xs={12} sm={8} md={6}>
+        <Link href={`/season/${seasonId}/games`}>
+          <Button>Back to Games</Button>
+        </Link>
         <Typography variant="h6" sx={{ textAlign: "center", mb: 1 }}>
           {new Date(game.gameDate).toLocaleDateString("en-US", {
             weekday: "short",
