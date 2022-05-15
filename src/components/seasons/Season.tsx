@@ -15,6 +15,7 @@ import {
   TextField,
   IconButton,
   Button,
+  Stack,
 } from "@mui/material";
 import { useState } from "react";
 import { Link } from "wouter";
@@ -83,9 +84,11 @@ export const Season = (props: SeasonProps) => {
         addPlayer={addPlayer}
       />
       <Box alignSelf="center" sx={{ maxWidth: "400px", margin: "0 auto" }}>
-        <Link href="/seasons">
-          <Button>Back to Seasons</Button>
-        </Link>
+        <Stack direction="row">
+          <Link href="/seasons">
+            <Button>Back to Seasons</Button>
+          </Link>
+        </Stack>
         {editSeasonName ? (
           <>
             <TextField
@@ -118,7 +121,7 @@ export const Season = (props: SeasonProps) => {
             </IconButton>
           </>
         ) : (
-          <Typography variant="h4">
+          <Typography variant="h5">
             Season {season.name}
             {isAdmin() && (
               <IconButton
@@ -170,7 +173,7 @@ export const Season = (props: SeasonProps) => {
                 </IconButton>
               </>
             ) : (
-              <Typography variant="h5" sx={{ mt: 1, mb: 1 }}>
+              <Typography variant="h6" sx={{ mt: 1, mb: 1 }}>
                 Team: {season.team.name}
                 {isAdmin() && (
                   <IconButton

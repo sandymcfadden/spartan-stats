@@ -1,4 +1,7 @@
 import AddIcon from "@mui/icons-material/Add";
+import SentimentNeutralIcon from "@mui/icons-material/SentimentNeutral";
+import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import {
   Box,
   Divider,
@@ -9,6 +12,9 @@ import {
   ListItemIcon,
   ListItemText,
   Button,
+  Stack,
+  ListItemAvatar,
+  Avatar,
 } from "@mui/material";
 import { useState } from "react";
 import { Link } from "wouter";
@@ -37,10 +43,12 @@ export const GameList = (props: { seasonId: string }) => {
         />
       )}
       <Box alignSelf="center" sx={{ maxWidth: "400px", margin: "0 auto" }}>
-        <Link href={`/season/${seasonId}`}>
-          <Button>Back to Season</Button>
-        </Link>
-        <Typography variant="h3">Games for season {season.name}</Typography>
+        <Stack direction="row">
+          <Link href={`/season/${seasonId}`}>
+            <Button>Back to Season</Button>
+          </Link>
+        </Stack>
+        <Typography variant="h5">Games for season {season.name}</Typography>
         <nav>
           <List>
             <ListItem>
@@ -54,22 +62,47 @@ export const GameList = (props: { seasonId: string }) => {
             <Divider />
 
             {games.map((game) => {
+              const gameEnded =
+                game.gameEndDate && game.gameEndDate < new Date().toISOString();
+              const winOrLoss = gameEnded
+                ? game.ourPoints.total > game.theirPoints.total
+                  ? "W"
+                  : "L"
+                : "";
+              const score = gameEnded
+                ? `${winOrLoss}: ${game.ourPoints.total} - ${game.theirPoints.total}`
+                : "";
               return (
-                <ListItem key={game.id}>
+                <ListItem key={game.id} secondaryAction={score} disablePadding>
                   <Link href={`/season/${seasonId}/game/${game.id}`}>
                     <ListItemButton component="a">
+                      <ListItemAvatar>
+                        <Avatar>
+                          {winOrLoss === "W" && <SentimentSatisfiedAltIcon />}
+                          {winOrLoss === "L" && (
+                            <SentimentVeryDissatisfiedIcon />
+                          )}
+                          {winOrLoss === "" && <SentimentNeutralIcon />}
+                        </Avatar>
+                      </ListItemAvatar>
                       <ListItemText
-                        primary={`${game.opponentName} - ${new Date(
-                          game.gameDate
-                        ).toLocaleDateString("en-US", {
-                          weekday: "short",
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                          hour: "numeric",
-                          minute: "numeric",
-                        })}`}
-                      />
+                        primary={game.opponentName}
+                        secondary={
+                          <>
+                            {new Date(game.gameDate).toLocaleDateString(
+                              "en-US",
+                              {
+                                weekday: "short",
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                                hour: "numeric",
+                                minute: "numeric",
+                              }
+                            )}
+                          </>
+                        }
+                      ></ListItemText>
                     </ListItemButton>
                   </Link>
                 </ListItem>

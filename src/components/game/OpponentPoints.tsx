@@ -1,14 +1,11 @@
 import { Button, Typography, Stack } from "@mui/material";
-import { useState } from "react";
 import { useGame } from "../../hooks/data/game";
 import { addPlay } from "../../hooks/data/plays";
 import { useSnackbar } from "../../hooks/snackbar";
-import { Confirm } from "../Confirm";
 
 export const OpponentPoints = ({ gameId }: { gameId: string }) => {
   const { addAlert } = useSnackbar();
-  const { game, endGame, updateOpponentScore } = useGame(gameId);
-  const [confirm, setConfirm] = useState(false);
+  const { game, updateOpponentScore } = useGame(gameId);
 
   const handleClick = (points: number, message: string) => {
     updateOpponentScore(points);
@@ -24,10 +21,6 @@ export const OpponentPoints = ({ gameId }: { gameId: string }) => {
       open: true,
       message: fullMessage,
     });
-  };
-
-  const confirmEndGame = () => {
-    endGame();
   };
 
   return (
@@ -60,23 +53,7 @@ export const OpponentPoints = ({ gameId }: { gameId: string }) => {
         <Button size="small" sx={{ visibility: "hidden" }}>
           Blank
         </Button>
-        <Button
-          variant="outlined"
-          size="small"
-          onClick={() => setConfirm(true)}
-        >
-          End Game
-        </Button>
       </Stack>
-      {confirm && (
-        <Confirm
-          open={confirm}
-          handleClose={() => setConfirm(false)}
-          title="Confirm End Game"
-          message="Are you sure you want to end this game? You won't be able to edit stats anymore"
-          action={confirmEndGame}
-        />
-      )}
     </>
   );
 };
