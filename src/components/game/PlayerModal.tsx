@@ -72,7 +72,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
         <DialogContent>
           <Stack
             direction="row"
-            justifyContent="center"
+            justifyContent="space-between"
             spacing={1}
             sx={{ pt: 1 }}
           >
@@ -98,7 +98,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
             direction="row"
             spacing={1}
             sx={{ pt: 1 }}
-            justifyContent="center"
+            justifyContent="space-between"
           >
             <Button
               variant="outlined"
@@ -122,23 +122,23 @@ export const PlayerModal = (props: PlayerModalProps) => {
             direction="row"
             spacing={1}
             sx={{ pt: 1 }}
-            justifyContent="center"
+            justifyContent="space-between"
           >
             <Button
               variant="outlined"
               onClick={() => {
-                handleClick("ftm", "hit a foul shot");
+                handleClick("ftm", "hit a free throw");
               }}
             >
-              Hit Foul
+              Hit FT
             </Button>
             <Button
               variant="outlined"
               onClick={() => {
-                handleClick("fta", "missed a foul shot");
+                handleClick("fta", "missed a free throw");
               }}
             >
-              Miss Foul
+              Miss FT
             </Button>
           </Stack>
 
@@ -146,7 +146,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
             direction="row"
             spacing={1}
             sx={{ pt: 1 }}
-            justifyContent="center"
+            justifyContent="space-between"
           >
             <Button
               variant="outlined"
@@ -169,7 +169,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
             direction="row"
             spacing={1}
             sx={{ pt: 1 }}
-            justifyContent="center"
+            justifyContent="space-between"
           >
             <Button
               variant="outlined"
@@ -187,6 +187,13 @@ export const PlayerModal = (props: PlayerModalProps) => {
             >
               Block
             </Button>
+          </Stack>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ pt: 1 }}
+            justifyContent="space-between"
+          >
             <Button
               variant="outlined"
               onClick={() => {
@@ -194,6 +201,14 @@ export const PlayerModal = (props: PlayerModalProps) => {
               }}
             >
               Turnover
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                handleClick("fouls", "committed a foul");
+              }}
+            >
+              Foul
             </Button>
           </Stack>
         </DialogContent>

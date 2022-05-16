@@ -6,6 +6,7 @@ import {
   setDoc,
   query,
   where,
+  orderBy,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../../firebase";
@@ -24,6 +25,8 @@ export type Game = {
   gameEndDate?: string;
   stats?: Stats[];
   players: string[];
+  theirFouls: number;
+  ourFouls: number;
 };
 
 export type Points = {
@@ -45,6 +48,7 @@ export type Stats = {
   steals: number;
   blocks: number;
   turnovers: number;
+  fouls: number;
 };
 
 export type StatType =
@@ -60,7 +64,8 @@ export type StatType =
   | "assists"
   | "steals"
   | "blocks"
-  | "turnovers";
+  | "turnovers"
+  | "fouls";
 
 export type Modifier = "+" | "-";
 
@@ -83,7 +88,11 @@ export const useGames = () => {
 export const useGamesBySeason = (seasonId: string) => {
   const [games, setGames] = useState<Game[]>([]);
 
-  const q = query(collection(db, COL_NAME), where("seasonId", "==", seasonId));
+  const q = query(
+    collection(db, COL_NAME),
+    where("seasonId", "==", seasonId),
+    orderBy("gameDate", "desc")
+  );
 
   useEffect(() => {
     return onSnapshot(q, (snapshot) =>
@@ -116,6 +125,8 @@ export const useGame = (id: string) => {
       total: 0,
     },
     players: [],
+    theirFouls: 0,
+    ourFouls: 0,
   });
 
   useEffect(() => {
@@ -156,6 +167,7 @@ export const useGame = (id: string) => {
       steals: 0,
       blocks: 0,
       turnovers: 0,
+      fouls: 0,
     };
 
     if (modifier === "+") {
@@ -202,6 +214,10 @@ export const useGame = (id: string) => {
         case "turnovers":
           currentPlayerStats.turnovers++;
           break;
+        case "fouls":
+          currentPlayerStats.fouls++;
+          game.ourFouls++;
+          break;
       }
     } else {
       switch (stat) {
@@ -247,6 +263,10 @@ export const useGame = (id: string) => {
         case "turnovers":
           currentPlayerStats.turnovers--;
           break;
+        case "fouls":
+          currentPlayerStats.fouls--;
+          game.ourFouls--;
+          break;
       }
     }
     currentStats.push(currentPlayerStats);
@@ -262,6 +282,15 @@ export const useGame = (id: string) => {
     return updateGame({ ...game });
   };
 
+  const updateOpponentFouls = (modifier: Modifier = "+") => {
+    if (modifier === "+") {
+      game.theirFouls++;
+    } else {
+      game.theirFouls--;
+    }
+    return updateGame({ ...game });
+  };
+
   const isGameEnded = () => {
     return game.gameEndDate && game.gameEndDate < new Date().toISOString();
   };
@@ -273,5 +302,6 @@ export const useGame = (id: string) => {
     updateGame,
     updatePlayerStats,
     updateOpponentScore,
+    updateOpponentFouls,
   };
 };

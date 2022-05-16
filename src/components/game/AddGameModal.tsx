@@ -49,6 +49,8 @@ export const AddGameModal = (props: AddGameModalProps) => {
     theirPoints: { quarters: [], total: 0 },
     stats: [],
     players: [] as string[],
+    ourFouls: 0,
+    theirFouls: 0,
   };
   const [error, setError] = useState<Error>(defaultError);
   const [game, setGame] = useState<Game>(defaultGame);

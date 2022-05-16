@@ -41,6 +41,7 @@ type Data = {
   steals: number;
   blocks: number;
   turnovers: number;
+  fouls: number;
 };
 
 function createData(
@@ -57,7 +58,8 @@ function createData(
   assists: number,
   steals: number,
   blocks: number,
-  turnovers: number
+  turnovers: number,
+  fouls: number
 ): Data {
   return {
     player,
@@ -74,6 +76,7 @@ function createData(
     steals,
     blocks,
     turnovers,
+    fouls,
   };
 }
 
@@ -150,6 +153,11 @@ const headCells: HeaderCell[] = [
     id: "turnovers",
     label: "TO",
     description: "Turn Overs",
+  },
+  {
+    id: "fouls",
+    label: "FLS",
+    description: "Fouls",
   },
 ];
 
@@ -267,7 +275,8 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
         stats?.assists || 0,
         stats?.steals || 0,
         stats?.blocks || 0,
-        stats?.turnovers || 0
+        stats?.turnovers || 0,
+        stats?.fouls || 0
       );
     }) || [];
 
@@ -314,6 +323,7 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
               <TableCell align="right">{row.steals}</TableCell>
               <TableCell align="right">{row.blocks}</TableCell>
               <TableCell align="right">{row.turnovers}</TableCell>
+              <TableCell align="right">{row.fouls}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -376,6 +386,9 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
             </TableCell>
             <TableCell align="right">
               {game.stats?.reduce((sum, stats) => sum + stats.turnovers, 0)}
+            </TableCell>
+            <TableCell align="right">
+              {game.stats?.reduce((sum, stats) => sum + stats.fouls, 0)}
             </TableCell>
           </TableRow>
         </TableFooter>

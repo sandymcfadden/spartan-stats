@@ -7,6 +7,14 @@
         { "fieldPath": "gameId", "order": "ASCENDING" },
         { "fieldPath": "dateCreated", "order": "DESCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "games",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "seasonId", "order": "ASCENDING" },
+        { "fieldPath": "gameDate", "order": "DESCENDING" }
+      ]
     }
   ],
 

@@ -1,5 +1,6 @@
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOutlineOutlined";
+import SportsIcon from "@mui/icons-material/Sports";
 import SportsBasketballIcon from "@mui/icons-material/SportsBasketball";
 import {
   Timeline,
@@ -46,6 +47,12 @@ export const GamePlays = (props: { gameId: string }) => {
     }
     if (play.message.includes("turned it over")) {
       return <CompareArrowsIcon sx={{ color: theme.palette.primary.main }} />;
+    }
+    if (play.message.includes("committed a foul")) {
+      return <SportsIcon />;
+    }
+    if (play.type === "gameEnd") {
+      return <SportsIcon />;
     }
     if (play.message.includes("missed")) {
       return (

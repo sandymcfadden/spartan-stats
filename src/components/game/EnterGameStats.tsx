@@ -2,7 +2,7 @@ import { Button, Stack, Grid, Typography } from "@mui/material";
 import { useState } from "react";
 import { useGame } from "../../hooks/data/game";
 import { Player, useSeason } from "../../hooks/data/season";
-import { OpponentPoints } from "./OpponentPoints";
+import { OpponentStats } from "./OpponentStats";
 import { PlayerModal } from "./PlayerModal";
 import { GameProps } from ".";
 
@@ -60,7 +60,7 @@ export const EnterGameStats = ({ gameId, seasonId }: GameProps) => {
           </Stack>
         </Grid>
         <Grid item xs={6}>
-          <OpponentPoints gameId={gameId} />
+          <OpponentStats gameId={gameId} />
         </Grid>
       </Grid>
     </>

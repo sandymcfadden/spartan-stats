@@ -1,7 +1,9 @@
 import { Grid, Paper, Typography, Button, Stack } from "@mui/material";
 import { useState } from "react";
 import { Link } from "wouter";
+import { useAuth } from "../../hooks/AuthProvider";
 import { Game, useGame } from "../../hooks/data/game";
+import { addPlay } from "../../hooks/data/plays";
 import { useSeason } from "../../hooks/data/season";
 import { Confirm } from "../Confirm";
 import { GameProps } from ".";
@@ -9,11 +11,19 @@ import { GameProps } from ".";
 export const GameScore = ({ gameId, seasonId }: GameProps) => {
   const { game, endGame, isGameEnded } = useGame(gameId);
   const { season } = useSeason(seasonId);
+  const { canAddStats } = useAuth();
   const [confirm, setConfirm] = useState(false);
   const theirFullName = game.opponentName.split(" ");
   const theirName = theirFullName[theirFullName.length - 1];
 
   const confirmEndGame = () => {
+    addPlay({
+      gameId: gameId,
+      message: "Game Over",
+      dateCreated: new Date().toISOString(),
+      type: "gameEnd",
+      value: 0,
+    });
     endGame();
   };
 
@@ -35,7 +45,7 @@ export const GameScore = ({ gameId, seasonId }: GameProps) => {
             <Link href={`/season/${seasonId}`}>
               <Button>Back to Games</Button>
             </Link>
-            {!isGameEnded() && (
+            {!isGameEnded() && canAddStats() && (
               <Button onClick={() => setConfirm(true)}>End Game</Button>
             )}
           </Stack>
@@ -70,18 +80,24 @@ export const GameScore = ({ gameId, seasonId }: GameProps) => {
                 <Typography variant="h4">
                   {game?.ourPoints?.total || 0}
                 </Typography>
+                <Typography variant="caption">
+                  Fouls: {game?.ourFouls || 0}
+                </Typography>
               </Grid>
               <Grid item lg={3}>
                 <Typography variant="h5">{theirName}</Typography>
                 <Typography variant="h4">
                   {game?.theirPoints?.total || 0}
                 </Typography>
+                <Typography variant="caption">
+                  Fouls: {game?.theirFouls || 0}
+                </Typography>
               </Grid>
             </Grid>
           </Paper>
         </Grid>
       </Grid>
-      {confirm && !isGameEnded() && (
+      {confirm && !isGameEnded() && canAddStats() && (
         <Confirm
           open={confirm}
           handleClose={() => setConfirm(false)}
