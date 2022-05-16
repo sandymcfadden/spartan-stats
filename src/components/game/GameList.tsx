@@ -43,9 +43,12 @@ export const GameList = (props: { seasonId: string }) => {
         />
       )}
       <Box alignSelf="center" sx={{ maxWidth: "400px", margin: "0 auto" }}>
-        <Stack direction="row">
-          <Link href={`/season/${seasonId}`}>
-            <Button>Back to Season</Button>
+        <Stack direction="row" justifyContent="space-between">
+          <Link href={`/seasons`}>
+            <Button>Back to Seasons</Button>
+          </Link>
+          <Link href={`/season/details/${seasonId}`}>
+            <Button>Season Details</Button>
           </Link>
         </Stack>
         <Typography variant="h5">Games for season {season.name}</Typography>

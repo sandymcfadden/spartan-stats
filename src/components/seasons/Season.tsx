@@ -85,8 +85,8 @@ export const Season = (props: SeasonProps) => {
       />
       <Box alignSelf="center" sx={{ maxWidth: "400px", margin: "0 auto" }}>
         <Stack direction="row">
-          <Link href="/seasons">
-            <Button>Back to Seasons</Button>
+          <Link href={`/season/${seasonId}`}>
+            <Button>Back to Season</Button>
           </Link>
         </Stack>
         {editSeasonName ? (
@@ -186,11 +186,6 @@ export const Season = (props: SeasonProps) => {
                 )}
               </Typography>
             )}
-            <Link href={`/season/${seasonId}/games`}>
-              <Button variant="outlined" sx={{ width: "100%" }}>
-                View Games
-              </Button>
-            </Link>
             <Typography variant="h6" sx={{ mt: 1 }}>
               Player List:
             </Typography>

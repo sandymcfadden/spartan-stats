@@ -56,9 +56,9 @@ export const App = () => {
           <Route path="/seasons" authRequired>
             <Seasons />
           </Route>
-          <Route path="/season/:seasonId/games" authRequired>
+          <Route path="/season/details/:seasonId" authRequired>
             {(params: { seasonId: string }) => (
-              <Games seasonId={params.seasonId} />
+              <SeasonView seasonId={params.seasonId} />
             )}
           </Route>
           <Route path="/season/:seasonId/game/:gameId" authRequired>
@@ -68,7 +68,7 @@ export const App = () => {
           </Route>
           <Route path="/season/:seasonId" authRequired>
             {(params: { seasonId: string }) => (
-              <SeasonView seasonId={params.seasonId} />
+              <Games seasonId={params.seasonId} />
             )}
           </Route>
           <Route path="/admin" adminRequired authRequired>
