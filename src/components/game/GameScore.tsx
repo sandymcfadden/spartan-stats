@@ -32,7 +32,7 @@ export const GameScore = ({ gameId, seasonId }: GameProps) => {
       <Grid container spacing={3} justifyContent="center">
         <Grid item xs={12} sm={8} md={6}>
           <Stack direction="row" justifyContent="space-between">
-            <Link href={`/season/${seasonId}/games`}>
+            <Link href={`/season/${seasonId}`}>
               <Button>Back to Games</Button>
             </Link>
             {!isGameEnded() && (
