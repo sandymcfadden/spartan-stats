@@ -55,7 +55,6 @@ export type StatType =
   | "points"
   | "fgm"
   | "fga"
-  | "fgp"
   | "tpm"
   | "tpa"
   | "ftm"

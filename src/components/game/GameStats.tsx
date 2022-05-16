@@ -11,7 +11,7 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import Tooltip from "@mui/material/Tooltip";
 import { visuallyHidden } from "@mui/utils";
 import { useState } from "react";
-import { useGame } from "../../hooks/data/game";
+import { StatType, Stats, useGame } from "../../hooks/data/game";
 import { useSeason } from "../../hooks/data/season";
 import { GameProps } from ".";
 
@@ -256,6 +256,19 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
     return "--";
   };
 
+  const getTotalStats = (stats: Stats[] | undefined, stat: StatType) => {
+    if (!stats) {
+      return 0;
+    }
+
+    const total = stats.reduce((sum, s) => sum + s[stat], 0);
+    if (isNaN(total)) {
+      return 0;
+    }
+
+    return total;
+  };
+
   const rows =
     players?.map((player) => {
       const stats = game.stats?.find((p) => p.playerId == player.id);
@@ -288,6 +301,11 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
+
+  const teamFGM =
+    getTotalStats(game.stats, "fgm") + getTotalStats(game.stats, "tpm");
+  const teamFGA =
+    getTotalStats(game.stats, "fga") + getTotalStats(game.stats, "tpa");
 
   return (
     <TableContainer component={Paper} sx={{ mt: 3 }}>
@@ -332,63 +350,53 @@ export const GameStats = ({ gameId, seasonId }: GameProps) => {
             <TableCell className="sticky">Totals:</TableCell>
             <TableCell align="right"></TableCell>
             <TableCell align="right">
-              {game.stats?.reduce((sum, stats) => sum + stats.points, 0)}
+              {getTotalStats(game.stats, "points")}
             </TableCell>
             <TableCell align="right">
-              {(game.stats?.reduce((sum, stats) => sum + stats.fgm, 0) || 0) +
-                (game.stats?.reduce((sum, stats) => sum + stats.tpm, 0) || 0)}
-              /
-              {(game.stats?.reduce((sum, stats) => sum + stats.fga, 0) || 0) +
-                (game.stats?.reduce((sum, stats) => sum + stats.tpa, 0) || 0)}
+              {teamFGM}/{teamFGA}
+            </TableCell>
+            <TableCell align="right">
+              {getAvgValue(teamFGA, teamFGM)}%
+            </TableCell>
+            <TableCell align="right">
+              {getTotalStats(game.stats, "tpm")}/
+              {getTotalStats(game.stats, "tpa")}
             </TableCell>
             <TableCell align="right">
               {getAvgValue(
-                (game.stats?.reduce((sum, stats) => sum + stats.fga, 0) || 0) +
-                  (game.stats?.reduce((sum, stats) => sum + stats.tpa, 0) || 0),
-                (game.stats?.reduce((sum, stats) => sum + stats.fgm, 0) || 0) +
-                  (game.stats?.reduce((sum, stats) => sum + stats.tpm, 0) || 0)
+                getTotalStats(game.stats, "tpa"),
+                getTotalStats(game.stats, "tpm")
               )}
               %
             </TableCell>
             <TableCell align="right">
-              {game.stats?.reduce((sum, stats) => sum + stats.tpm, 0)}/
-              {game.stats?.reduce((sum, stats) => sum + stats.tpa, 0)}
+              {getTotalStats(game.stats, "ftm")}/
+              {getTotalStats(game.stats, "fta")}
             </TableCell>
             <TableCell align="right">
               {getAvgValue(
-                game.stats?.reduce((sum, stats) => sum + stats.tpa, 0),
-                game.stats?.reduce((sum, stats) => sum + stats.tpm, 0)
+                getTotalStats(game.stats, "fta"),
+                getTotalStats(game.stats, "ftm")
               )}
               %
             </TableCell>
             <TableCell align="right">
-              {game.stats?.reduce((sum, stats) => sum + stats.ftm, 0)}/
-              {game.stats?.reduce((sum, stats) => sum + stats.fta, 0)}
+              {getTotalStats(game.stats, "rebounds")}
             </TableCell>
             <TableCell align="right">
-              {getAvgValue(
-                game.stats?.reduce((sum, stats) => sum + stats.fta, 0),
-                game.stats?.reduce((sum, stats) => sum + stats.ftm, 0)
-              )}
-              %
+              {getTotalStats(game.stats, "assists")}
             </TableCell>
             <TableCell align="right">
-              {game.stats?.reduce((sum, stats) => sum + stats.rebounds, 0)}
+              {getTotalStats(game.stats, "steals")}
             </TableCell>
             <TableCell align="right">
-              {game.stats?.reduce((sum, stats) => sum + stats.assists, 0)}
+              {getTotalStats(game.stats, "blocks")}
             </TableCell>
             <TableCell align="right">
-              {game.stats?.reduce((sum, stats) => sum + stats.steals, 0)}
+              {getTotalStats(game.stats, "turnovers")}
             </TableCell>
             <TableCell align="right">
-              {game.stats?.reduce((sum, stats) => sum + stats.blocks, 0)}
-            </TableCell>
-            <TableCell align="right">
-              {game.stats?.reduce((sum, stats) => sum + stats.turnovers, 0)}
-            </TableCell>
-            <TableCell align="right">
-              {game.stats?.reduce((sum, stats) => sum + stats.fouls, 0)}
+              {getTotalStats(game.stats, "fouls")}
             </TableCell>
           </TableRow>
         </TableFooter>
