@@ -16,6 +16,7 @@ import {
   ListItemAvatar,
   Avatar,
 } from "@mui/material";
+import { useTheme } from "@mui/system";
 import { useState } from "react";
 import { Link } from "wouter";
 import { useGamesBySeason, addGame } from "../../hooks/data/game";
@@ -26,6 +27,7 @@ export const GameList = (props: { seasonId: string }) => {
   const { seasonId } = props;
   const { season } = useSeason(seasonId);
   const { games } = useGamesBySeason(seasonId);
+  const theme = useTheme();
 
   const [open, setOpen] = useState(false);
 
@@ -80,7 +82,9 @@ export const GameList = (props: { seasonId: string }) => {
                   <Link href={`/season/${seasonId}/game/${game.id}`}>
                     <ListItemButton component="a">
                       <ListItemAvatar>
-                        <Avatar>
+                        <Avatar
+                          sx={{ backgroundColor: theme.palette.primary.main }}
+                        >
                           {winOrLoss === "W" && <SentimentSatisfiedAltIcon />}
                           {winOrLoss === "L" && (
                             <SentimentVeryDissatisfiedIcon />

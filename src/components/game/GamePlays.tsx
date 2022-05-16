@@ -1,7 +1,4 @@
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
-import Looks3Icon from "@mui/icons-material/Looks3";
-import LooksOneIcon from "@mui/icons-material/LooksOne";
-import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOutlineOutlined";
 import SportsBasketballIcon from "@mui/icons-material/SportsBasketball";
 import {
@@ -13,31 +10,52 @@ import {
   TimelineDot,
   TimelineContent,
 } from "@mui/lab";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Avatar } from "@mui/material";
+import { useTheme } from "@mui/system";
 import { usePlays, Play } from "../../hooks/data/plays";
 
 export const GamePlays = (props: { gameId: string }) => {
   const { gameId } = props;
   const { plays } = usePlays(gameId);
+  const theme = useTheme();
+
+  const PointsIcon = ({ points }: { points: number }) => {
+    return (
+      <Avatar
+        sx={{
+          width: 24,
+          height: 24,
+          fontSize: 12,
+          backgroundColor: theme.palette.primary.main,
+        }}
+      >
+        +{points}
+      </Avatar>
+    );
+  };
 
   const getIcon = (play: Play) => {
     if (play.value === 1) {
-      return <LooksOneIcon />;
+      return <PointsIcon points={1} />;
     }
     if (play.value === 2) {
-      return <LooksTwoIcon />;
+      return <PointsIcon points={2} />;
     }
     if (play.value === 3) {
-      return <Looks3Icon />;
+      return <PointsIcon points={3} />;
     }
     if (play.message.includes("turned it over")) {
-      return <CompareArrowsIcon />;
+      return <CompareArrowsIcon sx={{ color: theme.palette.primary.main }} />;
     }
     if (play.message.includes("missed")) {
-      return <RemoveCircleOutlineOutlinedIcon />;
+      return (
+        <RemoveCircleOutlineOutlinedIcon
+          sx={{ color: theme.palette.primary.main }}
+        />
+      );
     }
 
-    return <SportsBasketballIcon />;
+    return <SportsBasketballIcon sx={{ color: theme.palette.primary.main }} />;
   };
 
   const getItemContent = (play: Play) => {
