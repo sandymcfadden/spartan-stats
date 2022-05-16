@@ -8,7 +8,7 @@ import {
   DialogContent,
 } from "@mui/material";
 import { StatType } from "../../hooks/data/game";
-import { addPlay } from "../../hooks/data/plays";
+import { addPlay, PlayTypes } from "../../hooks/data/plays";
 import { Player } from "../../hooks/data/season";
 import { useSnackbar } from "../../hooks/snackbar";
 
@@ -27,24 +27,29 @@ export const PlayerModal = (props: PlayerModalProps) => {
   const handleClick = (stat: StatType, message: string) => {
     const fullMessage = `${player.firstName} ${message}`;
     let points = 0;
+    let type = "action" as PlayTypes;
     switch (stat) {
       case "fgm":
         points = 2;
+        type = "points";
         break;
       case "ftm":
         points = 1;
+        type = "points";
         break;
       case "tpm":
         points = 3;
+        type = "points";
         break;
       default:
+        type = "action";
         points = 0;
     }
     addPlay({
       gameId: gameId,
       message: fullMessage,
       dateCreated: new Date().toISOString(),
-      type: "action",
+      type: type,
       value: points,
     });
     update(player.id, stat);

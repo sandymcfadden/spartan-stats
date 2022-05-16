@@ -20,7 +20,13 @@ export type Play = {
   value: number;
 };
 
-export type PlayTypes = "action" | "quarter" | "gameEnd";
+export type PlayTypes =
+  | "action"
+  | "quarter"
+  | "gameEnd"
+  | "theirs"
+  | "points"
+  | "foul";
 
 const COL_NAME = "plays";
 

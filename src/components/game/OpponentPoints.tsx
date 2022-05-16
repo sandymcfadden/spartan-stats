@@ -14,7 +14,7 @@ export const OpponentPoints = ({ gameId }: { gameId: string }) => {
       gameId: gameId,
       message: fullMessage,
       dateCreated: new Date().toISOString(),
-      type: "action",
+      type: "theirs",
       value: points,
     });
     addAlert({
