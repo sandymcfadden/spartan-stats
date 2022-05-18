@@ -21,7 +21,7 @@ The Viewer role allows visitors to see the game information and stats updating l
 
 ## Demo Site
 There is a limited functionality demo site set up so you can see how it looks and works.
-- Site: [https://spartan-stats-demo.web.app/](https://spartan-stats-demo.web.app/)
+- Site: [https://demo.spartanstats.com/](https://demo.spartanstats.com/)
 - Email: `stats@spartanstats.com`
 - Password: `X9s2!dvxrpiVNslU`
 
