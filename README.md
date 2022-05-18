@@ -21,9 +21,9 @@ The Viewer role allows visitors to see the game information and stats updating l
 
 ## Demo Site
 There is a limited functionality demo site set up so you can see how it looks and works.
-Site: [https://spartan-stats-demo.web.app/](https://spartan-stats-demo.web.app/)
-Email: `stats@spartanstats.com`
-Password: `X9s2!dvxrpiVNslU`
+- Site: [https://spartan-stats-demo.web.app/](https://spartan-stats-demo.web.app/)
+- Email: `stats@spartanstats.com`
+- Password: `X9s2!dvxrpiVNslU`
 
 ## Requirements
 Spartan Stats is built using [Google Firebase](https://firebase.google.com/) and uses a number of the features there. It requires an account there and a project with their Blaze plan. 
