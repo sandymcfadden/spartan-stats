@@ -21,9 +21,9 @@ export const EnterGameStats = ({ gameId, seasonId }: GameProps) => {
     setPlayer(null);
   };
 
-  const players = season.team?.players.filter(
-    (player) => game.players.includes(player.id) || []
-  );
+  const players = season.team?.players.filter((player) => {
+    return game.players.includes(player.id);
+  });
 
   return (
     <>
@@ -46,7 +46,7 @@ export const EnterGameStats = ({ gameId, seasonId }: GameProps) => {
             {players?.map((player) => {
               return (
                 <Button
-                  key={player.number}
+                  key={player.id}
                   onClick={() => {
                     handleOpen(player);
                   }}
