@@ -7,11 +7,15 @@ export const OpponentStats = ({ gameId }: { gameId: string }) => {
   const { addAlert } = useSnackbar();
   const { game, updateOpponentScore, updateOpponentFouls } = useGame(gameId);
 
-  const handleClick = (points: number, message: string) => {
+  const handleClick = (
+    points: number,
+    message: string,
+    type: "points" | "foul"
+  ) => {
     if (points !== 0) {
       updateOpponentScore(points);
     }
-    if (message.includes("foul")) {
+    if (type === "foul") {
       updateOpponentFouls();
     }
     const fullMessage = `${game.opponentName} ${message}`;
@@ -37,28 +41,28 @@ export const OpponentStats = ({ gameId }: { gameId: string }) => {
         <Button
           variant="outlined"
           size="small"
-          onClick={() => handleClick(2, "hit a 2 pointer")}
+          onClick={() => handleClick(2, "hit a 2 pointer", "points")}
         >
           2pt
         </Button>
         <Button
           variant="outlined"
           size="small"
-          onClick={() => handleClick(3, "hit a 3 pointer")}
+          onClick={() => handleClick(3, "hit a 3 pointer", "points")}
         >
           3pt
         </Button>
         <Button
           variant="outlined"
           size="small"
-          onClick={() => handleClick(1, "hit a foul shot")}
+          onClick={() => handleClick(1, "hit a foul shot", "points")}
         >
           1pt
         </Button>
         <Button
           variant="outlined"
           size="small"
-          onClick={() => handleClick(0, "committed a foul")}
+          onClick={() => handleClick(0, "committed a foul", "foul")}
         >
           Foul
         </Button>
