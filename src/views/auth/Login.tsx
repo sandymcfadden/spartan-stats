@@ -21,8 +21,8 @@ export const Login = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const email = data.get("email") + "".trim().toLocaleLowerCase();
-    const password = data.get("password") + "";
+    const email = (data.get("email") + "").trim().toLocaleLowerCase();
+    const password = (data.get("password") + "").trim();
     if (isEmail(email) && isPasswordValid(password)) {
       login(email, password);
     } else {

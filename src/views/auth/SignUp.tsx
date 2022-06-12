@@ -26,11 +26,11 @@ export const SignUp = () => {
     const data = new FormData(
       document.getElementById("sign-up-form") as HTMLFormElement
     );
-    const email = data.get("email") + "".trim().toLocaleLowerCase();
-    const password = data.get("password") + "";
-    const confirmPass = data.get("confirmpassword");
+    const email = (data.get("email") + "").trim().toLocaleLowerCase();
+    const password = (data.get("password") + "").trim();
+    const confirmPass = (data.get("confirmpassword") + "").trim();
     const name = data.get("name") + "".trim();
-    const relationship = data.get("relationship") + "".trim();
+    const relationship = (data.get("relationship") + "").trim();
     const newErrors = [];
     if (name === "") {
       newErrors.push("You must provide a name");
