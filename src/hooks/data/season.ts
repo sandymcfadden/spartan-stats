@@ -4,6 +4,8 @@ import {
   doc,
   onSnapshot,
   setDoc,
+  query,
+  orderBy,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../../firebase";
@@ -33,16 +35,20 @@ const COL_NAME = "seasons";
 
 export const useSeasons = () => {
   const [seasons, setSeasons] = useState<Season[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const q = query(collection(db, COL_NAME), orderBy("dateCreated", "desc"));
 
   useEffect(() => {
-    return onSnapshot(collection(db, COL_NAME), (snapshot) =>
+    return onSnapshot(q, (snapshot) => {
       setSeasons(
         snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id } as Season))
-      )
-    );
+      );
+      setIsLoading(false);
+    });
   }, []);
 
-  return { seasons };
+  return { seasons, isLoading };
 };
 
 export const addSeason = async (season: Season) => {

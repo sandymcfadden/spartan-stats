@@ -73,8 +73,10 @@ const COL_NAME = "games";
 export const useGames = () => {
   const [games, setGames] = useState<Game[]>([]);
 
+  const q = query(collection(db, COL_NAME), orderBy("gameDate", "desc"));
+
   useEffect(() => {
-    return onSnapshot(collection(db, COL_NAME), (snapshot) =>
+    return onSnapshot(q, (snapshot) =>
       setGames(
         snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id } as Game))
       )
