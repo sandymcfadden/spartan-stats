@@ -31,7 +31,7 @@ export const SeasonList = () => {
     if (a.dateCreated === b.dateCreated) {
       return 0;
     } else {
-      return a.dateCreated < b.dateCreated ? -1 : 1;
+      return a.dateCreated < b.dateCreated ? 1 : -1;
     }
   };
 
