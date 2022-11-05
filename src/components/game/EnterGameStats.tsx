@@ -28,7 +28,7 @@ export const EnterGameStats = ({ gameId, seasonId }: GameProps) => {
   return (
     <>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        <Grid item xs={6}>
+        <Grid item xs={6} sx={{ marginBottom: 3 }}>
           {player && (
             <PlayerModal
               open={open}
