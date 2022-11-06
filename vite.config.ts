@@ -29,11 +29,13 @@ export default defineConfig({
   envDir: "env",
   build: {
     emptyOutDir: true,
+    commonjsOptions: { include: [] },
   },
 
   esbuild: {
     jsxFactory: `jsx`,
   },
+  optimizeDeps: { disabled: false },
 
   server: {
     port: 5000,

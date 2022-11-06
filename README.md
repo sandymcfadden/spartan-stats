@@ -65,7 +65,7 @@ It involves editing a couple of config files and running some commands from your
 - Run the command `firebase deploy --only firestore:rules`
 - Run the command `firebase deploy --only firestore:indexes`
 - Run the command `firebase deploy --only functions`
-- Run the command `firebase deploy --only hosting`
+- Run the command `yarn deploy`
 - This will give you the URL for your app
 - Visit the URL in a browser
 - Choose to sign up in the bottom right
@@ -88,6 +88,9 @@ If you don't want to send emails you won't have to follow this step, but it is r
 - Replace the rest of the variables with template Ids, and API key from Sendgrid
 - Run the command `cd functions` to switch to the functions folder
 - Run the command `firebase deploy --only functions`
+
+## Running locally
+You can run the app locally by running the command `yarn dev`. This will allow you to view the app connected to the live database at http://localhost:5000
 
 #### Credit
 Spartan Icon made by [Freepik](https://www.freepik.com "Freepik") from [www.flaticon.com](https://www.flaticon.com/ "Flaticon")
