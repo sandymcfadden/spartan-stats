@@ -1,6 +1,8 @@
 import { Grid, Paper, Typography, Button, Stack } from "@mui/material";
+import { disableNetwork } from "firebase/firestore";
 import { useState } from "react";
 import { Link } from "wouter";
+import { db } from "../../firebase";
 import { useAuth } from "../../hooks/AuthProvider";
 import { Game, useGame } from "../../hooks/data/game";
 import { addPlay } from "../../hooks/data/plays";
@@ -15,6 +17,14 @@ export const GameScore = ({ gameId, seasonId }: GameProps) => {
   const [confirm, setConfirm] = useState(false);
   const theirFullName = game.opponentName.split(" ");
   const theirName = theirFullName[theirFullName.length - 1];
+  const isDemo = import.meta.env.VITE_IS_DEMO === "true";
+
+  if (isDemo) {
+    const disable = async () => {
+      await disableNetwork(db);
+    };
+    disable();
+  }
 
   const confirmEndGame = () => {
     addPlay({
@@ -45,7 +55,7 @@ export const GameScore = ({ gameId, seasonId }: GameProps) => {
             <Link href={`/season/${seasonId}`}>
               <Button>Back to Games</Button>
             </Link>
-            {!isGameEnded() && canAddStats() && (
+            {!isGameEnded() && canAddStats() && !isDemo && (
               <Button onClick={() => setConfirm(true)}>End Game</Button>
             )}
           </Stack>

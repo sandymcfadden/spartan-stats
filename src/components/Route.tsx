@@ -9,7 +9,7 @@ type Props = {
   adminRequired?: boolean;
 };
 
-export const Route: React.VFC<Props> = ({
+export const Route: React.FC<Props> = ({
   children,
   match,
   path,
