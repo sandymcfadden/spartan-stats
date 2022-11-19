@@ -1,6 +1,7 @@
 import {
   collection,
   addDoc,
+  deleteDoc,
   doc,
   onSnapshot,
   setDoc,
@@ -10,6 +11,7 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../../firebase";
+import { StatType } from "./game";
 
 export type Play = {
   id?: string;
@@ -18,6 +20,8 @@ export type Play = {
   dateCreated: string;
   type: PlayTypes;
   value: number;
+  playerId?: string;
+  stat?: StatType;
 };
 
 export type PlayTypes =
@@ -52,6 +56,13 @@ export const usePlays = (gameId: string) => {
 
 export const addPlay = async (play: Play) => {
   return await addDoc(collection(db, COL_NAME), play);
+};
+
+export const deletePlay = async (play: Play) => {
+  if (!play.id) {
+    return;
+  }
+  return await deleteDoc(doc(db, COL_NAME, play.id));
 };
 
 export const usePlay = (id: string) => {

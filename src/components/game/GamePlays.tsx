@@ -1,3 +1,4 @@
+import CloseIcon from "@mui/icons-material/Close";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOutlineOutlined";
 import SportsIcon from "@mui/icons-material/Sports";
@@ -12,13 +13,17 @@ import {
   TimelineDot,
   TimelineContent,
 } from "@mui/lab";
-import { Box, Typography, Avatar } from "@mui/material";
+import { Box, Typography, Avatar, IconButton } from "@mui/material";
 import { useTheme } from "@mui/system";
+import { useAuth } from "../../hooks/AuthProvider";
+import { useGame } from "../../hooks/data/game";
 import { usePlays, Play } from "../../hooks/data/plays";
 
 export const GamePlays = (props: { gameId: string }) => {
   const { gameId } = props;
   const { plays } = usePlays(gameId);
+  const { deletePlay } = useGame(gameId);
+  const { canAddStats } = useAuth();
   const theme = useTheme();
 
   const PointsIcon = ({ points }: { points: number }) => {
@@ -72,7 +77,49 @@ export const GamePlays = (props: { gameId: string }) => {
       minute: "numeric",
     });
 
-    if (play.type !== "theirs") {
+    const DeleteButton = ({ handleClick }: { handleClick: () => void }) => {
+      return (
+        <IconButton
+          size="small"
+          sx={{ display: "none", mx: 1, pb: 0 }}
+          onClick={handleClick}
+        >
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      );
+    };
+
+    if (play.type === "theirs" || play.type === "foul") {
+      return (
+        <TimelineItem key={play.id}>
+          <TimelineOppositeContent
+            sx={{ m: "auto 0" }}
+            align="left"
+            variant="body2"
+            color="text.secondary"
+          >
+            {canAddStats() && (
+              <DeleteButton
+                handleClick={() => {
+                  deletePlay(play);
+                }}
+              />
+            )}
+            {playTime}
+          </TimelineOppositeContent>
+          <TimelineSeparator>
+            <TimelineConnector />
+            <TimelineDot sx={{ backgroundColor: "transparent" }}>
+              {getIcon(play)}
+            </TimelineDot>
+            <TimelineConnector />
+          </TimelineSeparator>
+          <TimelineContent sx={{ py: "22px", px: 2 }}>
+            <Typography>{play.message}</Typography>
+          </TimelineContent>
+        </TimelineItem>
+      );
+    } else {
       return (
         <TimelineItem key={play.id}>
           <TimelineOppositeContent sx={{ py: "22px", px: 2 }}>
@@ -92,29 +139,13 @@ export const GamePlays = (props: { gameId: string }) => {
             color="text.secondary"
           >
             {playTime}
-          </TimelineContent>
-        </TimelineItem>
-      );
-    } else {
-      return (
-        <TimelineItem key={play.id}>
-          <TimelineOppositeContent
-            sx={{ m: "auto 0" }}
-            align="left"
-            variant="body2"
-            color="text.secondary"
-          >
-            {playTime}
-          </TimelineOppositeContent>
-          <TimelineSeparator>
-            <TimelineConnector />
-            <TimelineDot sx={{ backgroundColor: "transparent" }}>
-              {getIcon(play)}
-            </TimelineDot>
-            <TimelineConnector />
-          </TimelineSeparator>
-          <TimelineContent sx={{ py: "22px", px: 2 }}>
-            <Typography>{play.message}</Typography>
+            {canAddStats() && (
+              <DeleteButton
+                handleClick={() => {
+                  deletePlay(play);
+                }}
+              />
+            )}
           </TimelineContent>
         </TimelineItem>
       );
@@ -124,7 +155,12 @@ export const GamePlays = (props: { gameId: string }) => {
   return (
     <Box alignSelf="center" sx={{ maxWidth: "600px", margin: "0 auto" }}>
       <Typography variant="h5">Play by Play</Typography>
-      <Timeline>
+      <Timeline
+        sx={{
+          "li:hover button, li:focus button": { display: "inline" },
+          "li div": { lineHeight: "40px" },
+        }}
+      >
         {plays.map((play) => {
           return getItemContent(play);
         })}

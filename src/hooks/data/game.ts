@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../../firebase";
+import { deletePlay as _deletePlay, Play } from "./plays";
 
 export type Game = {
   id?: string;
@@ -146,10 +147,13 @@ export const useGame = (id: string) => {
   };
 
   const updatePlayerStats = (
-    playerId: string,
-    stat: StatType,
+    playerId?: string,
+    stat?: StatType,
     modifier: Modifier = "+"
   ) => {
+    if (!playerId || !stat) {
+      return;
+    }
     const currentStats =
       game.stats?.filter((s) => s.playerId !== playerId) || [];
     const currentPlayerStats = game.stats?.find(
@@ -296,6 +300,18 @@ export const useGame = (id: string) => {
     return game.gameEndDate && game.gameEndDate < new Date().toISOString();
   };
 
+  const deletePlay = (play: Play) => {
+    if (play.type === "theirs") {
+      updateOpponentScore(play.value, "-");
+    } else if (play.type === "foul") {
+      updateOpponentFouls("-");
+    } else {
+      updatePlayerStats(play.playerId, play.stat, "-");
+    }
+    _deletePlay(play);
+    return updateGame({ ...game });
+  };
+
   return {
     game,
     endGame,
@@ -304,5 +320,6 @@ export const useGame = (id: string) => {
     updatePlayerStats,
     updateOpponentScore,
     updateOpponentFouls,
+    deletePlay,
   };
 };

@@ -51,6 +51,8 @@ export const PlayerModal = (props: PlayerModalProps) => {
       dateCreated: new Date().toISOString(),
       type: type,
       value: points,
+      playerId: player.id,
+      stat: stat,
     });
     update(player.id, stat);
     addAlert({

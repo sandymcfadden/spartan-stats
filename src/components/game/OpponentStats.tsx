@@ -23,7 +23,7 @@ export const OpponentStats = ({ gameId }: { gameId: string }) => {
       gameId: gameId,
       message: fullMessage,
       dateCreated: new Date().toISOString(),
-      type: "theirs",
+      type: type === "foul" ? "foul" : "theirs",
       value: points,
     });
     addAlert({
