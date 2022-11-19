@@ -7,7 +7,7 @@ import {
   DialogTitle,
   DialogContent,
 } from "@mui/material";
-import { StatType } from "../../hooks/data/game";
+import { StatType, useGame } from "../../hooks/data/game";
 import { addPlay, PlayTypes } from "../../hooks/data/plays";
 import { Player } from "../../hooks/data/season";
 import { useSnackbar } from "../../hooks/snackbar";
@@ -22,6 +22,7 @@ type PlayerModalProps = {
 
 export const PlayerModal = (props: PlayerModalProps) => {
   const { open, handleClose, player, update, gameId } = props;
+  const { deletePlay } = useGame(gameId);
 
   const { addAlert } = useSnackbar();
   const handleClick = (stat: StatType, message: string) => {
@@ -45,7 +46,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
         type = "action";
         points = 0;
     }
-    addPlay({
+    const newPlay = {
       gameId: gameId,
       message: fullMessage,
       dateCreated: new Date().toISOString(),
@@ -53,10 +54,26 @@ export const PlayerModal = (props: PlayerModalProps) => {
       value: points,
       playerId: player.id,
       stat: stat,
-    });
-    update(player.id, stat);
-    addAlert({
-      message: fullMessage,
+    };
+    addPlay(newPlay).then(async (doc) => {
+      await update(player.id, stat);
+      addAlert({
+        message: fullMessage,
+        action: (
+          <Button
+            color="secondary"
+            size="small"
+            onClick={() => {
+              deletePlay({
+                id: doc.id,
+                ...newPlay,
+              });
+            }}
+          >
+            undo
+          </Button>
+        ),
+      });
     });
     handleClose();
   };

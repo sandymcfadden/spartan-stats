@@ -69,9 +69,8 @@ export const SnackbarProvider = ({ children }: SnackbarProviderProps) => {
         onClose={handleClose}
         message={alert.message}
         action={
-          alert.action ? (
-            alert.action
-          ) : (
+          <>
+            {alert.action ? alert.action : null}
             <IconButton
               size="small"
               aria-label="close"
@@ -80,7 +79,7 @@ export const SnackbarProvider = ({ children }: SnackbarProviderProps) => {
             >
               <CloseIcon fontSize="small" />
             </IconButton>
-          )
+          </>
         }
       ></Snackbar>
     </SnackbarContext.Provider>
