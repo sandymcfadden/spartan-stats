@@ -7,7 +7,13 @@ import {
   updateProfile,
   sendPasswordResetEmail,
 } from "firebase/auth";
-import { useState, createContext, useContext, useEffect } from "react";
+import {
+  useState,
+  createContext,
+  useContext,
+  useEffect,
+  ReactNode,
+} from "react";
 import { auth } from "../firebase";
 
 export type Role = "admin" | "stats" | "viewer" | "";
@@ -65,7 +71,11 @@ const AuthContext = createContext<UserAuthenticationContext>({
   role: "",
 });
 
-export const AuthProvider: React.FC = ({ children }) => {
+type Props = {
+  children: ReactNode;
+};
+
+export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [authState, setAuthState] = useState<UserAuthenticationState>({
     isAuthenticated: false,
     isLoggingIn: true,

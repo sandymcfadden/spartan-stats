@@ -15,7 +15,10 @@
     "jsx": "react-jsx",
     "noUnusedLocals": true,
     "noImplicitAny": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "types": [
+      "vite-plugin-pwa/client"
+    ],
   },
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
