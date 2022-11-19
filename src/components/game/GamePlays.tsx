@@ -22,7 +22,7 @@ import { usePlays, Play } from "../../hooks/data/plays";
 export const GamePlays = (props: { gameId: string }) => {
   const { gameId } = props;
   const { plays } = usePlays(gameId);
-  const { deletePlay } = useGame(gameId);
+  const { deletePlay, isGameEnded } = useGame(gameId);
   const { canAddStats } = useAuth();
   const theme = useTheme();
 
@@ -98,7 +98,7 @@ export const GamePlays = (props: { gameId: string }) => {
             variant="body2"
             color="text.secondary"
           >
-            {canAddStats() && (
+            {canAddStats() && !isGameEnded() && (
               <DeleteButton
                 handleClick={() => {
                   deletePlay(play);
@@ -139,7 +139,7 @@ export const GamePlays = (props: { gameId: string }) => {
             color="text.secondary"
           >
             {playTime}
-            {canAddStats() && (
+            {canAddStats() && !isGameEnded() && (
               <DeleteButton
                 handleClick={() => {
                   deletePlay(play);

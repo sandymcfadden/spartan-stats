@@ -17,7 +17,7 @@ type PlayerModalProps = {
   handleClose: () => void;
   player: Player;
   gameId: string;
-  update: (playerId: string, stat: StatType) => Promise<void>;
+  update: (playerId?: string, stat?: StatType) => Promise<void> | undefined;
 };
 
 export const PlayerModal = (props: PlayerModalProps) => {
