@@ -1,7 +1,7 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import { Redirect } from "wouter";
 
-export class ErrorBoundary extends Component {
+export class ErrorBoundary extends Component<{ children: React.ReactNode }> {
   state = {
     hasError: false,
   };

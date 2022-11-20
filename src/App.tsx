@@ -57,25 +57,24 @@ export const App = () => {
             <Seasons />
           </Route>
           <Route path="/season/details/:seasonId" authRequired>
-            {(params: { seasonId: string }) => (
-              <SeasonView seasonId={params.seasonId} />
-            )}
+            {(params) => <SeasonView seasonId={params?.seasonId || ""} />}
           </Route>
           <Route path="/season/:seasonId/game/:gameId" authRequired>
-            {(params: { seasonId: string; gameId: string }) => (
-              <GameView seasonId={params.seasonId} gameId={params.gameId} />
+            {(params) => (
+              <GameView
+                seasonId={params?.seasonId || ""}
+                gameId={params?.gameId || ""}
+              />
             )}
           </Route>
           <Route path="/season/:seasonId" authRequired>
-            {(params: { seasonId: string }) => (
-              <Games seasonId={params.seasonId} />
-            )}
+            {(params) => <Games seasonId={params?.seasonId || ""} />}
           </Route>
           <Route path="/admin" adminRequired authRequired>
             <Admin />
           </Route>
           <Route path="/admin/:email" adminRequired authRequired>
-            {(params: { email: string }) => <UserEdit email={params.email} />}
+            {(params) => <UserEdit email={params?.email || ""} />}
           </Route>
           <Route path="/needs-approval">
             <NeedsApproval />

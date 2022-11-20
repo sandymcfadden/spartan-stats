@@ -2,20 +2,23 @@ import { useRoute, Redirect } from "wouter";
 import { useAuth } from "../hooks/AuthProvider";
 
 type Props = {
-  children?: React.ReactNode;
+  children:
+    | JSX.Element
+    | ((params?: { [x: string]: string }) => JSX.Element)
+    | null;
   match?: [];
   path: string;
   authRequired?: boolean;
   adminRequired?: boolean;
 };
 
-export const Route: React.FC<Props> = ({
+export const Route = ({
   children,
   match,
   path,
   authRequired,
   adminRequired,
-}) => {
+}: Props) => {
   const useRouteMatch = useRoute(path);
   const [matches, params] = match || useRouteMatch;
   const { isAuthenticated, isAuthorized, isLoggingIn, isAdmin } = useAuth();
@@ -23,7 +26,11 @@ export const Route: React.FC<Props> = ({
   if (!matches) return null;
 
   if (isLoggingIn) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        <div>Loading...</div>
+      </>
+    );
   }
 
   if (adminRequired && !isAdmin()) {
