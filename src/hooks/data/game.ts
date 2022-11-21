@@ -129,6 +129,7 @@ export const useGame = (id: string) => {
     players: [],
     theirFouls: 0,
     ourFouls: 0,
+    notes: "",
   });
 
   useEffect(() => {
@@ -312,6 +313,10 @@ export const useGame = (id: string) => {
     return updateGame({ ...game });
   };
 
+  const updateNotes = (notes: string) => {
+    return updateGame({ ...game, notes });
+  };
+
   return {
     game,
     endGame,
@@ -321,5 +326,6 @@ export const useGame = (id: string) => {
     updateOpponentScore,
     updateOpponentFouls,
     deletePlay,
+    updateNotes,
   };
 };

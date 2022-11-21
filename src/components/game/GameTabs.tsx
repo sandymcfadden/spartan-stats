@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useAuth } from "../../hooks/AuthProvider";
 import { useGame } from "../../hooks/data/game";
 import { EnterGameStats } from "./EnterGameStats";
+import { GameNotes } from "./GameNotes";
 import { GamePlays } from "./GamePlays";
 import { GameStats } from "./GameStats";
 import { GameProps } from ".";
@@ -68,6 +69,7 @@ export const GameTabs = ({ gameId, seasonId }: GameProps) => {
           {canAddStats() && !isGameEnded() && (
             <Tab label="Enter Stats" {...a11yProps(2)} />
           )}
+          <Tab label="Notes" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -81,6 +83,9 @@ export const GameTabs = ({ gameId, seasonId }: GameProps) => {
           <EnterGameStats gameId={gameId} seasonId={seasonId} />
         </TabPanel>
       )}
+      <TabPanel value={value} index={3}>
+        <GameNotes gameId={gameId} />
+      </TabPanel>
     </Box>
   );
 };
