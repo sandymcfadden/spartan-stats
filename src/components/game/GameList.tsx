@@ -19,6 +19,7 @@ import {
 import { useTheme } from "@mui/system";
 import { useState } from "react";
 import { Link } from "wouter";
+import { useAuth } from "../../hooks/AuthProvider";
 import { useGamesBySeason, addGame } from "../../hooks/data/game";
 import { useSeason } from "../../hooks/data/season";
 import { AddGameModal } from "./AddGameModal";
@@ -28,6 +29,7 @@ export const GameList = (props: { seasonId: string }) => {
   const { season } = useSeason(seasonId);
   const { games } = useGamesBySeason(seasonId);
   const theme = useTheme();
+  const { canAddStats } = useAuth();
 
   const [open, setOpen] = useState(false);
 
@@ -56,15 +58,19 @@ export const GameList = (props: { seasonId: string }) => {
         <Typography variant="h5">Games for season {season.name}</Typography>
         <nav>
           <List>
-            <ListItem>
-              <ListItemButton component="a" onClick={() => setOpen(true)}>
-                <ListItemIcon>
-                  <AddIcon />
-                </ListItemIcon>
-                <ListItemText primary="Start New Game" />
-              </ListItemButton>
-            </ListItem>
-            <Divider />
+            {canAddStats() && (
+              <>
+                <ListItem>
+                  <ListItemButton component="a" onClick={() => setOpen(true)}>
+                    <ListItemIcon>
+                      <AddIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Start New Game" />
+                  </ListItemButton>
+                </ListItem>
+                <Divider />
+              </>
+            )}
 
             {games.map((game) => {
               const gameEnded =
