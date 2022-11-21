@@ -49,7 +49,7 @@ export const GameTabs = ({ gameId, seasonId }: GameProps) => {
 
   const { isGameEnded } = useGame(gameId);
 
-  if (value === 2 && isGameEnded()) {
+  if (value === 3 && isGameEnded()) {
     setValue(0);
   }
 
