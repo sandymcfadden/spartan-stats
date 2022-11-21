@@ -15,6 +15,7 @@ import { deletePlay as _deletePlay, Play } from "./plays";
 export type Game = {
   id?: string;
   opponentName: string;
+  opponentShortName: string;
   location: string;
   seasonId: string;
   gameDate: string;
@@ -117,6 +118,7 @@ export const useGame = (id: string) => {
     seasonId: "",
     gameDate: new Date().toISOString(),
     opponentName: "",
+    opponentShortName: "",
     location: "",
     ourPoints: {
       quarters: [],

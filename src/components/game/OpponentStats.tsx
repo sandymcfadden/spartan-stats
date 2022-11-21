@@ -8,6 +8,12 @@ export const OpponentStats = ({ gameId }: { gameId: string }) => {
   const { game, updateOpponentScore, updateOpponentFouls, deletePlay } =
     useGame(gameId);
 
+  const theirFullName = game.opponentName.split(" ");
+  const theirName =
+    game.opponentShortName && game.opponentShortName !== ""
+      ? game.opponentShortName
+      : theirFullName[theirFullName.length - 1];
+
   const handleClick = (
     points: number,
     message: string,
@@ -19,7 +25,7 @@ export const OpponentStats = ({ gameId }: { gameId: string }) => {
     if (type === "foul") {
       updateOpponentFouls();
     }
-    const fullMessage = `${game.opponentName} ${message}`;
+    const fullMessage = `${theirName} ${message}`;
     const newPlay = {
       gameId: gameId,
       message: fullMessage,

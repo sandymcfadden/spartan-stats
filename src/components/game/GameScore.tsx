@@ -16,7 +16,10 @@ export const GameScore = ({ gameId, seasonId }: GameProps) => {
   const { canAddStats } = useAuth();
   const [confirm, setConfirm] = useState(false);
   const theirFullName = game.opponentName.split(" ");
-  const theirName = theirFullName[theirFullName.length - 1];
+  const theirName =
+    game.opponentShortName && game.opponentShortName !== ""
+      ? game.opponentShortName
+      : theirFullName[theirFullName.length - 1];
   const isDemo = import.meta.env.VITE_IS_DEMO === "true";
 
   if (isDemo) {

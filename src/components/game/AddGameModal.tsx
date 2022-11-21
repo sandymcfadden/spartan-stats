@@ -41,6 +41,7 @@ export const AddGameModal = (props: AddGameModalProps) => {
   };
   const defaultGame = {
     opponentName: "",
+    opponentShortName: "",
     gameDate: new Date().toISOString(),
     seasonId: seasonId,
     dateCreated: new Date().toISOString(),
@@ -185,6 +186,33 @@ export const AddGameModal = (props: AddGameModalProps) => {
                   }
                 : {}
             }
+          />
+          <TextField
+            id="opponent-short-name"
+            label="Opponent Short Name"
+            variant="outlined"
+            value={game.opponentShortName}
+            onChange={({ target: { value } }) => {
+              handleChange({ opponentShortName: value });
+            }}
+            size="small"
+            InputProps={
+              game.opponentShortName !== ""
+                ? {
+                    endAdornment: (
+                      <IconButton
+                        tabIndex={-1}
+                        onClick={() =>
+                          setGame({ ...game, opponentShortName: "" })
+                        }
+                      >
+                        <ClearIcon fontSize="small" color="primary" />
+                      </IconButton>
+                    ),
+                  }
+                : {}
+            }
+            helperText="Opponent short name"
           />
           <Divider />
           <Typography variant="h5" sx={{ mt: 1, mb: 1 }}>
