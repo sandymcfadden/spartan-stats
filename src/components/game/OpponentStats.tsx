@@ -1,11 +1,12 @@
 import { Button, Typography, Stack } from "@mui/material";
 import { useGame } from "../../hooks/data/game";
-import { addPlay } from "../../hooks/data/plays";
+import { addPlay, PlayTypes } from "../../hooks/data/plays";
 import { useSnackbar } from "../../hooks/snackbar";
 
 export const OpponentStats = ({ gameId }: { gameId: string }) => {
-  const { addAlert } = useSnackbar();
-  const { game, updateOpponentScore, updateOpponentFouls } = useGame(gameId);
+  const { addAlert, closeAlert } = useSnackbar();
+  const { game, updateOpponentScore, updateOpponentFouls, deletePlay } =
+    useGame(gameId);
 
   const handleClick = (
     points: number,
@@ -19,16 +20,32 @@ export const OpponentStats = ({ gameId }: { gameId: string }) => {
       updateOpponentFouls();
     }
     const fullMessage = `${game.opponentName} ${message}`;
-    addPlay({
+    const newPlay = {
       gameId: gameId,
       message: fullMessage,
       dateCreated: new Date().toISOString(),
-      type: type === "foul" ? "foul" : "theirs",
+      type: (type === "foul" ? "foul" : "theirs") as PlayTypes,
       value: points,
-    });
-    addAlert({
-      open: true,
-      message: fullMessage,
+    };
+    addPlay(newPlay).then((doc) => {
+      addAlert({
+        message: fullMessage,
+        action: (
+          <Button
+            color="secondary"
+            size="small"
+            onClick={() => {
+              deletePlay({
+                id: doc.id,
+                ...newPlay,
+              });
+              closeAlert();
+            }}
+          >
+            undo
+          </Button>
+        ),
+      });
     });
   };
 
