@@ -66,10 +66,10 @@ export const GameTabs = ({ gameId, seasonId }: GameProps) => {
         >
           <Tab label="Box Score" {...a11yProps(0)} />
           <Tab label="Play by Play" {...a11yProps(1)} />
+          <Tab label="Notes" {...a11yProps(2)} />
           {canAddStats() && !isGameEnded() && (
-            <Tab label="Enter Stats" {...a11yProps(2)} />
+            <Tab label="Enter Stats" {...a11yProps(3)} />
           )}
-          <Tab label="Notes" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -78,14 +78,14 @@ export const GameTabs = ({ gameId, seasonId }: GameProps) => {
       <TabPanel value={value} index={1}>
         <GamePlays gameId={gameId} />
       </TabPanel>
+      <TabPanel value={value} index={2}>
+        <GameNotes gameId={gameId} />
+      </TabPanel>
       {canAddStats() && !isGameEnded() && (
-        <TabPanel value={value} index={2}>
+        <TabPanel value={value} index={3}>
           <EnterGameStats gameId={gameId} seasonId={seasonId} />
         </TabPanel>
       )}
-      <TabPanel value={value} index={3}>
-        <GameNotes gameId={gameId} />
-      </TabPanel>
     </Box>
   );
 };
