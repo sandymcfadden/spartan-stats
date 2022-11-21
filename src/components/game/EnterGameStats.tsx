@@ -10,7 +10,7 @@ export const EnterGameStats = ({ gameId, seasonId }: GameProps) => {
   const [open, setOpen] = useState(false);
   const [player, setPlayer] = useState<Player | null>(null);
   const { season } = useSeason(seasonId);
-  const { updatePlayerStats, game } = useGame(gameId);
+  const { game } = useGame(gameId);
 
   const handleOpen = (player: Player) => {
     setOpen(true);
@@ -34,7 +34,6 @@ export const EnterGameStats = ({ gameId, seasonId }: GameProps) => {
               open={open}
               handleClose={handleClose}
               player={player}
-              update={updatePlayerStats}
               gameId={gameId}
             />
           )}

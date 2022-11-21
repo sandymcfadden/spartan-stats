@@ -17,14 +17,13 @@ type PlayerModalProps = {
   handleClose: () => void;
   player: Player;
   gameId: string;
-  update: (playerId?: string, stat?: StatType) => Promise<void> | undefined;
 };
 
 export const PlayerModal = (props: PlayerModalProps) => {
-  const { open, handleClose, player, update, gameId } = props;
-  const { deletePlay } = useGame(gameId);
+  const { open, handleClose, player, gameId } = props;
+  const { deletePlay, updatePlayerStats } = useGame(gameId);
 
-  const { addAlert } = useSnackbar();
+  const { addAlert, closeAlert } = useSnackbar();
   const handleClick = (stat: StatType, message: string) => {
     const fullMessage = `${player.firstName} ${message}`;
     let points = 0;
@@ -55,8 +54,9 @@ export const PlayerModal = (props: PlayerModalProps) => {
       playerId: player.id,
       stat: stat,
     };
-    addPlay(newPlay).then(async (doc) => {
-      await update(player.id, stat);
+    addPlay(newPlay).then((doc) => {
+      updatePlayerStats(player.id, stat);
+
       addAlert({
         message: fullMessage,
         action: (
@@ -68,6 +68,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
                 id: doc.id,
                 ...newPlay,
               });
+              closeAlert();
             }}
           >
             undo

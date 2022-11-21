@@ -15,6 +15,7 @@ type SnackbarProviderProps = {
 
 type SnackbarContext = {
   addAlert: (alert: Alert) => void;
+  closeAlert: () => void;
 };
 
 type Alert = {
@@ -26,6 +27,9 @@ type Alert = {
 
 export const SnackbarContext = createContext<SnackbarContext>({
   addAlert: () => {
+    // Empty Function
+  },
+  closeAlert: () => {
     // Empty Function
   },
 });
@@ -53,11 +57,11 @@ export const SnackbarProvider = ({ children }: SnackbarProviderProps) => {
     }
   }, []);
 
-  const value = useMemo(() => ({ addAlert }), [addAlert]);
-
-  const handleClose = () => {
+  const closeAlert = () => {
     setAlert({ ...alert, open: false });
   };
+
+  const value = useMemo(() => ({ addAlert, closeAlert }), [addAlert]);
 
   return (
     <SnackbarContext.Provider value={value}>
@@ -66,7 +70,7 @@ export const SnackbarProvider = ({ children }: SnackbarProviderProps) => {
         key={alert.message}
         open={alert.open}
         autoHideDuration={alert.duration || AUTO_CLOSE}
-        onClose={handleClose}
+        onClose={closeAlert}
         message={alert.message}
         action={
           <>
@@ -75,7 +79,7 @@ export const SnackbarProvider = ({ children }: SnackbarProviderProps) => {
               size="small"
               aria-label="close"
               color="inherit"
-              onClick={handleClose}
+              onClick={closeAlert}
             >
               <CloseIcon fontSize="small" />
             </IconButton>

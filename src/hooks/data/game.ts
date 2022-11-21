@@ -146,7 +146,7 @@ export const useGame = (id: string) => {
     return updateGame({ ...game, gameEndDate: new Date().toISOString() });
   };
 
-  const updatePlayerStats = async (
+  const updatePlayerStats = (
     playerId?: string,
     stat?: StatType,
     modifier: Modifier = "+"
@@ -275,7 +275,7 @@ export const useGame = (id: string) => {
       }
     }
     currentStats.push(currentPlayerStats);
-    return await updateGame({ ...game, stats: currentStats });
+    return updateGame({ ...game, stats: currentStats });
   };
 
   const updateOpponentScore = (points: number, modifier: Modifier = "+") => {
