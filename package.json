@@ -10,7 +10,7 @@
     "dev": "yarn vite & wait",
     "dev:host": "yarn vite --host & wait",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "rm -rf dist/ && yarn vite build && firebase deploy --only hosting"
+    "deploy": "rm -rf dist && yarn vite build && firebase deploy --only hosting"
   },
   "keywords": [
     "Basketball, Stats"
