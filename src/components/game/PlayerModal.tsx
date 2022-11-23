@@ -24,7 +24,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
   const { deletePlay, updatePlayerStats } = useGame(gameId);
 
   const { addAlert, closeAlert } = useSnackbar();
-  const handleClick = (stat: StatType, message: string) => {
+  const handleClick = async (stat: StatType, message: string) => {
     const fullMessage = `${player.firstName} ${message}`;
     let points = 0;
     let type = "action" as PlayTypes;
@@ -54,29 +54,28 @@ export const PlayerModal = (props: PlayerModalProps) => {
       playerId: player.id,
       stat: stat,
     };
-    addPlay(newPlay).then((doc) => {
-      updatePlayerStats(player.id, stat);
-
-      addAlert({
-        message: fullMessage,
-        action: (
-          <Button
-            color="secondary"
-            size="small"
-            onClick={() => {
-              deletePlay({
-                id: doc.id,
-                ...newPlay,
-              });
-              closeAlert();
-            }}
-          >
-            undo
-          </Button>
-        ),
-      });
-    });
+    updatePlayerStats(player.id, stat);
     handleClose();
+    const play = await addPlay(newPlay);
+
+    addAlert({
+      message: fullMessage,
+      action: (
+        <Button
+          color="secondary"
+          size="small"
+          onClick={() => {
+            deletePlay({
+              id: play.id,
+              ...newPlay,
+            });
+            closeAlert();
+          }}
+        >
+          undo
+        </Button>
+      ),
+    });
   };
 
   return (

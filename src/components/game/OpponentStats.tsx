@@ -14,7 +14,7 @@ export const OpponentStats = ({ gameId }: { gameId: string }) => {
       ? game.opponentShortName
       : theirFullName[theirFullName.length - 1];
 
-  const handleClick = (
+  const handleClick = async (
     points: number,
     message: string,
     type: "points" | "foul"
@@ -33,25 +33,24 @@ export const OpponentStats = ({ gameId }: { gameId: string }) => {
       type: (type === "foul" ? "foul" : "theirs") as PlayTypes,
       value: points,
     };
-    addPlay(newPlay).then((doc) => {
-      addAlert({
-        message: fullMessage,
-        action: (
-          <Button
-            color="secondary"
-            size="small"
-            onClick={() => {
-              deletePlay({
-                id: doc.id,
-                ...newPlay,
-              });
-              closeAlert();
-            }}
-          >
-            undo
-          </Button>
-        ),
-      });
+    const play = await addPlay(newPlay);
+    addAlert({
+      message: fullMessage,
+      action: (
+        <Button
+          color="secondary"
+          size="small"
+          onClick={() => {
+            deletePlay({
+              id: play.id,
+              ...newPlay,
+            });
+            closeAlert();
+          }}
+        >
+          undo
+        </Button>
+      ),
     });
   };
 
