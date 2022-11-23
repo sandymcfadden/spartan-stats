@@ -1,5 +1,6 @@
 import { useRoute, Redirect } from "wouter";
 import { useAuth } from "../hooks/AuthProvider";
+import { Loading } from "./Loading";
 
 type Props = {
   children:
@@ -26,11 +27,7 @@ export const Route = ({
   if (!matches) return null;
 
   if (isLoggingIn) {
-    return (
-      <>
-        <div>Loading...</div>
-      </>
-    );
+    return <Loading />;
   }
 
   if (adminRequired && !isAdmin()) {
