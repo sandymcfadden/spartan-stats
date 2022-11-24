@@ -54,8 +54,8 @@ export const usePlays = (gameId: string) => {
   return { plays };
 };
 
-export const addPlay = async (play: Play) => {
-  return await addDoc(collection(db, COL_NAME), play);
+export const addPlay = async (play: Play, id: string) => {
+  return await setDoc(doc(db, COL_NAME, id), play);
 };
 
 export const deletePlay = async (play: Play) => {

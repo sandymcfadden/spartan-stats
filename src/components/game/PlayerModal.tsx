@@ -7,6 +7,7 @@ import {
   DialogTitle,
   DialogContent,
 } from "@mui/material";
+import { v4 as uuidv4 } from "uuid";
 import { StatType, useGame } from "../../hooks/data/game";
 import { addPlay, PlayTypes } from "../../hooks/data/plays";
 import { Player } from "../../hooks/data/season";
@@ -56,7 +57,9 @@ export const PlayerModal = (props: PlayerModalProps) => {
     };
     updatePlayerStats(player.id, stat);
     handleClose();
-    const play = await addPlay(newPlay);
+    const playId = uuidv4();
+
+    addPlay(newPlay, playId);
 
     addAlert({
       message: fullMessage,
@@ -66,7 +69,7 @@ export const PlayerModal = (props: PlayerModalProps) => {
           size="small"
           onClick={() => {
             deletePlay({
-              id: play.id,
+              id: playId,
               ...newPlay,
             });
             closeAlert();

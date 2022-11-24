@@ -1,7 +1,9 @@
 import { Grid, Paper, Typography, Button, Stack } from "@mui/material";
 import { disableNetwork } from "firebase/firestore";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { Link } from "wouter";
+
 import { db } from "../../firebase";
 import { useAuth } from "../../hooks/AuthProvider";
 import { Game, useGame } from "../../hooks/data/game";
@@ -30,13 +32,16 @@ export const GameScore = ({ gameId, seasonId }: GameProps) => {
   }
 
   const confirmEndGame = () => {
-    addPlay({
-      gameId: gameId,
-      message: "Game Over",
-      dateCreated: new Date().toISOString(),
-      type: "gameEnd",
-      value: 0,
-    });
+    addPlay(
+      {
+        gameId: gameId,
+        message: "Game Over",
+        dateCreated: new Date().toISOString(),
+        type: "gameEnd",
+        value: 0,
+      },
+      uuidv4()
+    );
     endGame();
   };
 

@@ -1,4 +1,6 @@
 import { Button, Typography, Stack } from "@mui/material";
+import { v4 as uuidv4 } from "uuid";
+
 import { useGame } from "../../hooks/data/game";
 import { addPlay, PlayTypes } from "../../hooks/data/plays";
 import { useSnackbar } from "../../hooks/snackbar";
@@ -26,6 +28,7 @@ export const OpponentStats = ({ gameId }: { gameId: string }) => {
       updateOpponentFouls();
     }
     const fullMessage = `${theirName} ${message}`;
+    const playId = uuidv4();
     const newPlay = {
       gameId: gameId,
       message: fullMessage,
@@ -33,7 +36,7 @@ export const OpponentStats = ({ gameId }: { gameId: string }) => {
       type: (type === "foul" ? "foul" : "theirs") as PlayTypes,
       value: points,
     };
-    const play = await addPlay(newPlay);
+    addPlay(newPlay, playId);
     addAlert({
       message: fullMessage,
       action: (
@@ -42,7 +45,7 @@ export const OpponentStats = ({ gameId }: { gameId: string }) => {
           size="small"
           onClick={() => {
             deletePlay({
-              id: play.id,
+              id: playId,
               ...newPlay,
             });
             closeAlert();
