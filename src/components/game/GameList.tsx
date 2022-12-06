@@ -128,7 +128,7 @@ export const GameList = (props: { seasonId: string }) => {
               const winOrLoss = gameEnded
                 ? game.ourPoints.total > game.theirPoints.total
                   ? "W"
-                  : game.ourPoints.total > game.theirPoints.total
+                  : game.ourPoints.total < game.theirPoints.total
                   ? "L"
                   : "T"
                 : "";
