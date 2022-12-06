@@ -58,10 +58,12 @@ export const addSeason = async (season: Season) => {
 export const useSeason = (id: string) => {
   const [season, setSeason] = useState<Season>({ name: "", dateCreated: "" });
   useEffect(() => {
-    return onSnapshot(doc(db, COL_NAME, id), (doc) =>
-      setSeason(doc.data() as Season)
-    );
-  }, []);
+    if (id !== "") {
+      return onSnapshot(doc(db, COL_NAME, id), (doc) =>
+        setSeason(doc.data() as Season)
+      );
+    }
+  }, [id]);
 
   const updateSeason = async (season: Season) => {
     const docRef = doc(db, COL_NAME, id);

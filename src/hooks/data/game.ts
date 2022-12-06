@@ -7,6 +7,8 @@ import {
   query,
   where,
   orderBy,
+  deleteDoc,
+  getDocs,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../../firebase";
@@ -110,6 +112,17 @@ export const useGamesBySeason = (seasonId: string) => {
 
 export const addGame = async (game: Game) => {
   return await addDoc(collection(db, COL_NAME), game);
+};
+
+export const deleteGame = async (gameId: string) => {
+  const q = query(collection(db, "plays"), where("gameId", "==", gameId));
+
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    deleteDoc(doc.ref);
+  });
+
+  return await deleteDoc(doc(db, COL_NAME, gameId));
 };
 
 export const useGame = (id: string) => {
